@@ -48,12 +48,6 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			 try{
-				if(statement != null){
-					statement.close();
-				}
-			}catch(SQLException se2){}
 		}
 		return profile;
 	}
@@ -80,6 +74,11 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			}catch(SQLException se){
 				se.printStackTrace();
 			}
+			try{
+				if(statement != null){
+					statement.close();
+				}
+			}catch(SQLException se2){}
 		}
 	}
 
