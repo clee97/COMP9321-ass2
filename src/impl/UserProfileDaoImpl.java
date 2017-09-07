@@ -55,7 +55,7 @@ public class UserProfileDaoImpl implements UserProfileDao{
 				}
 			}catch(SQLException se2){}
 		}
-		return new UserProfile();
+		return profile;
 	}
 	
 	/**
