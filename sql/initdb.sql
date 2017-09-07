@@ -15,13 +15,13 @@ CREATE TABLE IF NOT EXISTS user_profile (
 );
 
 INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
-VALUES (1, 'ADMIN', 'systemadmin', 'admin', 'system', 'admin', null, null, null, 'CREATED');
-INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, creditcard, status) 
-VALUES (2, 'USER', 'testuser1', 'testuser1', 'test1', 'user1', null, null, null, 'CREATED');
-INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, creditcard, status) 
-VALUES (3, 'USER', 'testuser2', 'testuser2', 'test2', 'user2', null, null, null, 'CREATED');
-INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, creditcard, status) 
-VALUES (4, 'USER', 'testuser3', 'testuser3', 'test3', 'user3', null, null, null, 'CREATED');
+VALUES (1, 'ADMIN', 'systemadmin', 'admin', 'system', 'admin', null, null, 'CREATED');
+INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
+VALUES (2, 'USER', 'testuser1', 'testuser1', 'test1', 'user1', null, null,'CREATED');
+INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
+VALUES (3, 'USER', 'testuser2', 'testuser2', 'test2', 'user2', null, null, 'CREATED');
+INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
+VALUES (4, 'USER', 'testuser3', 'testuser3', 'test3', 'user3', null, null, 'CREATED');
 
 DROP TABLE IF EXISTS user_friend;
 CREATE TABLE IF NOT EXISTS user_friend (
