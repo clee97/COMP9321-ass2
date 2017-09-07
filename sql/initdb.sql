@@ -35,7 +35,25 @@ CREATE TABLE IF NOT EXISTS user_friend (
 DROP TABLE IF EXISTS user_friend_request;
 CREATE TABLE IF NOT EXISTS user_friend_request (
 	from_user 	INT(11) NOT NULL,
-	to_user 	INT(11) NOT NULL
+	to_user 	INT(11) NOT NULL,
 	FOREIGN KEY (from_user) REFERENCES user_profile(id),
 	FOREIGN KEY (to_user) REFERENCES user_profile(id)
 );
+
+DROP TABLE IF EXISTS user_post;
+CREATE TABLE IF NOT EXISTS user_post (
+	id 			INT(11) NOT NULL,
+	user_id 	INT(11) NOT NULL,
+	post 		VARCHAR(45) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES user_profile(id)
+);
+
+DROP TABLE IF EXISTS user_like;
+CREATE TABLE IF NOT EXISTS user_like (
+	user_id 	INT(11) NOT NULL,
+	like_post 	INT(11) NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES user_profile(id)
+);
+
+
