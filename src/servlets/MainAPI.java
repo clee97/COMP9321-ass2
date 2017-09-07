@@ -22,7 +22,7 @@ public class MainAPI extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		if (action.equals("signup")){
+		if (action.equals("signUp")){
 			
 		}else if (action.equals("activateAccount")){
 			
