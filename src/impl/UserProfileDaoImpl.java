@@ -21,7 +21,7 @@ public class UserProfileDaoImpl implements UserProfileDao{
 	
 	public static void main(String[] args) {
 		UserProfileDaoImpl dao = new UserProfileDaoImpl();
-		dao.findByUserAndPass("systemadmin", "admin");
+		System.out.println(dao.findByUserAndPass("systemadmin", "admin").getFirstname());
 	}
 	
 	/**
@@ -48,38 +48,59 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(statement);
 		}
 		return profile;
 	}
 	
 	/**
-	 * For initialising mysql database connection
+	 * Initialises mysql database connection
+	 * 
+	 * Go to freemysqlhosting.net and login with details
+	 * User: unswbook@gmail.com
+	 * Pass: unswbookpassword
+	 * 
+	 * To login admin console go to http://www.phpmyadmin.co and enter the following details 
+	 * to view database
+	 * 
+	 * Server: sql12.freemysqlhosting.net
+	 * Name: sql12193600
+	 * Username: sql12193600
+	 * Password: 1HIwhLqCuh
+	 * Port number: 3306
+	 * 
 	 */
 	private void initConnection(){
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/webappdb", "root", "password");
+			connection = DriverManager.getConnection("jdbc:mysql://sql12.freemysqlhosting.net/sql12193600", "sql12193600", "1HIwhLqCuh");
 			statement = connection.createStatement();
 		}
 		catch(ClassNotFoundException ex) {
 			ex.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try{
-				if (connection != null){
-					connection.close();
-				}
-			}catch(SQLException se){
-				se.printStackTrace();
-			}
-			try{
-				if(statement != null){
-					statement.close();
-				}
-			}catch(SQLException se2){}
 		}
+	}
+	/**
+	 * Closes connection and statement object after database use
+	 * @param statement
+	 */
+	private void close(Statement statement){
+		try{
+			if (statement.getConnection() != null){
+				statement.getConnection().close();
+			}
+		}catch(SQLException se){
+			se.printStackTrace();
+		}
+		try{
+			if(statement != null){
+				statement.close();
+			}
+		}catch(SQLException se2){}
 	}
 
 }

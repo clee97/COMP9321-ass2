@@ -1,4 +1,4 @@
-USE webappdb; 
+USE sql12193600; 
 
 DROP TABLE IF EXISTS user_profile;
 CREATE TABLE IF NOT EXISTS user_profile (

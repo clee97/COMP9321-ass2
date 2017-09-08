@@ -20,6 +20,10 @@ public class EmailService {
 
 	/**
 	 * Sends user an activation link to their email
+	 * 
+	 * our project gmail account
+	 * email address: unswbook@gmail.com
+	 * password: unswbookpassword
 	 */
 	public static void sendActivationEmail(UserProfile profile){
 		Properties props = new Properties();
