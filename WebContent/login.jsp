@@ -9,79 +9,88 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="js/login.js"></script>
 </head>
-<div id="fullscreen_bg" class="fullscreen_bg">
-<div id="regContainer" class="container">
-      <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-login">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-6">
-                <a href="#" class="active" id="login-form-link">Login</a>
-              </div>
-              <div class="col-xs-6">
-                <a href="#" id="register-form-link">Register</a>
-              </div>
-            </div>
-            <hr>
-          </div>
-          	<div class="panel-body">
-					<div class="row">
-						<div class="col-lg-12">
-							<form id="login-form" action="API" method="post" role="form" style="display: block;">
-								<div class="form-group">
-									<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username">
-								</div>
-								<div class="form-group">
-									<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-								</div>
-								<div class="form-group text-center">
-									<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-									<label for="remember"> Remember Me</label>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-lg-12">
-											<div class="text-center">
-												<a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</form>
-							<form id="register-form" action="API" method="post" role="form" style="display: none;">
-								<div class="form-group">
-									<input type="text" name="reg-username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
-								</div>
-								<div class="form-group">
-									<input type="email" name="reg-email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
-								</div>
-								<div class="form-group">
-									<input type="password" name="reg-password" id="password" tabindex="2" class="form-control" placeholder="Password">
-								</div>
-								<div class="form-group">
-									<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
-										</div>
-									</div>
-								</div>
-							</form>
+<body>
+<div class="container">
+	<div class="row main">
+		<div class="panel-heading">
+              <div class="panel-title text-center">
+              		<h1 class="title">UNSW Book</h1>
+              		<hr />
+              	</div>
+           </div> 
+		<div class="main-login main-center">
+			<form class="form-horizontal" method="post" action="#">
+				<div class="form-group">
+					<label for="email" class="cols-sm-2 control-label">Your Email</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-envelope"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+							<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
 						</div>
 					</div>
 				</div>
-			</div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+				<div class="form-group">
+					<label for="username" class="cols-sm-2 control-label">Username</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+							<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="password" class="cols-sm-2 control-label">Password</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-lock"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+							<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="confirm" class="cols-sm-2 control-label">First Name</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+							<input type="text" class="form-control" name="lastname" id="lastname"  placeholder="Enter your First Name"/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="confirm" class="cols-sm-2 control-label">Last Name</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+							<input type="text" class="form-control" name="lastname" id="lastname"  placeholder="Enter your Last Name"/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="confirm" class="cols-sm-2 control-label">Gender</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+							<select class="form-control" name="gender" id="lastname"  placeholder="Enter your Last Name">
+								<option value="MALE">MALE</option>
+								<option value="FEMALE">FEMALE</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group ">
+					<button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+				</div>
+				<div class="login-register">
+		            <a href="index.php">Login</a>
+		         </div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+</body>
+

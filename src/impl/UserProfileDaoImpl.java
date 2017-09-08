@@ -62,7 +62,7 @@ public class UserProfileDaoImpl implements UserProfileDao{
 	 * Pass: unswbookpassword
 	 * 
 	 * To login admin console go to http://www.phpmyadmin.co and enter the following details 
-	 * to view database
+	 * to view our database
 	 * 
 	 * Server: sql12.freemysqlhosting.net
 	 * Name: sql12193600
