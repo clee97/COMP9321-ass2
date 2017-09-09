@@ -15,14 +15,14 @@ CREATE TABLE IF NOT EXISTS user_profile (
 	PRIMARY KEY (id)
 );
 
-INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
-VALUES (1, 'ADMIN', 'systemadmin', 'admin', 'system', 'admin', null, null, 'CREATED');
-INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
-VALUES (2, 'USER', 'testuser1', 'testuser1', 'test1', 'user1', null, null,'CREATED');
-INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
-VALUES (3, 'USER', 'testuser2', 'testuser2', 'test2', 'user2', null, null, 'CREATED');
-INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
-VALUES (4, 'USER', 'testuser3', 'testuser3', 'test3', 'user3', null, null, 'CREATED');
+INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, dob, status, imgpath) 
+VALUES (1, 'ADMIN', 'systemadmin', 'password', 'system', 'admin', null, 'MALE', '1997-01-01', 'CREATED', 'default.jpg');
+INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, dob, status, imgpath) 
+VALUES (2, 'USER', 'testuser1', 'testuser1', 'test1', 'user1', null, 'MALE', '1997-01-01', 'CREATED', 'default.jpg');
+INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, dob, status, imgpath) 
+VALUES (3, 'USER', 'testuser2', 'testuser2', 'test2', 'user2', null, 'MALE', '1997-01-01', 'CREATED', 'default.jpg');
+INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, dob, status, imgpath) 
+VALUES (4, 'USER', 'testuser3', 'testuser3', 'test3', 'user3', null, 'MALE', '1997-01-01', 'CREATED', 'default.jpg');
 
 CREATE TABLE IF NOT EXISTS user_friend (
 	userid1 	INT(11) NOT NULL,

@@ -29,7 +29,7 @@
 				<strong>Login Failed</strong> Incorrect username or password
 			</div>
 			<%} %>
-			<form class="form-horizontal" method="post" action="API">
+			<form class="form-horizontal" method="post" action="API" id="login-form">
 				<input type="hidden" name="action" value="login">
 				<div class="form-group">
 					<label for="username" class="cols-sm-2 control-label">Username</label>

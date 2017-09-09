@@ -19,7 +19,7 @@
               	</div>
            </div> 
 		<div class="main-login main-center">
-			<form class="form-horizontal" method="post" action="#">
+			<form class="form-horizontal" method="post" action="API" name="register-form">
 				<input type="hidden" name="action" value="register">
 				<div class="form-group">
 					<label for="email" class="cols-sm-2 control-label">Your Email</label>
@@ -56,7 +56,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="lastname" id="lastname"  placeholder="Enter your First Name"/>
+							<input type="text" class="form-control" name="firstname" id="lastname"  placeholder="Enter your First Name"/>
 						</div>
 					</div>
 				</div>
@@ -83,7 +83,7 @@
 				</div>
 
 				<div class="form-group ">
-					<button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+					<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Register">
 				</div>
 				<div class="login-register">
 		            <a href="login.jsp">Login</a>

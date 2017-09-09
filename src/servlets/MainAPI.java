@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.UserProfile;
 import services.UserProfileService;
 
 
@@ -18,6 +19,8 @@ import services.UserProfileService;
 public class MainAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private static UserProfileService userProfileService = new UserProfileService();
+	
     public MainAPI() {
         super();
     }
@@ -25,7 +28,7 @@ public class MainAPI extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if (action.equals("login")){
-			boolean successful = UserProfileService.login(request, request.getParameter("username"), request.getParameter("password"));
+			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"));
 			if (successful){
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}else{
@@ -33,7 +36,18 @@ public class MainAPI extends HttpServlet {
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		}else if (action.equals("register")){
-			
+			UserProfile newUser = new UserProfile();
+			newUser.setUserType("USER");
+			newUser.setUser(request.getParameter("username"));
+			newUser.setPass(request.getParameter("password"));
+			newUser.setFirstname(request.getParameter("firstname"));
+			newUser.setLastname(request.getParameter("lastname"));
+			newUser.setEmail(request.getParameter("email"));
+			newUser.setGender(request.getParameter("gender"));
+			newUser.setDob(request.getParameter("dob"));
+			newUser.setStatus("PENDING");
+			newUser.setImgPath(request.getParameter("default.jpg"));
+			userProfileService.registerUser(newUser); 
 		}else if (action.equals("activateAccount")){
 			
 		}else if (action.equals("logout")){
