@@ -20,6 +20,7 @@
            </div> 
 		<div class="main-login main-center">
 			<form class="form-horizontal" method="post" action="#">
+				<input type="hidden" name="action" value="register">
 				<div class="form-group">
 					<label for="email" class="cols-sm-2 control-label">Your Email</label>
 					<div class="cols-sm-10">

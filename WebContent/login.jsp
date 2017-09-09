@@ -10,6 +10,11 @@
   <script src="js/login.js"></script>
 </head>
 <body>
+<%
+	if (session.getAttribute("loggedInUser") != null){
+		response.sendRedirect("home.jsp"); //if session active then log us in automatically
+	}
+%>
 <div class="container">
 	<div class="row main">
 		<div class="panel-heading">
@@ -19,7 +24,13 @@
               	</div>
            </div> 
 		<div class="main-login main-center">
-			<form class="form-horizontal" method="post" action="#">
+			<%if (request.getAttribute("loginError") != null){ %>
+			<div class="alert alert-danger">
+				<strong>Login Failed</strong> Incorrect username or password
+			</div>
+			<%} %>
+			<form class="form-horizontal" method="post" action="API">
+				<input type="hidden" name="action" value="login">
 				<div class="form-group">
 					<label for="username" class="cols-sm-2 control-label">Username</label>
 					<div class="cols-sm-10">
@@ -44,7 +55,7 @@
 					<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Login">
 				</div>
 				<div class="login-register">
-		            <a href="signUp.jsp">Register</a>
+		            <a href="register.jsp">Register</a>
 		         </div>
 			</form>
 		</div>
