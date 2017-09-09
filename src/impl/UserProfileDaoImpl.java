@@ -43,7 +43,9 @@ public class UserProfileDaoImpl implements UserProfileDao{
 				profile.setLastname(results.getString("lastname"));
 				profile.setEmail(results.getString("email"));
 				profile.setGender(results.getString("gender"));
+				profile.setDob(results.getString("dob"));
 				profile.setStatus(results.getString("status"));
+				profile.setImgPath(results.getString("status"));
 				
 			}
 		} catch (SQLException e) {

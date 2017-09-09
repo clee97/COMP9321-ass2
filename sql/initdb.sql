@@ -1,6 +1,5 @@
 USE sql12193600; 
 
-DROP TABLE IF EXISTS user_profile;
 CREATE TABLE IF NOT EXISTS user_profile (
 	id 			INT(11) NOT NULL AUTO_INCREMENT,
 	usertype	VARCHAR(45) NOT NULL,
@@ -10,7 +9,9 @@ CREATE TABLE IF NOT EXISTS user_profile (
 	lastname	VARCHAR(45) DEFAULT NULL,
 	email 		VARCHAR(45) DEFAULT NULL,
 	gender		VARCHAR(45) DEFAULT NULL,
+	dob			VARCHAR(45) DEFAULT NULL,
 	status		VARCHAR(45) DEFAULT NULL,
+	imgpath		VARCHAR(45) DEFAULT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -23,7 +24,6 @@ VALUES (3, 'USER', 'testuser2', 'testuser2', 'test2', 'user2', null, null, 'CREA
 INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, status) 
 VALUES (4, 'USER', 'testuser3', 'testuser3', 'test3', 'user3', null, null, 'CREATED');
 
-DROP TABLE IF EXISTS user_friend;
 CREATE TABLE IF NOT EXISTS user_friend (
 	userid1 	INT(11) NOT NULL,
 	userid2 	INT(11) NOT NULL,
@@ -32,15 +32,14 @@ CREATE TABLE IF NOT EXISTS user_friend (
 
 );
 
-DROP TABLE IF EXISTS user_friend_request;
 CREATE TABLE IF NOT EXISTS user_friend_request (
 	from_user 	INT(11) NOT NULL,
 	to_user 	INT(11) NOT NULL,
+	status 		VARCHAR(45) NOT NULL,
 	FOREIGN KEY (from_user) REFERENCES user_profile(id),
 	FOREIGN KEY (to_user) REFERENCES user_profile(id)
 );
 
-DROP TABLE IF EXISTS user_post;
 CREATE TABLE IF NOT EXISTS user_post (
 	id 			INT(11) NOT NULL,
 	user_id 	INT(11) NOT NULL,
@@ -49,7 +48,6 @@ CREATE TABLE IF NOT EXISTS user_post (
 	FOREIGN KEY (user_id) REFERENCES user_profile(id)
 );
 
-DROP TABLE IF EXISTS user_like;
 CREATE TABLE IF NOT EXISTS user_like (
 	user_id 	INT(11) NOT NULL,
 	like_post 	INT(11) NOT NULL,

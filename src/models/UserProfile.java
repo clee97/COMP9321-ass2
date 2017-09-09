@@ -18,8 +18,12 @@ public class UserProfile {
 	
 	private String gender;
 	
+	private String dob;
+
 	private String status;
 	
+	private String imgPath;
+
 	public UserProfile(){}
 	
 	public Long getId() {
@@ -85,6 +89,14 @@ public class UserProfile {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 
 	public String getStatus() {
 		return status;
@@ -92,6 +104,18 @@ public class UserProfile {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getImgPath() {
+		if (imgPath == null){
+			imgPath = "default.jpg";
+		}
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		
+		this.imgPath = imgPath;
 	}
 	
 	
