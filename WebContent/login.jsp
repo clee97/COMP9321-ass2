@@ -21,16 +21,6 @@
 		<div class="main-login main-center">
 			<form class="form-horizontal" method="post" action="#">
 				<div class="form-group">
-					<label for="email" class="cols-sm-2 control-label">Your Email</label>
-					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon glyphicon glyphicon-envelope"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
 					<label for="username" class="cols-sm-2 control-label">Username</label>
 					<div class="cols-sm-10">
 						<div class="input-group">
@@ -49,43 +39,12 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="form-group">
-					<label for="confirm" class="cols-sm-2 control-label">First Name</label>
-					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="lastname" id="lastname"  placeholder="Enter your First Name"/>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="confirm" class="cols-sm-2 control-label">Last Name</label>
-					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="lastname" id="lastname"  placeholder="Enter your Last Name"/>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="confirm" class="cols-sm-2 control-label">Gender</label>
-					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<select class="form-control" name="gender" id="lastname"  placeholder="Enter your Last Name">
-								<option value="MALE">MALE</option>
-								<option value="FEMALE">FEMALE</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
+				
 				<div class="form-group ">
-					<button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+					<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Login">
 				</div>
 				<div class="login-register">
-		            <a href="index.php">Login</a>
+		            <a href="signUp.jsp">Register</a>
 		         </div>
 			</form>
 		</div>
