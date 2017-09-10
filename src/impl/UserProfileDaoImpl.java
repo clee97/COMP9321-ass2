@@ -34,18 +34,9 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE username = '" + user + "' AND password = '" + pass + "'");
 			
 			while(results.next()){
-				profile = new UserProfile();
-				profile.setId(results.getLong("id"));
-				profile.setUser(results.getString("username"));
-				profile.setPass(results.getString("password"));
-				profile.setUserType(results.getString("userType"));
-				profile.setFirstname(results.getString("firstname"));
-				profile.setLastname(results.getString("lastname"));
-				profile.setEmail(results.getString("email"));
-				profile.setGender(results.getString("gender"));
-				profile.setDob(results.getString("dob"));
-				profile.setStatus(results.getString("status"));
-				profile.setImgPath(results.getString("status"));
+				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
+						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
 				
 			}
 		} catch (SQLException e) {
@@ -112,18 +103,9 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE id = " + id);
 			
 			while(results.next()){
-				profile = new UserProfile();
-				profile.setId(results.getLong("id"));
-				profile.setUser(results.getString("username"));
-				profile.setPass(results.getString("password"));
-				profile.setUserType(results.getString("userType"));
-				profile.setFirstname(results.getString("firstname"));
-				profile.setLastname(results.getString("lastname"));
-				profile.setEmail(results.getString("email"));
-				profile.setGender(results.getString("gender"));
-				profile.setDob(results.getString("dob"));
-				profile.setStatus(results.getString("status"));
-				profile.setImgPath(results.getString("status"));
+				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
+						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
 				
 			}
 		} catch (SQLException e) {
@@ -141,18 +123,9 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE user = '" + user + "'");
 			
 			while(results.next()){
-				profile = new UserProfile();
-				profile.setId(results.getLong("id"));
-				profile.setUser(results.getString("username"));
-				profile.setPass(results.getString("password"));
-				profile.setUserType(results.getString("userType"));
-				profile.setFirstname(results.getString("firstname"));
-				profile.setLastname(results.getString("lastname"));
-				profile.setEmail(results.getString("email"));
-				profile.setGender(results.getString("gender"));
-				profile.setDob(results.getString("dob"));
-				profile.setStatus(results.getString("status"));
-				profile.setImgPath(results.getString("status"));
+				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
+						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
 				
 			}
 		} catch (SQLException e) {
@@ -161,6 +134,23 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			close(statement);
 		}
 		return profile;
+	}
+	
+	private UserProfile toUserProfile(Long id, String userType, String user, String pass, String fname, String lname, String email, String gender, String dob, String status, String imgPath){
+		UserProfile profile = new UserProfile();
+		profile.setId(id);
+		profile.setUserType(userType);
+		profile.setUser(user);
+		profile.setPass(pass);
+		profile.setFirstname(fname);
+		profile.setLastname(lname);
+		profile.setEmail(email);
+		profile.setGender(gender);
+		profile.setDob(dob);
+		profile.setStatus(status);
+		profile.setImgPath(imgPath);
+		return profile;
+		
 	}
 
 }
