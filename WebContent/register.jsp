@@ -19,6 +19,11 @@
               	</div>
            </div> 
 		<div class="main-login main-center">
+			<%if (request.getAttribute("registerError") != null){ %>
+				<div class="alert alert-danger">
+					<strong>Register Failed</strong> <%=(String)request.getAttribute("registerError") %>
+				</div>
+			<%} %>
 			<form class="form-horizontal" method="post" action="API" name="register-form">
 				<input type="hidden" name="action" value="register">
 				<div class="form-group">
@@ -56,7 +61,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="firstname" id="lastname"  placeholder="Enter your First Name"/>
+							<input type="text" class="form-control" name="firstname" id="firstname"  placeholder="Enter your First Name"/>
 						</div>
 					</div>
 				</div>
@@ -81,7 +86,15 @@
 						</div>
 					</div>
 				</div>
-
+				<div class="form-group">
+					<label for="confirm" class="cols-sm-2 control-label">DOB</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+							<input type="date" class="form-control" name="dob" id="dob">
+						</div>
+					</div>
+				</div>
 				<div class="form-group ">
 					<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Register">
 				</div>

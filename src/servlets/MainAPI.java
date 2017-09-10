@@ -32,7 +32,6 @@ public class MainAPI extends HttpServlet {
 			if (successful){
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}else{
-				request.setAttribute("loginError", true);
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		}else if (action.equals("register")){
@@ -47,11 +46,24 @@ public class MainAPI extends HttpServlet {
 			newUser.setDob(request.getParameter("dob"));
 			newUser.setStatus("PENDING");
 			newUser.setImgPath(request.getParameter("default.jpg"));
-			userProfileService.registerUser(newUser); 
+			boolean registered = userProfileService.registerUser(request, newUser); 
+			if (registered){
+				request.getRequestDispatcher("activation.jsp").forward(request, response);
+			}else{
+				request.getRequestDispatcher("register.jsp").forward(request, response);
+			}
+			
 		}else if (action.equals("activateAccount")){
-			
+			Long id = Long.parseLong(request.getParameter("userId"));
+			boolean activated = userProfileService.activateUser(request, id);
+			if (activated){
+				request.getRequestDispatcher("activated.jsp").forward(request, response);
+			}else{
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
 		}else if (action.equals("logout")){
-			
+			request.getSession().invalidate();
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 
 	}

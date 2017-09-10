@@ -44,9 +44,9 @@ public class EmailService {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("unswbook@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("soprogopro97@gmail.com"));
+				InternetAddress.parse(profile.getEmail()));
 			message.setSubject("Account Activation");
-			message.setText("Please Activate your account by clicking the link below: \nlocalhost:8080/COMP9321-ass2/API?userId=" + 9);
+			message.setText("Please Activate your account by clicking the link below: \nlocalhost:8080/COMP9321-ass2/API?action=activateAccount&userId=" + profile.getId());
 
 			Transport.send(message);
 

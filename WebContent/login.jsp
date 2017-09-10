@@ -26,7 +26,7 @@
 		<div class="main-login main-center">
 			<%if (request.getAttribute("loginError") != null){ %>
 			<div class="alert alert-danger">
-				<strong>Login Failed</strong> Incorrect username or password
+				<strong>Login Failed</strong> <%=(String)request.getAttribute("loginError") %>
 			</div>
 			<%} %>
 			<form class="form-horizontal" method="post" action="API" id="login-form">
