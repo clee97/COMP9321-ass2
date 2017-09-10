@@ -1,10 +1,6 @@
 package services;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,15 +17,20 @@ public class UserProfileService extends UNSWBookService{
 	
 	public boolean registerUser(HttpServletRequest request, UserProfile newProfile) {
 		initConnection();
+		userDao = new UserProfileDaoImpl();
+		UserProfile taken = userDao.findByUser(newProfile.getUser());
+		boolean created = false;
+		if (taken != null){
+			request.setAttribute("registerError", "That username has been taken already, pick another one");
+			return created;
+		}
 		String sql = "INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, dob, status, imgpath) "
 				+ "VALUES (null, '" + newProfile.getUserType() + "', '" + newProfile.getUser() + "', '" + newProfile.getPass() 
 				+ "', '" + newProfile.getFirstname() + "', '" +  newProfile.getLastname() + "', '" + newProfile.getEmail() 
 				+ "', '" + newProfile.getGender() + "', '" + newProfile.getDob() + "', '" + newProfile.getStatus() + "', '" + newProfile.getImgPath() + "')";
 		try {
-			boolean created = false;
 			statement.executeUpdate(sql);
 			
-			userDao = new UserProfileDaoImpl();
 			UserProfile createdUser = userDao.findByUserAndPass(newProfile.getUser(), newProfile.getPass());
 			if (createdUser == null){
 				request.setAttribute("registerError", "Something went wrong in creating your account");

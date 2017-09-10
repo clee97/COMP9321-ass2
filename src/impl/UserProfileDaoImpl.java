@@ -134,4 +134,33 @@ public class UserProfileDaoImpl implements UserProfileDao{
 		return profile;
 	}
 
+	@Override
+	public UserProfile findByUser(String user) {
+		UserProfile profile = null;
+		try {
+			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE user = '" + user + "'");
+			
+			while(results.next()){
+				profile = new UserProfile();
+				profile.setId(results.getLong("id"));
+				profile.setUser(results.getString("username"));
+				profile.setPass(results.getString("password"));
+				profile.setUserType(results.getString("userType"));
+				profile.setFirstname(results.getString("firstname"));
+				profile.setLastname(results.getString("lastname"));
+				profile.setEmail(results.getString("email"));
+				profile.setGender(results.getString("gender"));
+				profile.setDob(results.getString("dob"));
+				profile.setStatus(results.getString("status"));
+				profile.setImgPath(results.getString("status"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return profile;
+	}
+
 }
