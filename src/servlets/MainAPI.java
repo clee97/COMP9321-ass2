@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.UserProfileDao;
+import impl.UserProfileDaoImpl;
 import models.UserProfile;
+import services.FriendRequestService;
 import services.UserProfileService;
 
 
@@ -20,6 +23,10 @@ public class MainAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private static UserProfileService userProfileService = new UserProfileService();
+	
+	private static FriendRequestService friendRequestService = new FriendRequestService();
+	
+	private UserProfileDao userProfileDao = new UserProfileDaoImpl();
 	
     public MainAPI() {
         super();
@@ -64,6 +71,11 @@ public class MainAPI extends HttpServlet {
 		}else if (action.equals("logout")){
 			request.getSession().invalidate();
 			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}else if (action.equals("sendFriendRequest")){
+			boolean sent = friendRequestService.sendFriendRequest(request, Long.parseLong(request.getParameter("userId")));
+
+		}else if (action.equals("acceptFriendRequest")){
+			boolean sent = friendRequestService.acceptFriendRequest(request, Long.parseLong(request.getParameter("userId")));
 		}
 
 	}

@@ -7,17 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import dao.UserProfileDao;
 import impl.UserProfileDaoImpl;
 import models.UserProfile;
-import utils.EmailService;
 
 public class UserProfileService extends UNSWBookService{
 
-	private static UserProfileDao userDao;
+	private static UserProfileDao userDao = new UserProfileDaoImpl();;
 	
 	public UserProfileService(){}
 	
 	public boolean registerUser(HttpServletRequest request, UserProfile newProfile) {
 		initConnection();
-		userDao = new UserProfileDaoImpl();
 		UserProfile taken = userDao.findByUser(newProfile.getUser());
 		boolean created = false;
 		if (taken != null){
@@ -56,7 +54,6 @@ public class UserProfileService extends UNSWBookService{
 		try {
 			statement.executeUpdate(sql);
 			
-			userDao = new UserProfileDaoImpl();
 			UserProfile activatedUser = userDao.findById(userId);
 			
 			if (!activatedUser.getStatus().equals("CREATED") || activatedUser == null){
@@ -76,7 +73,7 @@ public class UserProfileService extends UNSWBookService{
 	
 	public boolean login(HttpServletRequest request, String user, String pass){
 		boolean correctCredentials = false;
-		userDao = new UserProfileDaoImpl();
+		
 		UserProfile existingUser = userDao.findByUserAndPass(user, pass);
 		if (existingUser == null){
 			request.setAttribute("loginError", "Wrong username or password, please try again");

@@ -1,23 +1,16 @@
 package impl;
 
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.UserProfileDao;
 import models.UserProfile;
 
-public class UserProfileDaoImpl implements UserProfileDao{
+public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	
-	private Statement statement;
-	
-	
-	public UserProfileDaoImpl(){
-		initConnection();
-	}
+	public UserProfileDaoImpl(){}
 	
 	public static void main(String[] args) {
 		UserProfileDaoImpl dao = new UserProfileDaoImpl();
@@ -29,6 +22,7 @@ public class UserProfileDaoImpl implements UserProfileDao{
 	 */
 	@Override
 	public UserProfile findByUserAndPass(String user, String pass) {
+		initConnection();
 		UserProfile profile = null;
 		try {
 			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE username = '" + user + "' AND password = '" + pass + "'");
@@ -47,57 +41,11 @@ public class UserProfileDaoImpl implements UserProfileDao{
 		return profile;
 	}
 	
-	/**
-	 * Initialises mysql database connection
-	 * 
-	 * Go to freemysqlhosting.net and login with details
-	 * User: unswbook@gmail.com
-	 * Pass: unswbookpassword
-	 * 
-	 * To login admin console go to http://www.phpmyadmin.co and enter the following details 
-	 * to view our database
-	 * 
-	 * Server: sql12.freemysqlhosting.net
-	 * Name: sql12193600
-	 * Username: sql12193600
-	 * Password: 1HIwhLqCuh
-	 * Port number: 3306
-	 * 
-	 */
-	private void initConnection(){
-		Connection connection = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://sql12.freemysqlhosting.net/sql12193600", "sql12193600", "1HIwhLqCuh");
-			statement = connection.createStatement();
-		}
-		catch(ClassNotFoundException ex) {
-			ex.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * Closes connection and statement object after database use
-	 * @param statement
-	 */
-	private void close(Statement statement){
-		try{
-			if (statement.getConnection() != null){
-				statement.getConnection().close();
-			}
-		}catch(SQLException se){
-			se.printStackTrace();
-		}
-		try{
-			if(statement != null){
-				statement.close();
-			}
-		}catch(SQLException se2){}
-	}
+	
 
 	@Override
 	public UserProfile findById(Long id) {
+		initConnection();
 		UserProfile profile = null;
 		try {
 			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE id = " + id);
@@ -118,6 +66,7 @@ public class UserProfileDaoImpl implements UserProfileDao{
 
 	@Override
 	public UserProfile findByUser(String user) {
+		initConnection();
 		UserProfile profile = null;
 		try {
 			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE user = '" + user + "'");
@@ -134,6 +83,30 @@ public class UserProfileDaoImpl implements UserProfileDao{
 			close(statement);
 		}
 		return profile;
+	}
+	
+	@Override
+	public List<UserProfile> searchByName(String search) {
+		initConnection();
+		List<UserProfile> profiles = new ArrayList<UserProfile>();
+		try {
+			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE CONCAT(LCASE(firstname), ' ', LCASE(lastname)) LIKE '%" + search.toLowerCase() + "%'");
+			
+			while(results.next()){
+				
+				UserProfile profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
+						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+				
+				profiles.add(profile);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return profiles;
 	}
 	
 	private UserProfile toUserProfile(Long id, String userType, String user, String pass, String fname, String lname, String email, String gender, String dob, String status, String imgPath){
