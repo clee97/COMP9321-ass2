@@ -16,32 +16,52 @@
 	List<UserProfile> profiles = (List<UserProfile>)request.getAttribute("results");
 %>
 <div class="container">
-
-    <hgroup class="mb20">
+	<hgroup class="mb20">
 		<h1>Search Results</h1>
-		<h2 class="lead"><strong class="text-danger"><%=profiles.size()	 %></strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
+		<h2 class="lead"><strong class="text-danger"><%=profiles.size() %></strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
 	</hgroup>
-
-    <section class="col-xs-12 col-sm-6 col-md-12">
-    <%for (UserProfile p : profiles){ %>
-		<article class="search-result row">
-			<div class="col-xs-12 col-sm-12 col-md-3">
-				<a href="#" title="Lorem ipsum" class="thumbnail"><img src="dps/<%=p.getImgPath()%>" alt="Lorem ipsum" width="150" height="150"/></a>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-2">
-				<ul class="meta-search">
-					<li><i class="glyphicon glyphicon-calendar"></i> <span><%=p.getDob() %></span></li>
-					<li><i class="glyphicon glyphicon-time"></i> <span>4:28 pm</span></li>
-					<li><i class="glyphicon glyphicon-tags"></i> <span>People</span></li>
-				</ul>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-				<h3><a href="#" title=""><%= p.getFirstname()%> <%= p.getLastname()%></a></h3>
-                <span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
-			</div>
-			<span class="clearfix borda"></span>
-		</article>
-		<%} %>
-	</section>
+	<br>
+    <div class="row">
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-user"></span>
+                <h3 class="panel-title">
+                    Users</h3>
+                <span class="label label-info">
+                    <%=profiles.size() %></span>
+            </div>
+            <%for (UserProfile p : profiles){ %>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-2 col-md-1">
+                                <img src="dps/<%=p.getImgPath()%>" class="img-circle img-responsive" alt="" /></div>
+                            <div class="col-xs-10 col-md-11">
+                                <div>
+                                    <a href="http://www.jquery2dotnet.com/2013/10/google-style-login-page-desing-usign.html">
+                                        <%=p.getFirstname() %> <%=p.getLastname()%></a>
+                                    <div class="mic-info">
+                                        DOB: <%=p.getDob() %>
+                                    </div>
+                                    <div class="mic-info">
+                                        Gender: <%=p.getGender() %>
+                                    </div>
+                                </div>	
+                                <div class="action">
+                                    <button type="button" class="btn btn-primary btn-xs" title="Edit">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
+            </div>
+            <%} %>
+        </div>
+    </div>
 </div>
+
 </body>
