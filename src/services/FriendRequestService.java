@@ -19,6 +19,12 @@ public class FriendRequestService extends UNSWBookService{
 	
 	public FriendRequestService(){}
 	
+	/**
+	 * Sends a friend request to a user
+	 * @param request
+	 * @param toUser
+	 * @return
+	 */
 	public boolean sendFriendRequest(HttpServletRequest request, Long toUser){
 		initConnection();
 		Long fromUser = ((UserProfile)request.getSession().getAttribute("loggedInUser")).getId();
@@ -51,6 +57,12 @@ public class FriendRequestService extends UNSWBookService{
 		
 	}
 	
+	/**
+	 * Accepts a friend request sent by a user
+	 * @param request
+	 * @param toUser
+	 * @return
+	 */
 	public boolean acceptFriendRequest(HttpServletRequest request, Long toUser){
 		initConnection();
 		boolean accepted = false;
@@ -75,7 +87,8 @@ public class FriendRequestService extends UNSWBookService{
 				request.setAttribute("frError", "Something went wrong in accepting the friend request");
 				return accepted;
 			}
-			statement.executeUpdate("INSERT INTO user_friend(user1, user2) VALUES (" + fromUser + ", " + toUser + ")");
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2) VALUES (" + fromUser + ", " + toUser + ")");
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2) VALUES (" + toUser + ", " + fromUser + ")");
 			accepted = true;
 			
 		} catch (SQLException e) {

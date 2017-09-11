@@ -69,13 +69,23 @@ public class MainAPI extends HttpServlet {
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		}else if (action.equals("logout")){
-			request.getSession().invalidate();
+			userProfileService.logout(request);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}else if (action.equals("sendFriendRequest")){
 			boolean sent = friendRequestService.sendFriendRequest(request, Long.parseLong(request.getParameter("userId")));
+			if (sent){
+				System.out.println("yay sent");
+			}else{
+				System.out.println("wow not sent");
+			}
 
 		}else if (action.equals("acceptFriendRequest")){
-			boolean sent = friendRequestService.acceptFriendRequest(request, Long.parseLong(request.getParameter("userId")));
+			boolean accepted = friendRequestService.acceptFriendRequest(request, Long.parseLong(request.getParameter("toUser")));
+			if (accepted){
+				System.out.println("yay accepted");
+			}else{
+				System.out.println("wow not accepted");
+			}
 		}
 
 	}

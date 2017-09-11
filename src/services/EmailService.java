@@ -41,7 +41,11 @@ public class EmailService {
 			throw new RuntimeException(e);
 		}
 	}
-	
+	/**
+	 * Sends a user a friend request via email
+	 * @param fromUser
+	 * @param toUser
+	 */
 	public static void sendFriendRequest(UserProfile fromUser, UserProfile toUser){
 		init();
 		try {

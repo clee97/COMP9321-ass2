@@ -109,6 +109,21 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 		return profiles;
 	}
 	
+	/**
+	 * Converts database fields into a UserProfile Object
+	 * @param id
+	 * @param userType
+	 * @param user
+	 * @param pass
+	 * @param fname
+	 * @param lname
+	 * @param email
+	 * @param gender
+	 * @param dob
+	 * @param status
+	 * @param imgPath
+	 * @return
+	 */
 	private UserProfile toUserProfile(Long id, String userType, String user, String pass, String fname, String lname, String email, String gender, String dob, String status, String imgPath){
 		UserProfile profile = new UserProfile();
 		profile.setId(id);

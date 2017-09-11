@@ -14,6 +14,12 @@ public class UserProfileService extends UNSWBookService{
 	
 	public UserProfileService(){}
 	
+	/**
+	 * Registers a user to UNSWBook
+	 * @param request
+	 * @param newProfile
+	 * @return
+	 */
 	public boolean registerUser(HttpServletRequest request, UserProfile newProfile) {
 		initConnection();
 		UserProfile taken = userDao.findByUser(newProfile.getUser());
@@ -47,6 +53,12 @@ public class UserProfileService extends UNSWBookService{
 		
 	}
 	
+	/**
+	 * Activates a user after they click on an activation link
+	 * @param request
+	 * @param userId
+	 * @return
+	 */
 	public boolean activateUser(HttpServletRequest request, Long userId){
 		initConnection();
 		String sql = "UPDATE user_profile SET status = 'CREATED' WHERE id = " + userId.toString();
@@ -71,6 +83,13 @@ public class UserProfileService extends UNSWBookService{
 		
 	}
 	
+	/**
+	 * Logs a user in based on user and pass
+	 * @param request
+	 * @param user
+	 * @param pass
+	 * @return
+	 */
 	public boolean login(HttpServletRequest request, String user, String pass){
 		boolean correctCredentials = false;
 		
@@ -86,6 +105,14 @@ public class UserProfileService extends UNSWBookService{
 		correctCredentials = true;
 		request.getSession().setAttribute("loggedInUser", existingUser);
 		return correctCredentials;
+	}
+	
+	/**
+	 * Logs a user out
+	 * @param request
+	 */
+	public void logout(HttpServletRequest request){
+		request.getSession().invalidate();
 	}
 	
 }

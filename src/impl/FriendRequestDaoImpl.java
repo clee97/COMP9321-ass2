@@ -10,6 +10,9 @@ public class FriendRequestDaoImpl extends UNSWDaoImpl implements FriendRequestDa
 
 	public FriendRequestDaoImpl() {}
 	
+	/**
+	 * Find a friend request by a sender and a receiver
+	 */
 	@Override
 	public FriendRequest findByFromTo(Long fromUser, Long toUser) {
 		initConnection();
@@ -28,6 +31,13 @@ public class FriendRequestDaoImpl extends UNSWDaoImpl implements FriendRequestDa
 		return request;
 	}
 	
+	/**
+	 * Converts database fields into a FriendRequest Object
+	 * @param fromUser
+	 * @param toUser
+	 * @param status
+	 * @return
+	 */
 	private FriendRequest toFriendRequest(Long fromUser, Long toUser, String status){
 		FriendRequest request = new FriendRequest();
 		request.setFromUser(fromUser);
