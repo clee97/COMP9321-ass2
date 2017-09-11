@@ -26,7 +26,7 @@
     <%for (UserProfile p : profiles){ %>
 		<article class="search-result row">
 			<div class="col-xs-12 col-sm-12 col-md-3">
-				<a href="#" title="Lorem ipsum" class="thumbnail"><img src="http://lorempixel.com/250/140/people" alt="Lorem ipsum" /></a>
+				<a href="#" title="Lorem ipsum" class="thumbnail"><img src="dps/<%=p.getImgPath()%>" alt="Lorem ipsum" width="150" height="150"/></a>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-2">
 				<ul class="meta-search">
