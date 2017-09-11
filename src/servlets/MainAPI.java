@@ -1,5 +1,6 @@
 package servlets;
 
+import java.util.List;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -86,6 +87,10 @@ public class MainAPI extends HttpServlet {
 			}else{
 				System.out.println("wow not accepted");
 			}
+		}else if (action.equals("search")){
+			List<UserProfile> results = userProfileDao.searchByName(request.getParameter("searchString"));
+			request.setAttribute("results", results);
+			request.getRequestDispatcher("results.jsp").forward(request, response);
 		}
 
 	}

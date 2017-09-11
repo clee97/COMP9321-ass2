@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS user_friend_request (
 );
 
 CREATE TABLE IF NOT EXISTS user_post (
-	id 			INT(11) NOT NULL,
+	id 			INT(11) NOT NULL AUTO_INCREMENT,
 	user_id 	INT(11) NOT NULL,
 	post 		VARCHAR(45) NOT NULL,
 	PRIMARY KEY (id),
