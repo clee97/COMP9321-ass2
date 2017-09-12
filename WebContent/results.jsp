@@ -80,34 +80,41 @@
       <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Wall</strong></a>  
       	<hr>
 		<div class="row">
-            
-            
-            
-            <div class="panel-body">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-2 col-md-1">
-                                <img src="dps/default.jpg" class="img-circle img-responsive" alt="" /></div>
-                            <div class="col-xs-10 col-md-11">
-                                <div>
-                                    <a href="http://www.jquery2dotnet.com/2013/10/google-style-login-page-desing-usign.html">
-                                        firstname lastname</a>
-                                    <div class="mic-info">
-                                        DOB: 1997-06-06
-                                    </div>
-                                    <div class="mic-info">
-                                        Gender: MALE
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-		
-		
-		
+			<hgroup class="mb20">
+				<h1>Search Results</h1>
+				<h2 class="lead"><strong class="text-danger">3</strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
+			</hgroup>
+			<br>
+			<ul id="autolist" class="list-group">
+                     <li id="fav" class="list-group-item">
+                         <div class="row">
+                             <div id="favorites" class="">
+                                 <div class="container">
+                                     <span class="glyphicon glyphicon-user"> </span><b>Users</b>
+                                 </div>
+                             </div>
+                         </div>
+                     </li>
+
+                     <li class="list-group-item">
+                         <div class='row'>
+                             <div class='col-md-12'>
+                                 <div class='media-left media-middle'>
+                                     <a href='#'>
+                                         <img class='media-object img-circle' src='http://placehold.it/40x40'>
+                                     </a>
+                                 </div>
+                                 <div id='center'>
+                                     Favorite Person #1
+                                     <div id='center' class='material-switch pull-right'>
+                                         <input id='someSwitchOptionPrimary' name='someSwitchOption001i' type='checkbox' checked="true"/>
+                                         <label for='someSwitchOptionPrimary' class='label-primary'></label>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </li>
+                  </ul>
 		</div>
       </div><!--/row-->
       
