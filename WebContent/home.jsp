@@ -8,7 +8,7 @@
   <script src="js/home.js"></script>
 </head>
 <body>
-<!-- Header -->
+<!-- Header  -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
   <div class="container">
     <div class="navbar-header">
