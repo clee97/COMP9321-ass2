@@ -24,8 +24,9 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public UserProfile findByUserAndPass(String user, String pass) {
 		initConnection();
 		UserProfile profile = null;
+		String sql = "SELECT * FROM user_profile WHERE username = '" + user + "' AND password = '" + pass + "'";
 		try {
-			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE username = '" + user + "' AND password = '" + pass + "'");
+			ResultSet results = statement.executeQuery(sql);
 			
 			while(results.next()){
 				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
@@ -47,8 +48,9 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public UserProfile findById(Long id) {
 		initConnection();
 		UserProfile profile = null;
+		String sql = "SELECT * FROM user_profile WHERE id = " + id;
 		try {
-			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE id = " + id);
+			ResultSet results = statement.executeQuery(sql);
 			
 			while(results.next()){
 				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
@@ -68,8 +70,9 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public UserProfile findByUser(String user) {
 		initConnection();
 		UserProfile profile = null;
+		String sql = "SELECT * FROM user_profile WHERE user = '" + user + "'";
 		try {
-			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE user = '" + user + "'");
+			ResultSet results = statement.executeQuery(sql);
 			
 			while(results.next()){
 				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
@@ -89,8 +92,9 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public List<UserProfile> searchByName(String search) {
 		initConnection();
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
+		String sql = "SELECT * FROM user_profile WHERE CONCAT(LCASE(firstname), ' ', LCASE(lastname)) LIKE '%" + search.toLowerCase() + "%' AND usertype = 'USER'";
 		try {
-			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE CONCAT(LCASE(firstname), ' ', LCASE(lastname)) LIKE '%" + search.toLowerCase() + "%' AND usertype = 'USER'");
+			ResultSet results = statement.executeQuery(sql);
 			
 			while(results.next()){
 				
