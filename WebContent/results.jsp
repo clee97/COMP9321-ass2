@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<%@page import="models.FriendRequest"%>
+<%@page import="impl.FriendRequestDaoImpl"%>
+<%@page import="dao.FriendRequestDao"%>
+<%@page import="services.FriendRequestService"%>
 <%@page import="models.UserProfile"%>
 <%@page import="java.util.List"%>
 <html lang="en">
@@ -14,6 +18,9 @@
 <body>
 <%
 	List<UserProfile> profiles = (List<UserProfile>)request.getAttribute("results");
+	UserProfile userLoggedIn = (UserProfile)request.getSession().getAttribute("loggedInUser");
+	FriendRequestDao frDao = new FriendRequestDaoImpl();
+
 %>
 <div class="container">
 	<hgroup class="mb20">
@@ -47,19 +54,25 @@
                                     <div class="mic-info">
                                         Gender: <%=p.getGender() %>
                                     </div>
-                                </div>	
-                                <div class="action">
-                                    <button type="button" class="btn btn-primary btn-xs" title="Edit">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
                                 </div>
+                                <%
+                                FriendRequest fr = frDao.findByFromTo(userLoggedIn.getId(), p.getId());
+                                if (fr != null && fr.getStatus().equals("PENDING")) {%>	
+                                <div class="action">
+                                    <button type="button" class="btn btn-primary btn-xs"><a style="color: white">Pending</a></button>
+                                </div>
+                                <%}else if (fr == null){%>
+                                <div class="action">
+                                    <button type="button" class="btn btn-primary btn-xs"><a style="color: white" href="API?action=sendFriendRequest&userId=<%=p.getId()%>">Send Friend Request</a></button>
+                                </div>
+                                <%} %>
                             </div>
                         </div>
                     </li>
                 </ul>
-                <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
             </div>
             <%} %>
+            <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
         </div>
     </div>
 </div>

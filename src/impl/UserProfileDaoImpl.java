@@ -90,7 +90,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 		initConnection();
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
 		try {
-			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE CONCAT(LCASE(firstname), ' ', LCASE(lastname)) LIKE '%" + search.toLowerCase() + "%'");
+			ResultSet results = statement.executeQuery("SELECT * FROM user_profile WHERE CONCAT(LCASE(firstname), ' ', LCASE(lastname)) LIKE '%" + search.toLowerCase() + "%' AND usertype = 'USER'");
 			
 			while(results.next()){
 				
