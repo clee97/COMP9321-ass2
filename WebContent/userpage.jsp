@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-<%@page import="models.FriendRequest"%>
-<%@page import="impl.FriendRequestDaoImpl"%>
-<%@page import="dao.FriendRequestDao"%>
-<%@page import="services.FriendRequestService"%>
+<%@page import="impl.UserProfileDaoImpl"%>
 <%@page import="models.UserProfile"%>
-<%@page import="java.util.List"%>
-<html lang="en">
-
+<%@page import="dao.UserProfileDao"%>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/results.css">
   <link rel="stylesheet" href="css/home.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="js/home.js"></script>
 </head>
 <body>
-<%
-	List<UserProfile> profiles = (List<UserProfile>)request.getAttribute("results");
-	UserProfile userLoggedIn = (UserProfile)request.getSession().getAttribute("loggedInUser");
-
+<% 
+	UserProfileDao userDao = new UserProfileDaoImpl();
+	UserProfile profile = (UserProfile)request.getAttribute("user");
 %>
 <!-- Header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
@@ -34,7 +26,7 @@
     </div>
     <div class="navbar-collapse collapse">
 	    <div class="col-sm-3 col-md-3">
-	     	<form class="navbar-form" role="search" action="API">
+	        <form class="navbar-form" role="search" action="API">
 	        <input type="hidden" name="action" value="search">
 	        <div class="input-group">
 	            <input type="text" class="form-control" placeholder="Search" name="searchString">
@@ -52,7 +44,7 @@
             <li><a href="#">My Profile</a></li>
           </ul>
         </li>
-        <li><a href="API?action=logout"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+        <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
       </ul>
     </div>
   </div><!-- /container -->
@@ -81,43 +73,43 @@
       <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Wall</strong></a>  
       	<hr>
 		<div class="row">
-			<hgroup class="mb20">
-				<h1>Search Results</h1>
-				<h2 class="lead"><strong class="text-danger"><%=profiles.size() %></strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
-			</hgroup>
-			<br>
-			<ul id="autolist" class="list-group">
-                     <li id="fav" class="list-group-item">
-                         <div class="row">
-                             <div id="favorites" class="">
-                                 <div class="container">
-                                     <span class="glyphicon glyphicon-user"> </span><b>Users</b>
-                                 </div>
-                             </div>
-                         </div>
-                     </li>
-					<%for (UserProfile p : profiles){ %>
-                     <li class="list-group-item">
-                         <div class='row'>
-                             <div class='col-md-12'>
-                                 <div class='media-left media-middle'>
-                                     <a href='API?action=viewUser&userId=<%=p.getId()%>'>
-                                         <img class='media-object img-circle' src='http://placehold.it/40x40'>
-                                     </a>
-                                 </div>
-                                 <div id='center'>
-                                     <%=p.getFirstname()%> <%=p.getLastname()%>
-                                     <div id='center' class='material-switch pull-right'>
-                                         <input id='someSwitchOptionPrimary' name='someSwitchOption001i' type='checkbox' checked="true"/>
-                                         <label for='someSwitchOptionPrimary' class='label-primary'></label>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </li>
-                     <%} %>
-                  </ul>
-		</div>
+			<div class="media">
+		  		<div class="media-body">
+		    		<h4 class="media-heading"><img src="dps/default.jpg" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> User posted</h4>
+		          <p>Just a template for posts</p>
+		          <ul class="list-inline list-unstyled">
+		  			<li><span><i class="glyphicon glyphicon-calendar"></i> 1 days, 8 hours </span></li>
+		            <li>|</li>
+		            <span><i class="glyphicon glyphicon-comment"></i> 2 comments</span>
+		            <li>|</li>
+		            <li>
+		            <!-- Use Font Awesome http://fortawesome.github.io/Font-Awesome/ -->
+		              <span><i class="fa fa-facebook-square"></i></span>
+		              <span><i class="fa fa-twitter-square"></i></span>
+		              <span><i class="fa fa-google-plus-square"></i></span>
+		            </li>
+				</ul>
+	       `	</div>
+	    	</div>
+	    	<div class="media">
+		  		<div class="media-body">
+		    		<h4 class="media-heading"><img src="dps/default.jpg" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> User posted</h4>
+		          <p>Just a template for posts</p>
+		          <ul class="list-inline list-unstyled">
+		  			<li><span><i class="glyphicon glyphicon-calendar"></i> 1 days, 8 hours </span></li>
+		            <li>|</li>
+		            <span><i class="glyphicon glyphicon-comment"></i> 2 comments</span>
+		            <li>|</li>
+		            <li>
+		            <!-- Use Font Awesome http://fortawesome.github.io/Font-Awesome/ -->
+		              <span><i class="fa fa-facebook-square"></i></span>
+		              <span><i class="fa fa-twitter-square"></i></span>
+		              <span><i class="fa fa-google-plus-square"></i></span>
+		            </li>
+				</ul>
+	       `	</div>
+	    	</div>
+		  </div>
       </div><!--/row-->
       
   	</div><!--/col-span-9-->
@@ -130,7 +122,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
         <h4 class="modal-title">Add Widget</h4>
       </div>
       <div class="modal-body">

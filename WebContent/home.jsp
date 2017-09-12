@@ -19,9 +19,10 @@
     </div>
     <div class="navbar-collapse collapse">
 	    <div class="col-sm-3 col-md-3">
-	        <form class="navbar-form" role="search">
+	        <form class="navbar-form" role="search" action="API">
+	        <input type="hidden" name="action" value="search">
 	        <div class="input-group">
-	            <input type="text" class="form-control" placeholder="Search" name="q">
+	            <input type="text" class="form-control" placeholder="Search" name="searchString">
 	            <div class="input-group-btn">
 	                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></i></button>
 	            </div>
