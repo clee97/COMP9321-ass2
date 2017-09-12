@@ -25,6 +25,7 @@ public class UNSWDaoImpl {
 	 * Port number: 3306
 	 * 
 	 */
+	
 	protected void initConnection(){
 		Connection connection = null;
 		try {
