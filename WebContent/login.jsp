@@ -12,9 +12,13 @@
 <body>
 <%
 	if (session.getAttribute("loggedInUser") != null){
+		System.out.println("Logged in as: " + session.getAttribute("loggedInUser").toString() + ". Redirecting to home");
 		response.sendRedirect("home.jsp"); //if session active then log us in automatically
+
+	} else {
+		System.out.println("Not logged in - display login page");
 	}
-%>
+%> 
 <div class="container">
 	<div class="row main">
 		<div class="panel-heading">
