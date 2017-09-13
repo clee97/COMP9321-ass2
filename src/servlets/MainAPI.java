@@ -74,23 +74,29 @@ public class MainAPI extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}else if (action.equals("sendFriendRequest")){
 			boolean sent = friendRequestService.sendFriendRequest(request, Long.parseLong(request.getParameter("userId")));
+			UserProfile user = userProfileDao.findById(Long.parseLong(request.getParameter("userId")));
+			request.setAttribute("user", user);
 			if (sent){
-				System.out.println("yay sent");
+				request.getRequestDispatcher("userpage.jsp").forward(request, response);
 			}else{
-				System.out.println("wow not sent");
+				request.getRequestDispatcher("userpage.jsp").forward(request, response);
 			}
 
 		}else if (action.equals("acceptFriendRequest")){
 			boolean accepted = friendRequestService.acceptFriendRequest(request, Long.parseLong(request.getParameter("toUser")));
 			if (accepted){
-				System.out.println("yay accepted");
+				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}else{
-				System.out.println("wow not accepted");
+				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}
 		}else if (action.equals("search")){
-			List<UserProfile> results = userProfileDao.searchByName(request.getParameter("searchString"));
+			List<UserProfile> results = userProfileService.searchByName(request, request.getParameter("searchString"));
 			request.setAttribute("results", results);
 			request.getRequestDispatcher("results.jsp").forward(request, response);
+		}else if (action.equals("viewUser")){
+			UserProfile user = userProfileService.findById(Long.parseLong(request.getParameter("userId")));
+			request.setAttribute("user", user);
+			request.getRequestDispatcher("userpage.jsp").forward(request, response);
 		}
 
 	}

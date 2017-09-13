@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@page import="impl.UserFriendDaoImpl"%>
+<%@page import="dao.UserFriendDao"%>
 <%@page import="models.FriendRequest"%>
 <%@page import="impl.FriendRequestDaoImpl"%>
 <%@page import="dao.FriendRequestDao"%>
@@ -22,8 +24,9 @@
 	if (session.getAttribute("loggedInUser") == null){
 		response.sendRedirect("denied.jsp");
 	}
-	List<UserProfile> profiles = (List<UserProfile>)request.getAttribute("results");
-	UserProfile userLoggedIn = (UserProfile)request.getSession().getAttribute("loggedInUser");
+	UserFriendDao friendDao = new UserFriendDaoImpl();
+	UserProfile loggedInUser = (UserProfile)session.getAttribute("loggedInUser");
+	List<UserProfile> friends = friendDao.findUserFriends(loggedInUser.getId());
 
 %>
 <!-- Header -->
@@ -50,7 +53,7 @@
       <ul class="nav navbar-nav navbar-right">
         
         <li class="dropdown">
-          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> <%=userLoggedIn.getUser()%> <span class="caret"></span></a>
+          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> <%=loggedInUser.getUser()%> <span class="caret"></span></a>
           <ul id="g-account-menu" class="dropdown-menu" role="menu">
             <li><a href="#">My Profile</a></li>
           </ul>
@@ -85,8 +88,8 @@
       	<hr>
 		<div class="row">
 			<hgroup class="mb20">
-				<h1>Search Results</h1>
-				<h2 class="lead"><strong class="text-danger"><%=profiles.size() %></strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
+				<h1>Your Friends</h1>
+				<h2 class="lead">You currently have <strong class="text-danger"><%=friends.size() %></strong> friends</h2>								
 			</hgroup>
 			<br>
 			<ul id="autolist" class="list-group">
@@ -99,17 +102,17 @@
                              </div>
                          </div>
                      </li>
-					<%for (UserProfile p : profiles){ %>
+					<%for (UserProfile f : friends){ %>
                      <li class="list-group-item">
                          <div class='row'>
                              <div class='col-md-12'>
                                  <div class='media-left media-middle'>
-                                     <a href='API?action=viewUser&userId=<%=p.getId()%>'>
+                                     <a href='API?action=viewUser&userId=<%=f.getId()%>'>
                                          <img class='media-object img-circle' src='http://placehold.it/40x40'>
                                      </a>
                                  </div>
                                  <div id='center'>
-                                     <%=p.getFirstname()%> <%=p.getLastname()%>
+                                     <%=f.getFirstname()%> <%=f.getLastname()%>
                                      <div id='center' class='material-switch pull-right'>
                                          <input id='someSwitchOptionPrimary' name='someSwitchOption001i' type='checkbox' checked="true"/>
                                          <label for='someSwitchOptionPrimary' class='label-primary'></label>
@@ -126,26 +129,6 @@
   	</div><!--/col-span-9-->
 </div>
 <!-- /Main -->
-
-<footer class="text-center">This Bootstrap 3 dashboard layout is compliments of <a href="http://www.bootply.com/85850"><strong>Bootply.com</strong></a></footer>
-
-<div class="modal" id="addWidgetModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title">Add Widget</h4>
-      </div>
-      <div class="modal-body">
-        <p>Add a widget stuff here..</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#" data-dismiss="modal" class="btn">Close</a>
-        <a href="#" class="btn btn-primary">Save changes</a>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dalog -->
-</div><!-- /.modal -->
 </body>
 
 

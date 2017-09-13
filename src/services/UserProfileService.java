@@ -1,6 +1,8 @@
 package services;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -105,6 +107,17 @@ public class UserProfileService extends UNSWBookService{
 		correctCredentials = true;
 		request.getSession().setAttribute("loggedInUser", existingUser);
 		return correctCredentials;
+	}
+	
+	public UserProfile findById(Long id){
+		UserProfile user = userDao.findById(id);
+		return user;
+	}
+	
+	public List<UserProfile> searchByName(HttpServletRequest request, String searchString){
+		List<UserProfile> users = userDao.searchByName(searchString);
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		return users.stream().filter(p -> !p.getId().equals(loggedInUser.getId())).collect(Collectors.toList());
 	}
 	
 	/**
