@@ -1,3 +1,4 @@
+<%@page import="models.UserProfile"%>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +9,12 @@
   <script src="js/home.js"></script>
 </head>
 <body>
+<%
+	if (session.getAttribute("loggedInUser") == null){
+		response.sendRedirect("denied.jsp");
+	}
+	UserProfile userLoggedIn = (UserProfile)session.getAttribute("loggedInUser");
+%>
 <!-- Header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
   <div class="container">
@@ -32,12 +39,12 @@
       <ul class="nav navbar-nav navbar-right">
         
         <li class="dropdown">
-          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a>
+          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> <%=userLoggedIn.getUser()%>  <span class="caret"></span></a>
           <ul id="g-account-menu" class="dropdown-menu" role="menu">
             <li><a href="#">My Profile</a></li>
           </ul>
         </li>
-        <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+        <li><a href="API?action=logout"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
       </ul>
     </div>
   </div><!-- /container -->
@@ -55,9 +62,9 @@
           <h5>Settings <i class="glyphicon glyphicon-chevron-down"></i></h5>
           </a>
             <ul class="list-unstyled collapse in" id="userMenu">
-                <li class="active"> <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+                <li class="active"> <a href="home.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
+                <li><a href="friendslist.jsp"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
         </li>
   	</div><!-- /col-3 -->
     <div class="col-md-9">
@@ -108,26 +115,6 @@
   	</div><!--/col-span-9-->
 </div>
 <!-- /Main -->
-
-<footer class="text-center">This Bootstrap 3 dashboard layout is compliments of <a href="http://www.bootply.com/85850"><strong>Bootply.com</strong></a></footer>
-
-<div class="modal" id="addWidgetModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title">Add Widget</h4>
-      </div>
-      <div class="modal-body">
-        <p>Add a widget stuff here..</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#" data-dismiss="modal" class="btn">Close</a>
-        <a href="#" class="btn btn-primary">Save changes</a>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dalog -->
-</div><!-- /.modal -->
 </body>
 
 
