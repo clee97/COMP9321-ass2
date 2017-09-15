@@ -26,6 +26,15 @@ public class UserProfile {
 
 	public UserProfile(){}
 	
+	public UserProfile(Boolean b) {
+		if (b) {
+			this.user = "offlineGuest";
+			this.dob = "1234-12-12";
+			this.email = "offline@guest.com";
+			
+		}
+	}
+	
 	public Long getId() {
 		return id;
 	}

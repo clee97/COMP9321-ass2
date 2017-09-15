@@ -14,6 +14,9 @@
 		response.sendRedirect("denied.jsp");
 	}
 	UserProfile userLoggedIn = (UserProfile)session.getAttribute("loggedInUser");
+	
+	//We need this for debugging maybe...
+	userLoggedIn = new UserProfile(true);
 %>
 <!-- Header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
