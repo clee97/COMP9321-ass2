@@ -120,6 +120,37 @@ public class UserProfileService extends UNSWBookService{
 		return users.stream().filter(p -> !p.getId().equals(loggedInUser.getId())).collect(Collectors.toList());
 	}
 	
+	public List<UserProfile> advancedSearch(HttpServletRequest request, String name, String gender, String dob){
+		List<UserProfile> users = userDao.advancedSearch(name, gender, dob);
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		return users.stream().filter(p -> !p.getId().equals(loggedInUser.getId())).collect(Collectors.toList());
+	}
+	
+	public void updateProfile(HttpServletRequest request, String firstName, String lastName, String email, String gender, String dob, String password){
+		initConnection();
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		String sql = "UPDATE user_profile SET password = '" + password + "', firstname = '" + firstName + "', lastname = '" + lastName + "', email = '" + email + "', gender = '" + gender + "', dob = '" + dob + "' WHERE id = " + loggedInUser.getId();
+		System.out.println(sql);
+		try {
+			statement.executeUpdate(sql);
+			
+			UserProfile updatedUser = userDao.findById(loggedInUser.getId());
+			
+			if (updatedUser.getPass().equals(password) && updatedUser.getFirstname().equals(firstName) 
+					&& updatedUser.getLastname().equals(lastName) && updatedUser.getEmail().equals(email) && updatedUser.getGender().equals(gender) && updatedUser.getDob().equals(dob)){
+				request.setAttribute("updateSuccess", "Changes saved successfully!");
+				request.getSession().setAttribute("loggedInUser", updatedUser);
+			}else{
+				request.setAttribute("updateError", "Something went wrong in updating your profile");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+	}
+	
 	/**
 	 * Logs a user out
 	 * @param request

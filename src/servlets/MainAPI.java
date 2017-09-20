@@ -97,6 +97,15 @@ public class MainAPI extends HttpServlet {
 			UserProfile user = userProfileService.findById(Long.parseLong(request.getParameter("userId")));
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);
+		}else if (action.equals("advancedSearch")){
+			List<UserProfile> results = userProfileService.advancedSearch(request, request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
+			request.setAttribute("results", results);
+			request.getRequestDispatcher("results.jsp").forward(request, response);
+		}else if (action.equals("updateProfile")){
+			userProfileService.updateProfile(request, request.getParameter("firstname"), request.getParameter("lastname"),
+					request.getParameter("email"), request.getParameter("gender"), request.getParameter("dob"), request.getParameter("password"));
+			
+			request.getRequestDispatcher("profile.jsp").forward(request, response);
 		}
 
 	}
