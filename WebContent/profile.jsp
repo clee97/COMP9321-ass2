@@ -81,11 +81,12 @@
 			      <!-- left column -->
 			      <div class="col-md-3">
 			        <div class="text-center">
-			          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+			          <img src="dps/<%=userLoggedIn.getImgPath()%>" class="avatar img-circle" alt="avatar">
 			          <h6>Upload a different photo...</h6>
-			          <form action="API">
-			          	<input type="hidden" name="action" value="uploadImage">
-			          	<input type="file" class="form-control">
+			          <form action="API?action=uploadImage" enctype="multipart/form-data" method="POST">
+			          	<input type="file" class="form-control" name="file">
+			          	<br>
+			          	<input type="submit" class="btn btn-primary" value="Upload">
 			          </form>
 			        </div>
 			      </div>

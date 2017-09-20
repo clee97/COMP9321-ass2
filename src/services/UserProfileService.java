@@ -1,10 +1,15 @@
 package services;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dao.UserProfileDao;
 import impl.UserProfileDaoImpl;
@@ -14,7 +19,13 @@ public class UserProfileService extends UNSWBookService{
 
 	private static UserProfileDao userDao = new UserProfileDaoImpl();;
 	
+	private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir").replace("\\", "/") + "/WebContent/dps/";
+	
 	public UserProfileService(){}
+	
+	public static void main(String[] args) {
+		System.out.println(System.getProperty("user.dir"));
+	}
 	
 	/**
 	 * Registers a user to UNSWBook
@@ -151,6 +162,38 @@ public class UserProfileService extends UNSWBookService{
 		}
 	}
 	
+	public void uploadImage(HttpServletRequest request){
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		if(ServletFileUpload.isMultipartContent(request)){
+            try {
+                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+              
+                for(FileItem item : multiparts){
+                    if(!item.isFormField()){
+                    	String location = UPLOAD_DIRECTORY + loggedInUser.getId() + ".jpg";
+                        item.write( new File(location));
+                    }
+                }
+                initConnection();
+                String sql = "UPDATE user_profile SET imgpath = '" + loggedInUser.getId() + ".jpg" + "' WHERE id = " + loggedInUser.getId();
+                statement.executeUpdate(sql);
+                
+                UserProfile updatedUser = userDao.findById(loggedInUser.getId());
+                if (updatedUser.getImgPath().equals(loggedInUser.getId() + ".jpg")){
+                	request.setAttribute("updateSuccess", "Changes saved successfully!");
+                }else{
+                	request.setAttribute("updateError", "Something went wrong in updating your profile");
+                }
+            } catch (Exception ex) {
+              ex.printStackTrace();
+            }          
+         
+        }else{
+            request.setAttribute("updateError", "Sorry this form only handles file upload request");
+        }
+    
+     
+    }
 	/**
 	 * Logs a user out
 	 * @param request

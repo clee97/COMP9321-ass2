@@ -106,6 +106,9 @@ public class MainAPI extends HttpServlet {
 					request.getParameter("email"), request.getParameter("gender"), request.getParameter("dob"), request.getParameter("password"));
 			
 			request.getRequestDispatcher("profile.jsp").forward(request, response);
+		}else if (action.equals("uploadImage")){
+			userProfileService.uploadImage(request);
+			request.getRequestDispatcher("profile.jsp").forward(request, response);
 		}
 
 	}
