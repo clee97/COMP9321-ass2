@@ -120,6 +120,15 @@ public class UserProfileService extends UNSWBookService{
 		return users.stream().filter(p -> !p.getId().equals(loggedInUser.getId())).collect(Collectors.toList());
 	}
 	
+	
+	
+	public boolean postToWall(HttpServletRequest request) {
+		
+		
+		return true;
+	}
+	
+	
 	/**
 	 * Logs a user out
 	 * @param request

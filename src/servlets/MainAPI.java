@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.UserProfileDao;
 import impl.UserProfileDaoImpl;
 import models.UserProfile;
+import models.WallPost;
 import services.FriendRequestService;
 import services.UserProfileService;
 
@@ -97,8 +98,13 @@ public class MainAPI extends HttpServlet {
 			UserProfile user = userProfileService.findById(Long.parseLong(request.getParameter("userId")));
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);
+		} else if (action.equals("postToWall")) {
+			String content = request.getParameter("wallPostContent");
+			Long uid = ((UserProfile) request.getSession().getAttribute("loggedInUser")).getId();
+			WallPost newWallPost = new WallPost(uid, false, content);
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+			System.out.println(newWallPost.ToStr());
 		}
-
 	}
 	
 

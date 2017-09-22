@@ -1,4 +1,5 @@
-<%@page import="models.UserProfile"%>
+<%@page import="models.*"%>
+<%@page import="java.util.ArrayList"%>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,10 +14,21 @@
 	if (session.getAttribute("loggedInUser") == null){
 		response.sendRedirect("denied.jsp");
 	}
-	UserProfile userLoggedIn = (UserProfile)session.getAttribute("loggedInUser");
+	UserProfile loggedInUser = (UserProfile)session.getAttribute("loggedInUser");
 	
+	
+	//Delete samples for later
+	ArrayList<WallPost> SampleList = new ArrayList<WallPost>();
+	
+
+	WallPost sample1 = new WallPost(loggedInUser.getId(), false, "Test message. I'm a cool guy");
+	WallPost sample2 = new WallPost(loggedInUser.getId(), false, "Cheston is the coolest tho :)");
+	
+	SampleList.add(sample1);
+	SampleList.add(sample2);
+	 
 	//We need this for debugging maybe...
-	userLoggedIn = new UserProfile(true);
+	//userLoggedIn = new UserProfile(true);
 %>
 <!-- Header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
@@ -42,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         
         <li class="dropdown">
-          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> <%=userLoggedIn.getUser()%>  <span class="caret"></span></a>
+          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> <%=loggedInUser.getUser()%>  <span class="caret"></span></a>
           <ul id="g-account-menu" class="dropdown-menu" role="menu">
             <li><a href="#">My Profile</a></li>
           </ul>
@@ -57,7 +69,7 @@
 <!-- Main -->
 <div class="container">
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <!-- Left column -->
       <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Navigation	</strong></a>  
       <ul class="list-unstyled">
@@ -72,8 +84,58 @@
   	</div><!-- /col-3 -->
     <div class="col-md-9">
       	
-      <!-- column 2 -->	
-      <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Wall</strong></a>  
+	<!-- column 2 -->	
+	<a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Wall</strong></a>
+	<br>
+	<!--  Post here -->
+	
+	<form action="API" method="post">
+	<input type="hidden" name="action" value="postToWall">
+		<div class="panel panel-default">
+		
+		<div class="panel-body">
+		<div class="form-horizontal">
+		<div class="form-group">
+		     <div class="col-md-9">
+		         <textarea class="form-control" rows="3" placeholder="Post to your wall!" id="wallPostContent" name="wallPostContent"></textarea>
+		     </div>
+		</div>
+		</div>
+		<button class="btn btn-primary" type="submit">
+		Post to wall
+		</button>
+
+		</div>
+		</div>
+	</form>
+      
+	<!-- End Post here -->
+	
+	<% for (WallPost wp : SampleList) { 
+		String username = wp.getPosterStr();
+	
+	%>
+		
+		<div class="panel panel-default">
+		<div class="panel-body">
+		 
+		<h4> User <%=username%> posted: </h4><br>
+		<%=(String)(wp.getContent()) %>
+		
+		<hr />
+		<i class="glyphicon glyphicon-calendar"></i> xx time ago <br>
+		<i class="glyphicon glyphicon-thumbs-up"></i> xx likes
+		</div>
+		</div>
+		
+	<%} %>
+	
+	
+	
+	
+	
+	
+	
       	<hr>
 		<div class="row">
 			<div class="media">
