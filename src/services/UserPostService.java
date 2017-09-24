@@ -1,6 +1,8 @@
 package services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,6 +39,11 @@ public class UserPostService extends UNSWBookService {
 			close(statement);
 		}
 		return true;
+	}
+	
+	public List<Long> GetLikers(HttpServletRequest request, UserPost post) {
+	
+		return postDao.findLikersOfPost(post.getId());
 	}
 	
 	public boolean LikePost(HttpServletRequest request, UserPost postToLike) {

@@ -49,6 +49,27 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 		}
 		return toReturn;
 	}
+	
+	@Override
+	public List<Long> findLikersOfPost(Long postId) {
+		initConnection();
+		List<Long> toRtn = new ArrayList<Long>();
+		String sql = "SELECT * FROM user_like WHERE like_post = '" + postId + "'";
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			
+			while(results.next()){	
+				toRtn.add(results.getLong("like_post"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		
+		return toRtn;
+	}
+
 
 	@Override
 	public Boolean doesLikePostExist(Long userId, Long postId) {
@@ -70,6 +91,7 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 		return toRtn;
 	}
 
+	
 	
 	
 }
