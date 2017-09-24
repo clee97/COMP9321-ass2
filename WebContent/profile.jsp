@@ -63,7 +63,7 @@
           </a>
             <ul class="list-unstyled collapse in" id="userMenu">
                 <li class="active"> <a href="home.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
+                <li><a href="profile.jsp"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
                 <li><a href="friendslist.jsp"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
             </ul>
         </li>

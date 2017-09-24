@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dao.UserFriendDao;
 import models.UserProfile;
@@ -37,6 +38,11 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 			close(statement);
 		}
 		return friends;
+	}
+	
+	@Override
+	public List<Long> findUserFriendsIds(Long userId){
+		return findUserFriends(userId).stream().map(f -> f.getId()).collect(Collectors.toList());
 	}
 	
 	/**

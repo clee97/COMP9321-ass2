@@ -1,3 +1,10 @@
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="impl.UserFriendDaoImpl"%>
+<%@page import="dao.UserFriendDao"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.UserPostDao"%>
+<%@page import="impl.UserPostDaoImpl"%>
+<%@page import="models.UserPost"%>
 <%@page import="dao.FriendRequestDao"%>
 <%@page import="impl.FriendRequestDaoImpl"%>
 <%@page import="impl.UserProfileDaoImpl"%>
@@ -20,9 +27,13 @@
 		response.sendRedirect("denied.jsp");
 	}
 	UserProfileDao userDao = new UserProfileDaoImpl();
+	UserFriendDao userFriendDao = new UserFriendDaoImpl();
 	FriendRequestDao friendRequestDao = new FriendRequestDaoImpl();
+	UserPostDao userPostDao = new UserPostDaoImpl();
+	
 	UserProfile profile = (UserProfile)request.getAttribute("user");
 	UserProfile loggedInUser = (UserProfile)session.getAttribute("loggedInUser");
+	List<UserPost> userPosts = userPostDao.findPostsByUser(profile.getId());
 %>
 <!-- Header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
@@ -72,7 +83,7 @@
           </a>
             <ul class="list-unstyled collapse in" id="userMenu">
                 <li> <a href="home.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
+                <li><a href="profile.jsp"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
                 <li><a href="friendslist.jsp"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
         </li>
   	</div><!-- /col-3 -->
@@ -113,45 +124,44 @@
 				</form>
 			</div>
 		</div>
-      	
-		<div class="row">
-			<div class="media">
-		  		<div class="media-body">
-		    		<h4 class="media-heading"><img src="dps/default.jpg" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> <%=profile.getFirstname() + " " + profile.getLastname() %> Posted: </h4>
-		          <p>Just a template for posts</p>
-		          <ul class="list-inline list-unstyled">
-		  			<li><span><i class="glyphicon glyphicon-calendar"></i> 1 days, 8 hours </span></li>
-		            <li>|</li>
-		            <span><i class="glyphicon glyphicon-comment"></i> 2 comments</span>
-		            <li>|</li>
-		            <li>
-		            <!-- Use Font Awesome http://fortawesome.github.io/Font-Awesome/ -->
-		              <span><i class="fa fa-facebook-square"></i></span>
-		              <span><i class="fa fa-twitter-square"></i></span>
-		              <span><i class="fa fa-google-plus-square"></i></span>
-		            </li>
-				</ul>
-	       `	</div>
-	    	</div>
-	    	<div class="media">
-		  		<div class="media-body">
-		    		<h4 class="media-heading"><img src="dps/default.jpg" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> User posted</h4>
-		          <p>Just a template for posts</p>
-		          <ul class="list-inline list-unstyled">
-		  			<li><span><i class="glyphicon glyphicon-calendar"></i> 1 days, 8 hours </span></li>
-		            <li>|</li>
-		            <span><i class="glyphicon glyphicon-comment"></i> 2 comments</span>
-		            <li>|</li>
-		            <li>
-		            <!-- Use Font Awesome http://fortawesome.github.io/Font-Awesome/ -->
-		              <span><i class="fa fa-facebook-square"></i></span>
-		              <span><i class="fa fa-twitter-square"></i></span>
-		              <span><i class="fa fa-google-plus-square"></i></span>
-		            </li>
-				</ul>
-	       `	</div>
-	    	</div>
-		  </div>
+      	<%
+      	List<Long> friendIds = userFriendDao.findUserFriendsIds(loggedInUser.getId());
+      	if (friendIds.contains(profile.getId())) {%>
+			<% for (UserPost wp : userPosts) {
+				List<Long> likers = userPostDao.findLikersOfPost(wp.getId());	
+			%>
+			
+				<div class="panel panel-default">
+					<div class="panel-body">
+					 
+					<h4 class="media-heading"><img src="dps/<%=profile.getImgPath()%>" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> You posted</h4>
+					<%=wp.getContent() %>
+					
+					<hr />
+					<i class="glyphicon glyphicon-calendar"></i> <%=wp.getDate() %><br>
+					<i class="glyphicon glyphicon-thumbs-up"></i> <%=likers.size()%> likes
+					<%if (!likers.contains(loggedInUser.getId())){ %>
+					 <a href="API?action=likePost&postId=<%=wp.getId()%>&userId=<%=profile.getId()%>" class="btn btn-primary a-btn-slide-text">
+			           <span><strong>Like</strong></span>
+			   		 </a>
+			   		 <%}else{ %>
+			   		<a>You like this post</a>
+			   		<%} %>
+					</div>
+				</div>
+			
+			<%} %>
+		<%} else {%>
+			<div class="jumbotron">
+		      <div class="container">
+		      <br>
+		        <h2>You are not Friends<small> with this user</small></h2>
+		        <p>You do not have access to view this user's posts</p>
+		      </div>
+		    </div>
+	    <%} %>
+			
+			
       </div><!--/row-->
       
   	</div><!--/col-span-9-->

@@ -1,7 +1,10 @@
 package servlets;
 
-import java.util.List;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.UserProfileDao;
 import impl.UserProfileDaoImpl;
-import models.UserProfile;
 import models.UserPost;
+import models.UserProfile;
 import services.FriendRequestService;
+import services.UserPostService;
 import services.UserProfileService;
 
 
@@ -25,6 +29,8 @@ public class MainAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private static UserProfileService userProfileService = new UserProfileService();
+	
+	private static UserPostService userPostService = new UserPostService();
 	
 	private static FriendRequestService friendRequestService = new FriendRequestService();
 	
@@ -99,11 +105,11 @@ public class MainAPI extends HttpServlet {
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);
 		} else if (action.equals("postToWall")) {
-			String content = request.getParameter("wallPostContent");
-			Long uid = ((UserProfile) request.getSession().getAttribute("loggedInUser")).getId();
-			UserPost newWallPost = new UserPost(uid, false, content);
+			userPostService.postToWall(request);
 			request.getRequestDispatcher("home.jsp").forward(request, response);
-			System.out.println(newWallPost.ToStr());
+		}else if(action.equals("deletePost")){
+			userPostService.deletePost(request, Long.parseLong(request.getParameter("postId")));
+			request.getRequestDispatcher("home.jsp").forward(request, response);
 		}else if (action.equals("advancedSearch")){
 			List<UserProfile> results = userProfileService.advancedSearch(request, request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
 			request.setAttribute("results", results);
@@ -116,6 +122,11 @@ public class MainAPI extends HttpServlet {
 		}else if (action.equals("uploadImage")){
 			userProfileService.uploadImage(request);
 			request.getRequestDispatcher("profile.jsp").forward(request, response);
+		}else if (action.equals("likePost")){
+			UserPost userPost = new UserPost();
+			userPost.setId(Long.parseLong(request.getParameter("postId")));
+			userPostService.LikePost(request, userPost);
+			request.getRequestDispatcher("userpage.jsp").forward(request, response);
 		}
 
 	}

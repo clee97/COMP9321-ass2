@@ -9,6 +9,8 @@ public interface UserPostDao {
 	
 	public List<Long> findLikersOfPost(Long postId);
 	
+	public UserPost findById(Long postId);
+	
 	public Boolean doesLikePostExist(Long userId, Long postId);
 	
 }

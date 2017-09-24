@@ -43,7 +43,9 @@ CREATE TABLE IF NOT EXISTS user_friend_request (
 CREATE TABLE IF NOT EXISTS user_post (
 	id 			INT(11) NOT NULL AUTO_INCREMENT,
 	user_id 	INT(11) NOT NULL,
-	post 		VARCHAR(45) NOT NULL,
+	post 		VARCHAR(1000) NOT NULL,
+	date		VARCHAR(45) NOT NULL,
+	imgpath		VARCHAR(45),
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES user_profile(id)
 );
