@@ -23,7 +23,6 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 		List<UserProfile> friends = new ArrayList<UserProfile>();
 		try {
 			ResultSet results = statement.executeQuery(sql);
-			
 			while(results.next()){
 				UserProfile friend = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 

@@ -3,58 +3,55 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class WallPost {
+public class UserPost {
 
 	
 	//R
 	//https://www.tutorialspoint.com/jsp/jsp_file_uploading.htm
 	
+	private Long id;
 	private Long posterId;
 	private String content;
-	private Date date;
+	private String date;
 	
-	private ArrayList<Integer> likedBy;
+	private ArrayList<Long> likedBy;
 	
 	
 	//For image with post
 	//Form deals with uploading image
-	//private File image; // TODO: figure out which java file to use...
-	private String imageURL;
+	private String imgPath;
 	
 	
-	public WallPost(Long userId, String content) {
-		posterId = userId;
+	public UserPost(Long id, Long posterId, String content, String date) {
+		this.id = id;
+		posterId = posterId;
 		this.content = content;
-		likedBy = new ArrayList<Integer>();
-		date = new Date();
+		likedBy = new ArrayList<Long>();
 	}
 	
-	//Currently private methods.
-	// Use: IsLikedBy() to determine what to show.
-	// In both cases, run ToggleLike.
-	// Shouldn't need to public-fy this, unless specific reasons.
-	private void likePost(int liker) {
-		likedBy.add(liker);
-	}
-	private void unlikePost(int liker) {
-		likedBy.remove(Integer.valueOf(liker));
+	public void SetImgPath(String path) {
+		imgPath = path;
 	}
 	
-	public Boolean isLikedBy(int liker) {
-		if (likedBy.contains(liker)) {
+	public void AddLiker(Long id) {
+		if (! likedBy.contains(id))
+			likedBy.add(id);
+	}
+	
+	private void RemoveLiker(Long id) {
+		likedBy.remove(Long.valueOf(id));
+	}
+	
+	public Boolean isLikedBy(Long id) {
+		if (likedBy.contains(id)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public void toggleLike (int liker) {
-		if (isLikedBy(liker)) {
-			unlikePost(liker);
-		} else {
-			likePost(liker);
-		}
+	public Long getId() {
+		return id;
 	}
-	
 	public int getNumLikes() {
 		return likedBy.size();
 	}
@@ -64,8 +61,15 @@ public class WallPost {
 	public String getPosterStr() {
 		return posterId.toString();
 	}
+	public String getDate() {
+		return date.toString();
+	}
+	public String getImgPath() {
+		return imgPath;
+	}
 	
-	public WallPost(Long uid, Boolean containsImg, String content) {
+	
+	public UserPost(Long uid, Boolean containsImg, String content) {
 		posterId = uid;
 	}
 	public String ToStr() {
