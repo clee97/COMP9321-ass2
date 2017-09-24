@@ -14,7 +14,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	
 	public static void main(String[] args) {
 		UserProfileDaoImpl dao = new UserProfileDaoImpl();
-		System.out.println(dao.findByUserAndPass("systemadmin", "admin").getFirstname());
+		System.out.println(dao.advancedSearch("t", "MALE", "1997-01-01").size());
 	}
 	
 	/**
@@ -143,6 +143,51 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 		profile.setImgPath(imgPath);
 		return profile;
 		
+	}
+
+	@Override
+	public List<UserProfile> advancedSearch(String name, String gender, String dob) {
+		initConnection();
+		String query = buildAdvancedQuery(name, gender, dob);
+		List<UserProfile> profiles = new ArrayList<UserProfile>();
+		String sql = "SELECT * FROM user_profile WHERE " + query;
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			
+			while(results.next()){
+				
+				UserProfile profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
+						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+				
+				profiles.add(profile);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return profiles;
+	}
+	
+	private String buildAdvancedQuery(String name, String gender, String dob){
+		List<String> query = new ArrayList<String>();
+		
+		if (!name.isEmpty() && name != null){
+			query.add("CONCAT(LCASE(firstname), ' ', LCASE(lastname)) LIKE '%" + name.toLowerCase() + "%'");
+		}
+
+		if (!gender.isEmpty() && gender != null){
+			query.add("gender = '" + gender + "'");
+		}
+		if (!dob.isEmpty() && dob != null){
+			query.add("dob = '" + dob + "'");
+		}
+		if (!query.isEmpty()){
+			return String.join(" AND ", query);
+		}
+		return null;
 	}
 
 }

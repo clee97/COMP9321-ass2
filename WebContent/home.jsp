@@ -18,11 +18,11 @@
 	
 	
 	//Delete samples for later
-	ArrayList<WallPost> SampleList = new ArrayList<WallPost>();
+	ArrayList<UserPost> SampleList = new ArrayList<UserPost>();
 	
 
-	WallPost sample1 = new WallPost(loggedInUser.getId(), false, "Test message. I'm a cool guy");
-	WallPost sample2 = new WallPost(loggedInUser.getId(), false, "Cheston is the coolest tho :)");
+	UserPost sample1 = new UserPost(loggedInUser.getId(), false, "Test message. I'm a cool guy");
+	UserPost sample2 = new UserPost(loggedInUser.getId(), false, "Cheston is the coolest tho :)");
 	
 	SampleList.add(sample1);
 	SampleList.add(sample2);
@@ -111,7 +111,7 @@
       
 	<!-- End Post here -->
 	
-	<% for (WallPost wp : SampleList) { 
+	<% for (UserPost wp : SampleList) { 
 		String username = wp.getPosterStr();
 	
 	%>

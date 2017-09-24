@@ -12,6 +12,8 @@ public interface UserProfileDao {
 	
 	public List<UserProfile> searchByName(String search);
 	
+	public List<UserProfile> advancedSearch(String name, String gender, String dob);
+	
 	public UserProfile findById(Long id);
 
 

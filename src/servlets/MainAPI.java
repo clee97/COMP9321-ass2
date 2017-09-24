@@ -104,7 +104,20 @@ public class MainAPI extends HttpServlet {
 			UserPost newWallPost = new UserPost(uid, false, content);
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 			System.out.println(newWallPost.ToStr());
+		}else if (action.equals("advancedSearch")){
+			List<UserProfile> results = userProfileService.advancedSearch(request, request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
+			request.setAttribute("results", results);
+			request.getRequestDispatcher("results.jsp").forward(request, response);
+		}else if (action.equals("updateProfile")){
+			userProfileService.updateProfile(request, request.getParameter("firstname"), request.getParameter("lastname"),
+					request.getParameter("email"), request.getParameter("gender"), request.getParameter("dob"), request.getParameter("password"));
+			
+			request.getRequestDispatcher("profile.jsp").forward(request, response);
+		}else if (action.equals("uploadImage")){
+			userProfileService.uploadImage(request);
+			request.getRequestDispatcher("profile.jsp").forward(request, response);
 		}
+
 	}
 	
 

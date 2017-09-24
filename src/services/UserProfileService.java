@@ -1,10 +1,15 @@
 package services;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dao.UserProfileDao;
 import impl.UserProfileDaoImpl;
@@ -13,6 +18,8 @@ import models.UserProfile;
 public class UserProfileService extends UNSWBookService{
 
 	private static UserProfileDao userDao = new UserProfileDaoImpl();;
+	
+	private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir").replace("\\", "/") + "/WebContent/dps/";
 	
 	public UserProfileService(){}
 	
@@ -129,6 +136,70 @@ public class UserProfileService extends UNSWBookService{
 	}
 	
 	
+	public List<UserProfile> advancedSearch(HttpServletRequest request, String name, String gender, String dob){
+		List<UserProfile> users = userDao.advancedSearch(name, gender, dob);
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		return users.stream().filter(p -> !p.getId().equals(loggedInUser.getId())).collect(Collectors.toList());
+	}
+	
+	public void updateProfile(HttpServletRequest request, String firstName, String lastName, String email, String gender, String dob, String password){
+		initConnection();
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		String sql = "UPDATE user_profile SET password = '" + password + "', firstname = '" + firstName + "', lastname = '" + lastName + "', email = '" + email + "', gender = '" + gender + "', dob = '" + dob + "' WHERE id = " + loggedInUser.getId();
+		System.out.println(sql);
+		try {
+			statement.executeUpdate(sql);
+			
+			UserProfile updatedUser = userDao.findById(loggedInUser.getId());
+			
+			if (updatedUser.getPass().equals(password) && updatedUser.getFirstname().equals(firstName) 
+					&& updatedUser.getLastname().equals(lastName) && updatedUser.getEmail().equals(email) && updatedUser.getGender().equals(gender) && updatedUser.getDob().equals(dob)){
+				request.setAttribute("updateSuccess", "Changes saved successfully!");
+				request.getSession().setAttribute("loggedInUser", updatedUser);
+			}else{
+				request.setAttribute("updateError", "Something went wrong in updating your profile");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+	}
+	
+	public void uploadImage(HttpServletRequest request){
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		if(ServletFileUpload.isMultipartContent(request)){
+            try {
+                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+              
+                for(FileItem item : multiparts){
+                    if(!item.isFormField()){
+                    	String location = UPLOAD_DIRECTORY + loggedInUser.getId() + ".jpg";
+                        item.write( new File(location));
+                    }
+                }
+                initConnection();
+                String sql = "UPDATE user_profile SET imgpath = '" + loggedInUser.getId() + ".jpg" + "' WHERE id = " + loggedInUser.getId();
+                statement.executeUpdate(sql);
+                
+                UserProfile updatedUser = userDao.findById(loggedInUser.getId());
+                if (updatedUser.getImgPath().equals(loggedInUser.getId() + ".jpg")){
+                	request.setAttribute("updateSuccess", "Changes saved successfully!");
+                	request.getSession().setAttribute("loggedInUser", updatedUser);
+                }else{
+                	request.setAttribute("updateError", "Something went wrong in updating your profile");
+                }
+            } catch (Exception ex) {
+              ex.printStackTrace();
+            }          
+         
+        }else{
+            request.setAttribute("updateError", "Sorry this form only handles file upload request");
+        }
+    
+     
+    }
 	/**
 	 * Logs a user out
 	 * @param request
