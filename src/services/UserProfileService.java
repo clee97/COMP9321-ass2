@@ -181,6 +181,7 @@ public class UserProfileService extends UNSWBookService{
                 UserProfile updatedUser = userDao.findById(loggedInUser.getId());
                 if (updatedUser.getImgPath().equals(loggedInUser.getId() + ".jpg")){
                 	request.setAttribute("updateSuccess", "Changes saved successfully!");
+                	request.getSession().setAttribute("loggedInUser", updatedUser);
                 }else{
                 	request.setAttribute("updateError", "Something went wrong in updating your profile");
                 }

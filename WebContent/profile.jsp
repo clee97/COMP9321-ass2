@@ -81,7 +81,7 @@
 			      <!-- left column -->
 			      <div class="col-md-3">
 			        <div class="text-center">
-			          <img src="dps/<%=userLoggedIn.getImgPath()%>" class="avatar img-circle" alt="avatar">
+			          <img src="dps/<%=userLoggedIn.getImgPath()%>" class="avatar img-circle" alt="avatar" width="45%" height="10%">
 			          <h6>Upload a different photo...</h6>
 			          <form action="API?action=uploadImage" enctype="multipart/form-data" method="POST">
 			          	<input type="file" class="form-control" name="file">
