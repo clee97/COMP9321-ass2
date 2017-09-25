@@ -150,7 +150,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 		initConnection();
 		String query = buildAdvancedQuery(name, gender, dob);
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
-		String sql = "SELECT * FROM user_profile WHERE " + query;
+		String sql = "SELECT * FROM user_profile WHERE " + query + " AND usertype = 'USER'";
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			

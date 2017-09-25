@@ -77,6 +77,7 @@ public class UserPostService extends UNSWBookService {
 	public boolean UnlikePost(HttpServletRequest request, UserPost postToUnlike) {
 		initConnection();
 		UserProfile loggedInUser = (UserProfile) request.getSession().getAttribute("loggedInUser");
+		request.setAttribute("user", userProfileDao.findById(Long.parseLong(request.getParameter("userId"))));
 		
 		Long uid = loggedInUser.getId();
 		Long postId = postToUnlike.getId();
@@ -142,7 +143,7 @@ public class UserPostService extends UNSWBookService {
 	                    	newPost.setImgPath(imgId + ".jpg");
 	                        item.write( new File(location));
                     	}else{
-                    		newPost.setImgPath(null);
+                    		newPost.setImgPath("");
                     	}
                     }else{
                     	String fieldName = item.getFieldName();

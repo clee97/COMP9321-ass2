@@ -76,6 +76,7 @@
                 <li class="active"> <a href="home.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
                 <li><a href="profile.jsp"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
                 <li><a href="friendslist.jsp"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
+                <li><a href="advancedSearch.jsp"><i class="glyphicon glyphicon-search"></i> Advanced Search</a></li>
              </ul>
         </li>
        </ul>
@@ -125,8 +126,8 @@
 		 
 		<h4 class="media-heading"><img src="dps/<%=loggedInUser.getImgPath()%>" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> You posted</h4>
 		<p><%=wp.getContent() %></p>
-		<% if (wp.getImgPath() != null){ %>
-			<img src="pps/<%=wp.getImgPath()%>" class="img-thumbnail" width="30%" height="30%">
+		<% if (!wp.getImgPath().isEmpty()){ %>
+		<img src="pps/<%=wp.getImgPath()%>" class="img-thumbnail" width="30%" height="30%">
 		<%} %>
 		<hr />
 		<i class="glyphicon glyphicon-calendar"></i> <%=wp.getDate() %><br>

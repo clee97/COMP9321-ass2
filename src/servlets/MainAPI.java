@@ -127,6 +127,11 @@ public class MainAPI extends HttpServlet {
 			userPost.setId(Long.parseLong(request.getParameter("postId")));
 			userPostService.LikePost(request, userPost);
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);
+		}else if (action.equals("unLikePost")){
+			UserPost userPost = new UserPost();
+			userPost.setId(Long.parseLong(request.getParameter("postId")));
+			userPostService.UnlikePost(request, userPost);
+			request.getRequestDispatcher("userpage.jsp").forward(request, response);
 		}
 
 	}

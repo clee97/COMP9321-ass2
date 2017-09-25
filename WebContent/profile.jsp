@@ -65,6 +65,7 @@
                 <li class="active"> <a href="home.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
                 <li><a href="profile.jsp"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
                 <li><a href="friendslist.jsp"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
+                <li><a href="advancedSearch.jsp"><i class="glyphicon glyphicon-search"></i> Advanced Search</a></li>
             </ul>
         </li>
   	</div><!-- /col-3 -->
