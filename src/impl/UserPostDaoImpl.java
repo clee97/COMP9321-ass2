@@ -107,7 +107,7 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 	public UserPost findById(Long postId) {
 		initConnection();
 		Boolean toRtn = false;
-		String sql = "SELECT * FROM user_like WHERE id = " + postId;
+		String sql = "SELECT * FROM user_post WHERE id = " + postId;
 		UserPost post = null;
 		try {
 			ResultSet results = statement.executeQuery(sql);

@@ -102,6 +102,9 @@ public class UserPostService extends UNSWBookService {
 		initConnection();
 		String sql = "DELETE FROM user_post WHERE id = " + postId;
 		
+		UserPost post = postDao.findById(postId);
+		File file = new File("WebContent/pps/" + post.getImgPath());
+		file.delete();
 		try {
 			statement.executeUpdate(sql);
 			request.setAttribute("postSuccess", "Your post has been deleted!");
