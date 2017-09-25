@@ -1,3 +1,9 @@
+<%@page import="models.FriendRequest"%>
+<%@page import="java.util.List"%>
+<%@page import="impl.FriendRequestDaoImpl"%>
+<%@page import="dao.FriendRequestDao"%>
+<%@page import="impl.UserProfileDaoImpl"%>
+<%@page import="dao.UserProfileDao"%>
 <%@page import="models.UserProfile"%>
 <head>
   <meta charset="utf-8">
@@ -14,41 +20,76 @@
 		response.sendRedirect("denied.jsp");
 	}
 	UserProfile userLoggedIn = (UserProfile)session.getAttribute("loggedInUser");
+	UserProfileDao userProfileDao = new UserProfileDaoImpl();
+	FriendRequestDao friendRequestDao = new FriendRequestDaoImpl();
+	List<FriendRequest> acceptedNotifs = friendRequestDao.findByAccepted(userLoggedIn.getId());
 %>
 <!-- Header -->
-<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-  <div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-toggle"></span>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">UNSW Book</a>
     </div>
-    <div class="navbar-collapse collapse">
-	    <div class="col-sm-3 col-md-3">
-	        <form class="navbar-form" role="search" action="API">
-	        <input type="hidden" name="action" value="search">
-	        <div class="input-group">
-	            <input type="text" class="form-control" placeholder="Search" name="searchString">
-	            <div class="input-group-btn">
-	                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></i></button>
-	            </div>
-	        </div>
-	        </form>
-	    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      	<li><a href="#"><b>UNSW Book</b> <span class="sr-only">(current)</span></a></li>
+      </ul>
+      <form class="navbar-form navbar-left" action="API">
+      	<input type="hidden" name="action" value="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="searchString">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
       <ul class="nav navbar-nav navbar-right">
-        
         <li class="dropdown">
-          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> <%=userLoggedIn.getUser()%>  <span class="caret"></span></a>
-          <ul id="g-account-menu" class="dropdown-menu" role="menu">
-            <li><a href="#">My Profile</a></li>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification (<b><%=acceptedNotifs.size() %></b>)</a>
+          <ul class="dropdown-menu notify-drop">
+            <div class="notify-drop-title">
+            	<div class="row">
+            		<div class="col-md-6 col-sm-6 col-xs-6">Notifications (<b><%=acceptedNotifs.size() %></b>)</div>
+            		<div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="tümü okundu."><i class="fa fa-dot-circle-o"></i></a></div>
+            	</div>
+            </div>
+            <!-- end notify title -->
+            <!-- notify content -->
+            <%for (FriendRequest fr : acceptedNotifs){ 
+            UserProfile friend = userProfileDao.findById(fr.getToUser());
+            %>
+            <div class="drop-content">
+            	<li>
+            		<div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="dps/<%=friend.getImgPath()%>" alt="" width ="100%" height="100%"></div></div>
+            		<div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="API?action=viewUser&userId=<%=friend.getId()%>"><%=friend.getFirstname()%></a> has <a href="">Accepted your friend request</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+            		
+            		<hr>
+            		<p class="time"><%=friend.getFirstname()%></p>
+            		</div>
+            	</li>
+            </div>
+            <%} %>
+            <div class="notify-drop-footer text-center">
+            	<a href=""><i class="fa fa-eye"></i> Your Notifications</a>
+            </div>
           </ul>
         </li>
-        <li><a href="API?action=logout"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+        <li><a href="API?action=logout">Log Out (<%=userLoggedIn.getUser()%>)<span class="sr-only">(current)</span></a></li>
       </ul>
-    </div>
-  </div><!-- /container -->
-</div>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<script>
+    $(function () {
+  $('[data-tooltip="tooltip"]').tooltip()
+	});
+</script>
 <!-- /Header -->
 
 <!-- Main -->

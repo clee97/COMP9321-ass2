@@ -2,6 +2,8 @@ package impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.FriendRequestDao;
 import models.FriendRequest;
@@ -45,6 +47,25 @@ public class FriendRequestDaoImpl extends UNSWDaoImpl implements FriendRequestDa
 		request.setToUser(toUser);
 		request.setStatus(status);
 		return request;
+	}
+
+	@Override
+	public List<FriendRequest> findByAccepted(Long fromUser) {
+		initConnection();
+		List<FriendRequest> requests = new ArrayList<FriendRequest>();
+		String sql = "SELECT * FROM user_friend_request WHERE from_user = " + fromUser + " AND status = 'ACCEPTED'";
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			
+			while(results.next()){
+				requests.add(toFriendRequest(results.getLong("from_user"), results.getLong("to_user"), results.getString("status")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return requests;
 	}
 	
 	
