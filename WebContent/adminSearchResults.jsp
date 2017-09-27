@@ -1,3 +1,4 @@
+<%@page import="com.mysql.jdbc.UpdatableResultSet"%>
 <%@page import="impl.UserProfileDaoImpl"%>
 <%@page import="dao.UserProfileDao"%>
 <%@page import="impl.FriendRequestDaoImpl"%>
@@ -22,12 +23,9 @@
 	if (session.getAttribute("loggedInUser") == null){
 		response.sendRedirect("denied.jsp");
 	}
+	UserProfileDao userDao = new UserProfileDaoImpl();
 	UserProfile loggedInUser = (UserProfile)session.getAttribute("loggedInUser");
-	UserPostService userPostService = new UserPostService();
-	UserPostDao userPostDao = new UserPostDaoImpl();
-	List<UserPost> posts = userPostService.getUserPosts(loggedInUser.getId());
-	
-	UserProfileDao userProfileDao = new UserProfileDaoImpl();
+	List<UserProfile> adminResults = (List<UserProfile>)request.getAttribute("adminResults");
 %>
 <!-- Header -->
 <nav class="navbar navbar-default">
@@ -77,26 +75,28 @@
 	       </ul>
 	  	</div><!-- /col-3 -->
 	    <div class="col-md-9">
-	      	<form class="navbar-form navbar-left" action="API">
-		      	<input type="hidden" name="action" value="search">
-		        <div class="form-group">
-		          <input type="text" class="form-control" placeholder="Search" name="searchString">
-		        </div>
-		        <button type="submit" class="btn btn-default">Submit</button>
-	      	</form>
 			<!-- column 2 -->	
-			<a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> User reports</strong></a>
+			<a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i>Admin search</strong></a>
 			<br><br><br>
 			<div class="row">
 		        <div class="col-lg-12">
 		            <h3>Search results</h3>
 		        </div>
 		    </div>
-		    <div class="row">
-		        <div class="col-lg-4 col-lg-offset-4">
-		            <input type="search" id="search" value="" class="form-control" placeholder="Admin Search">
-		        </div>
-		    </div>
+		    <%if (request.getAttribute("error") != null){ %>
+	        <div class="alert alert-danger alert-dismissable">
+	          <a class="panel-close close" data-dismiss="alert">×</a> 
+	          <i class="fa fa-coffee"></i>
+	          <%=request.getAttribute("error") %>
+	        </div>
+	        <%} %>
+    		<%if (request.getAttribute("success") != null){ %>
+	        <div class="alert alert-success alert-dismissable">
+	          <a class="panel-close close" data-dismiss="alert">×</a> 
+	          <i class="fa fa-coffee"></i>
+	          <%=request.getAttribute("success") %>
+	        </div>
+	        <%} %>
 		    <div class="row">
 		        <div class="col-lg-12">
 		            <table class="table" id="table">
@@ -107,24 +107,33 @@
 		                        <th>Firstname</th>
 		                        <th>Lastname</th>
 		                        <th>Email</th>
+		                        <th>Account status</th>
+		                        <th>User report</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
+		                	<%for (UserProfile profile : adminResults){ %>
 		                    <tr>
-		                        <td>Introducing</td>
-		                        <td>jQuery</td>
-		                        <td>Searchable</td>
+		                    	<form action="APIAdmin" method="GET">
+		                    		<input type="hidden" name="userId" value="<%=profile.getId() %>">
+		                    		<input type="hidden" name="searchString" value="<%=request.getParameter("searchString") %>">
+			                        <td><%=profile.getId() %></td>
+			                        <td><%=profile.getUser() %></td>
+			                        <td><%=profile.getFirstname() %></td>
+			                        <td><%=profile.getLastname() %></td>
+			                        <td><%=profile.getEmail() %></td>
+			                        <td><%=profile.getStatus() %></td>
+			                        <%if (!userDao.findById(profile.getId()).getStatus().equals("BANNED")){%>
+			                        <input type="hidden" name="adminAction" value="adminBan">
+			                        <td><input class="btn btn-primary" type="submit" value="Ban user"></td>
+			                        <%}else{ %>
+			                        <input type="hidden" name="adminAction" value="adminUnban">
+			                        <td><input class="btn btn-primary" type="submit" value="Unban user"></td>
+			                        <%} %>
+			                        <td><a href="APIAdmin?action=viewUserReport&userId=<%=profile.getId() %>">View user activities</a>
+		                        </form>
 		                    </tr>
-		                    <tr>
-		                        <td>Lorem</td>
-		                        <td>Ipsum</td>
-		                        <td>Dolor</td>
-		                    </tr>
-		                    <tr>
-		                        <td>Some</td>
-		                        <td>More</td>
-		                        <td>Data</td>
-		                    </tr>
+		                    <%} %>
 		                </tbody>
 		            </table>
 		            <hr>

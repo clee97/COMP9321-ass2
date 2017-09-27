@@ -30,9 +30,38 @@ public class AdminService extends UNSWBookService{
 			
 			UserProfile createdUser = userDao.findById(userId);
 			if (!createdUser.getStatus().equals("BANNED")){
-				request.setAttribute("banningError", "Something went wrong banning that user");
+				request.setAttribute("error", "Something went wrong banning that user");
 			}else{
-				request.setAttribute("banningSuccess", "User successfully banned");
+				request.setAttribute("success", "User successfully banned");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return true;
+		
+	}
+	
+	/**
+	 * UnBans a user from UNSW Book
+	 * @param request
+	 * @param userid
+	 * @return
+	 */
+	public boolean unBanUser(HttpServletRequest request, Long userId) {
+		initConnection();
+
+		String sql = "UPDATE user_profile SET status = 'CREATED' WHERE id = " + userId;
+		try {
+			statement.executeUpdate(sql);
+			
+			UserProfile createdUser = userDao.findById(userId);
+			if (!createdUser.getStatus().equals("CREATED")){
+				request.setAttribute("error", "Something went wrong in unbanning that user");
+			}else{
+				request.setAttribute("success", "User successfully unbanned");
 			}
 			
 		} catch (SQLException e) {
@@ -46,6 +75,10 @@ public class AdminService extends UNSWBookService{
 	
 	public List<UserProfile> searchByName(String name){
 		return userDao.searchByName(name);
+	}
+	
+	public void logout(HttpServletRequest request) {
+		request.getSession().invalidate();
 	}
 	
 	

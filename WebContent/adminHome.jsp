@@ -81,8 +81,8 @@
 			<a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> Search UNSW Book users</strong></a>
 			<br><br><br>
 			<div class="row">
-		      	<form class="navbar-form navbar-left" action="AdminAPI">
-			      	<input type="hidden" name="action" value="adminSearch">
+		      	<form class="navbar-form navbar-left" action="APIAdmin">
+			      	<input type="hidden" name="adminAction" value="adminSearch">
 			        <div class="form-group">
 			          <input type="text" class="form-control" placeholder="Search" name="searchString">
 			        </div>

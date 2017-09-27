@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.UserProfile;
 import services.AdminService;
-import services.UserProfileService;
 
 /**
  * Servlet implementation class AdminAPI
  */
-@WebServlet("/AdminAPI")
+@WebServlet("/APIAdmin")
 public class AdminAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -34,8 +33,18 @@ public class AdminAPI extends HttpServlet {
 			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 		}else if(adminAction.equals("adminBan")) {
 			adminService.banUser(request, Long.parseLong(request.getParameter("userId")));
+			List<UserProfile> adminResults = adminService.searchByName(request.getParameter("searchString"));
+			request.setAttribute("adminResults", adminResults);
+			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
+		}else if(adminAction.equals("adminUnban")) {
+			adminService.unBanUser(request, Long.parseLong(request.getParameter("userId")));
+			List<UserProfile> adminResults = adminService.searchByName(request.getParameter("searchString"));
+			request.setAttribute("adminResults", adminResults);
 			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 			
+		}else if(adminAction.equals("logout")) {
+			adminService.logout(request);
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 

@@ -114,6 +114,9 @@ public class UserProfileService extends UNSWBookService{
 		if (existingUser.getStatus().equals("PENDING")){
 			request.setAttribute("loginError", "Your account has been created but not activated yet");
 			return correctCredentials;
+		}else if (existingUser.getStatus().equals("BANNED")){
+			request.setAttribute("loginError", "Your account has been banned");
+			return correctCredentials;
 		}
 		correctCredentials = true;
 		request.getSession().setAttribute("loggedInUser", existingUser);
