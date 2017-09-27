@@ -82,8 +82,16 @@ public class MainAPI extends HttpServlet {
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		}else if (action.equals("logout")){
+			boolean isAdmin = request.getSession().getAttribute("isAdmin").equals("true");
+			System.out.println("Is this admin: " + isAdmin);
 			userProfileService.logout(request);
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			if (isAdmin){
+				System.out.println("Logging out, admin is: " + isAdmin);
+				request.getRequestDispatcher("adminLogin.jsp").forward(request, response);
+			} else {
+				System.out.println("Logging out, admin is: " + isAdmin);
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}			
 		}else if (action.equals("sendFriendRequest")){
 			boolean sent = friendRequestService.sendFriendRequest(request, Long.parseLong(request.getParameter("userId")));
 			UserProfile user = userProfileDao.findById(Long.parseLong(request.getParameter("userId")));
@@ -106,6 +114,11 @@ public class MainAPI extends HttpServlet {
 			request.setAttribute("results", results);
 			request.getRequestDispatcher("results.jsp").forward(request, response);
 		}else if (action.equals("viewUser")){
+			if (request.getSession().getAttribute("isAdmin").equals("true")){
+				System.out.println("viewuser: is admin");
+			} else {
+				System.out.println("viewuser: is NOT admin");
+			}
 			UserProfile user = userProfileService.findById(Long.parseLong(request.getParameter("userId")));
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);

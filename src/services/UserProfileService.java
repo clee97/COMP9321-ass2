@@ -110,14 +110,21 @@ public class UserProfileService extends UNSWBookService{
 		
 		if (existingUser == null){
 			request.setAttribute("loginError", "Wrong username or password, please try again");
+			request.getSession().setAttribute("isAdmin", "false");
 			return correctCredentials; //if no user is found with given user and pass then fail to log in
 		}
 		if (existingUser.getStatus().equals("PENDING")){
+			request.getSession().setAttribute("isAdmin", "false");
 			request.setAttribute("loginError", "Your account has been created but not activated yet");
 			return correctCredentials;
 		}
 		
 		correctCredentials = true;
+		if (isAdminLoginPage != null && isAdminLoginPage.equals("true")) {
+			request.getSession().setAttribute("isAdmin", "true");
+		} else {
+			request.getSession().setAttribute("isAdmin", "false");			
+		}
 		request.getSession().setAttribute("loggedInUser", existingUser);
 		return correctCredentials;
 	}
