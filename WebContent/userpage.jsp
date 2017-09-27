@@ -74,10 +74,10 @@
             </div>
             <!-- end notify title -->
             <!-- notify content -->
-            <%for (FriendRequest fr : acceptedNotifs){ 
-            UserProfile friend = userDao.findById(fr.getToUser());
-            %>
             <div class="drop-content">
+	           	<%for (FriendRequest fr : acceptedNotifs){ 
+	            UserProfile friend = userDao.findById(fr.getToUser());
+	            %>
             	<li>
             		<div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="dps/<%=friend.getImgPath()%>" alt="" width ="100%" height="100%"></div></div>
             		<div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="API?action=viewUser&userId=<%=friend.getId()%>"><%=friend.getFirstname()%></a> has <a href="">Accepted your friend request</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
@@ -86,8 +86,8 @@
             		<p class="time"><%=friend.getFirstname()%></p>
             		</div>
             	</li>
+            	<%} %>
             </div>
-            <%} %>
             <div class="notify-drop-footer text-center">
             	<a href=""><i class="fa fa-eye"></i> Your Notifications</a>
             </div>
@@ -150,8 +150,14 @@
 					<div class="profile-userbuttons">
 						<%
 						FriendRequest fr = friendRequestDao.findByFromTo(loggedInUser.getId(), profile.getId());
-						if (fr == null){ %>
-						<input type="submit" class="btn btn-success btn-sm" value="Send friend request">
+						if (fr == null){ 
+							List<Long> friends = userFriendDao.findUserFriendsIds(loggedInUser.getId());
+							if (friends.contains(profile.getId())){
+						%>
+							<button type="button" class="btn btn-success btn-sm">You are friends</button>
+							<%}else{ %>
+							<input type="submit" class="btn btn-success btn-sm" value="Send friend request">
+							<%} %>
 						<%}else if (fr.getStatus().equals("PENDING")){ %>
 						<button type="button" class="btn btn-success btn-sm">Pending friend request</button>
 						<%}else{%>
@@ -164,6 +170,15 @@
       	<%
       	List<Long> friendIds = userFriendDao.findUserFriendsIds(loggedInUser.getId());
       	if (friendIds.contains(profile.getId())) {%>
+      		<% if (userPosts.isEmpty()) {%>
+      		<div class="jumbotron">
+		      <div class="container">
+		      <br>
+		        <h2><%=profile.getFirstname() %><small> currently has no posts</small></h2>
+		        <p>Try again later!</p>
+		      </div>
+		    </div>
+		    <%} %>
 			<% for (UserPost wp : userPosts) {
 				List<Long> likers = userPostDao.findLikersOfPost(wp.getId());	
 			%>

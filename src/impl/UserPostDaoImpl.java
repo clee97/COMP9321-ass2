@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import dao.UserPostDao;
+import models.UserLike;
 import models.UserPost;
 
 public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
@@ -41,7 +42,6 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 		      try {
 				return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(o1.getDate()).compareTo(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(o2.getDate()));
 		      } catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 		      }
 		      return 0;
@@ -102,6 +102,14 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 		
 		return post;
 	}
+	
+	public UserLike toUserLike(Long userId, Long likesPostId, String date){
+		UserLike userLike = new UserLike();
+		userLike.setUserId(userId);
+		userLike.setLikesPostId(likesPostId);
+		userLike.setDate(date);
+		return userLike;
+	}
 
 	@Override
 	public UserPost findById(Long postId) {
@@ -125,15 +133,15 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 	}
 
 	@Override
-	public List<UserPost> findAll() {
+	public List<UserLike> findUserLikes(Long userId) {
 		initConnection();
-		String sql = "SELECT * FROM user_post";
-		List<UserPost> allPosts = new ArrayList<UserPost>();
+		String sql = "SELECT * FROM user_like WHERE user_id = " + userId;
+		List<UserLike> allLikes = new ArrayList<UserLike>();
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			
-			if (results.next()){
-				allPosts.add(toUserPost(results.getLong("id"), results.getLong("user_id"), results.getString("post"), results.getString("date"), results.getString("imgpath")));
+			while (results.next()){
+				allLikes.add(toUserLike(results.getLong("user_id"), results.getLong("like_post"), results.getString("date")));
 				
 			}
 		} catch (SQLException e) {
@@ -141,10 +149,20 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 		} finally {
 			close(statement);
 		}
-		return allPosts;
+		
+		Collections.sort(allLikes, new Comparator<UserLike>() {
+		  public int compare(UserLike o1, UserLike o2) {
+		      try {
+				return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(o1.getDate()).compareTo(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(o2.getDate()));
+		      } catch (ParseException e) {
+				e.printStackTrace();
+		      }
+		      return 0;
+		  }
+		});
+		Collections.reverse(allLikes);
+			
+		return allLikes;
 	}
-
-	
-	
 	
 }

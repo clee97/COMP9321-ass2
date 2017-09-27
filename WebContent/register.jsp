@@ -31,7 +31,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-envelope"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+							<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email" required/>
 						</div>
 					</div>
 				</div>
@@ -41,7 +41,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username"/>
+							<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username" required/>
 						</div>
 					</div>
 				</div>
@@ -51,7 +51,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-lock"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+							<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password" required/>
 						</div>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="firstname" id="firstname"  placeholder="Enter your First Name"/>
+							<input type="text" class="form-control" name="firstname" id="firstname"  placeholder="Enter your First Name" required/>
 						</div>
 					</div>
 				</div>
@@ -70,7 +70,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="lastname" id="lastname"  placeholder="Enter your Last Name"/>
+							<input type="text" class="form-control" name="lastname" id="lastname"  placeholder="Enter your Last Name" required/>
 						</div>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-user"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<select class="form-control" name="gender" id="lastname"  placeholder="Enter your Last Name">
+							<select class="form-control" name="gender" id="lastname"  placeholder="Enter your Last Name" required>
 								<option value="MALE">MALE</option>
 								<option value="FEMALE">FEMALE</option>
 							</select>
@@ -91,7 +91,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-calendar"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="date" class="form-control" name="dob" id="dob">
+							<input type="date" class="form-control" name="dob" id="dob" required>
 						</div>
 					</div>
 				</div>

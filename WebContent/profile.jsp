@@ -62,10 +62,10 @@
             </div>
             <!-- end notify title -->
             <!-- notify content -->
-            <%for (FriendRequest fr : acceptedNotifs){ 
+            <div class="drop-content">
+           	<%for (FriendRequest fr : acceptedNotifs){ 
             UserProfile friend = userProfileDao.findById(fr.getToUser());
             %>
-            <div class="drop-content">
             	<li>
             		<div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="dps/<%=friend.getImgPath()%>" alt="" width ="100%" height="100%"></div></div>
             		<div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="API?action=viewUser&userId=<%=friend.getId()%>"><%=friend.getFirstname()%></a> has <a href="">Accepted your friend request</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
@@ -74,8 +74,8 @@
             		<p class="time"><%=friend.getFirstname()%></p>
             		</div>
             	</li>
+            	<%} %>
             </div>
-            <%} %>
             <div class="notify-drop-footer text-center">
             	<a href=""><i class="fa fa-eye"></i> Your Notifications</a>
             </div>

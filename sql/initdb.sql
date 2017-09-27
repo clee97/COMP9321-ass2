@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS user_post (
 CREATE TABLE IF NOT EXISTS user_like (
 	user_id 	INT(11) NOT NULL,
 	like_post 	INT(11) NOT NULL,
+	date		VARCHAR(45) NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES user_profile(id)
 );
 

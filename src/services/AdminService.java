@@ -5,13 +5,24 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import dao.UserFriendDao;
+import dao.UserPostDao;
 import dao.UserProfileDao;
+import impl.UserFriendDaoImpl;
+import impl.UserPostDaoImpl;
 import impl.UserProfileDaoImpl;
+import models.UserFriend;
+import models.UserLike;
+import models.UserPost;
 import models.UserProfile;
 
 public class AdminService extends UNSWBookService{
 	
 	private static UserProfileDao userDao = new UserProfileDaoImpl();
+	
+	private static UserPostDao userPostDao = new UserPostDaoImpl();
+	
+	private static UserFriendDao userFriendDao = new UserFriendDaoImpl();
 	
 	public AdminService(){}
 	
@@ -79,6 +90,22 @@ public class AdminService extends UNSWBookService{
 	
 	public void logout(HttpServletRequest request) {
 		request.getSession().invalidate();
+	}
+	
+	public List<UserPost> getAllUserPosts(Long userId){
+		return userPostDao.findPostsByUser(userId);
+	}
+	
+	public List<UserFriend> getAllUserFriends(Long userId){
+		return userFriendDao.findUserFriendsRelationship(userId);
+	}
+	
+	public UserProfile getUserById(Long userId){
+		return userDao.findById(userId);
+	}
+	
+	public List<UserLike> getUserLikes(Long userId){
+		return userPostDao.findUserLikes(userId);
 	}
 	
 	

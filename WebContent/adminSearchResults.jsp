@@ -79,7 +79,7 @@
 			<a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i>Admin search</strong></a>
 			<br><br><br>
 			<div class="row">
-		        <div class="col-lg-12">
+		        <div class="col-lg-15">
 		            <h3>Search results</h3>
 		        </div>
 		    </div>
@@ -98,7 +98,7 @@
 	        </div>
 	        <%} %>
 		    <div class="row">
-		        <div class="col-lg-12">
+		        <div class="col-lg-15">
 		            <table class="table" id="table">
 		                <thead>
 		                    <tr>
@@ -130,7 +130,7 @@
 			                        <input type="hidden" name="adminAction" value="adminUnban">
 			                        <td><input class="btn btn-primary" type="submit" value="Unban user"></td>
 			                        <%} %>
-			                        <td><a href="APIAdmin?action=viewUserReport&userId=<%=profile.getId() %>">View user activities</a>
+			                        <td><a href="APIAdmin?adminAction=userReport&userId=<%=profile.getId() %>">View user activities</a>
 		                        </form>
 		                    </tr>
 		                    <%} %>

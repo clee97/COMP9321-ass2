@@ -2,12 +2,17 @@ package impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import dao.UserFriendDao;
 import models.UserFriend;
+import models.UserPost;
 import models.UserProfile;
 
 public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
@@ -38,6 +43,38 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 		} finally {
 			close(statement);
 		}
+		return friends;
+	}
+	
+	@Override
+	public List<UserFriend> findUserFriendsRelationship(Long userId) {
+		initConnection();
+		String sql = "SELECT * FROM user_friend WHERE userid1 = " + userId;
+		
+		List<UserFriend> friends = new ArrayList<UserFriend>();
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			while(results.next()){
+				UserFriend friend = toUserFriend(results.getLong("userid1"), results.getLong("userid2"), results.getString("date_friend"));
+				friends.add(friend);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		Collections.sort(friends, new Comparator<UserFriend>() {
+		  public int compare(UserFriend o1, UserFriend o2) {
+		      try {
+				return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(o1.getDate()).compareTo(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(o2.getDate()));
+		      } catch (ParseException e) {
+				e.printStackTrace();
+		      }
+		      return 0;
+		  }
+		});
+		Collections.reverse(friends);
 		return friends;
 	}
 	
@@ -86,24 +123,4 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 		return uf;
 	}
 
-	@Override
-	public List<UserFriend> findAllFriendships() {
-		initConnection();
-		String sql = "SELECT * FROM user_friend";
-		List<UserFriend> friends = new ArrayList<UserFriend>();
-		try {
-			ResultSet results = statement.executeQuery(sql);
-			while(results.next()){
-				
-				friends.add(toUserFriend(results.getLong("userid1"), results.getLong("userid2"), results.getString("date_friend")));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(statement);
-		}
-		return friends;
-	}
-	
 }

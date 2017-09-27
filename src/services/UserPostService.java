@@ -63,8 +63,11 @@ public class UserPostService extends UNSWBookService {
 		Long uid = loggedInUser.getId();
 		Long postId = postToLike.getId();
 		
-		String sql = "INSERT INTO user_like (user_id, like_post) "
-				+ "VALUES (" + uid + ", '" + postId + "')";
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDate = format.format(new Date());
+		
+		String sql = "INSERT INTO user_like (user_id, like_post, date) "
+				+ "VALUES (" + uid + ", '" + postId + "', '" + currentDate + "')";
 		try {
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
