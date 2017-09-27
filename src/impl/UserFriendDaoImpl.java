@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dao.UserFriendDao;
+import models.UserFriend;
 import models.UserProfile;
 
 public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
@@ -27,7 +28,7 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 			while(results.next()){
 				UserProfile friend = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
-						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"), results.getString("date_joined"));
 				
 				friends.add(friend);
 				
@@ -60,7 +61,7 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 	 * @param imgPath
 	 * @return
 	 */
-	private UserProfile toUserProfile(Long id, String userType, String user, String pass, String fname, String lname, String email, String gender, String dob, String status, String imgPath){
+	private UserProfile toUserProfile(Long id, String userType, String user, String pass, String fname, String lname, String email, String gender, String dob, String status, String imgPath, String dateJoined){
 		UserProfile profile = new UserProfile();
 		profile.setId(id);
 		profile.setUserType(userType);
@@ -73,7 +74,36 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 		profile.setDob(dob);
 		profile.setStatus(status);
 		profile.setImgPath(imgPath);
+		profile.setDateJoined(dateJoined);
 		return profile;
+	}
+	
+	private UserFriend toUserFriend(Long userId1, Long userId2, String date) {
+		UserFriend uf = new UserFriend();
+		uf.setUserId1(userId1);
+		uf.setUserId2(userId2);
+		uf.setDate(date);
+		return uf;
+	}
+
+	@Override
+	public List<UserFriend> findAllFriendships() {
+		initConnection();
+		String sql = "SELECT * FROM user_friend";
+		List<UserFriend> friends = new ArrayList<UserFriend>();
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			while(results.next()){
+				
+				friends.add(toUserFriend(results.getLong("userid1"), results.getLong("userid2"), results.getString("date_friend")));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return friends;
 	}
 	
 }

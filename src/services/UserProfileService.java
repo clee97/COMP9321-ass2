@@ -2,6 +2,8 @@ package services;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,7 +72,9 @@ public class UserProfileService extends UNSWBookService{
 	 */
 	public boolean activateUser(HttpServletRequest request, Long userId){
 		initConnection();
-		String sql = "UPDATE user_profile SET status = 'CREATED' WHERE id = " + userId.toString();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDate = format.format(new Date());
+		String sql = "UPDATE user_profile SET status = 'CREATED', date_joined = '" + currentDate + "' WHERE id = " + userId.toString();
 		boolean activated = false;	
 		try {
 			statement.executeUpdate(sql);

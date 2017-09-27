@@ -23,6 +23,8 @@ public class UserProfile {
 	private String status;
 	
 	private String imgPath;
+	
+	private String dateJoined;
 
 	public UserProfile(){}
 	
@@ -33,6 +35,14 @@ public class UserProfile {
 			this.email = "offline@guest.com";
 			
 		}
+	}
+	
+	public String getDateJoined() {
+		return dateJoined;
+	}
+
+	public void setDateJoined(String dateJoined) {
+		this.dateJoined = dateJoined;
 	}
 	
 	public Long getId() {

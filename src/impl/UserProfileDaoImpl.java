@@ -31,7 +31,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 			while(results.next()){
 				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
-						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"), results.getString("date_joined"));
 				
 			}
 		} catch (SQLException e) {
@@ -55,7 +55,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 			while(results.next()){
 				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
-						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"), results.getString("date_joined"));
 				
 			}
 		} catch (SQLException e) {
@@ -70,14 +70,14 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public UserProfile findByUser(String user) {
 		initConnection();
 		UserProfile profile = null;
-		String sql = "SELECT * FROM user_profile WHERE user = '" + user + "'";
+		String sql = "SELECT * FROM user_profile WHERE username = '" + user + "'";
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			
 			while(results.next()){
 				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
-						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"), results.getString("date_joined"));
 				
 			}
 		} catch (SQLException e) {
@@ -100,7 +100,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 				
 				UserProfile profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
-						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"), results.getString("date_joined"));
 				
 				profiles.add(profile);
 				
@@ -128,7 +128,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	 * @param imgPath
 	 * @return
 	 */
-	private UserProfile toUserProfile(Long id, String userType, String user, String pass, String fname, String lname, String email, String gender, String dob, String status, String imgPath){
+	private UserProfile toUserProfile(Long id, String userType, String user, String pass, String fname, String lname, String email, String gender, String dob, String status, String imgPath, String dateJoined){
 		UserProfile profile = new UserProfile();
 		profile.setId(id);
 		profile.setUserType(userType);
@@ -141,6 +141,8 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 		profile.setDob(dob);
 		profile.setStatus(status);
 		profile.setImgPath(imgPath);
+		profile.setDob(dob);
+		profile.setDateJoined(dateJoined);
 		return profile;
 		
 	}
@@ -158,7 +160,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 				
 				UserProfile profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
-						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"), results.getString("date_joined"));
 				
 				profiles.add(profile);
 				

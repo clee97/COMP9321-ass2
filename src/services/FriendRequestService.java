@@ -1,6 +1,8 @@
 package services;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -77,6 +79,8 @@ public class FriendRequestService extends UNSWBookService{
 			request.setAttribute("frError", "This friend request has already been accepted");
 			return accepted;
 		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDate = format.format(new Date());
 		String sql = "UPDATE user_friend_request SET status = 'ACCEPTED' WHERE from_user = " + fromUser + " AND to_user = " + toUser;
 		try {
 			statement.executeUpdate(sql);
@@ -87,8 +91,8 @@ public class FriendRequestService extends UNSWBookService{
 				request.setAttribute("frError", "Something went wrong in accepting the friend request");
 				return accepted;
 			}
-			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2) VALUES (" + fromUser + ", " + toUser + ")");
-			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2) VALUES (" + toUser + ", " + fromUser + ")");
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_friend) VALUES (" + fromUser + ", " + toUser + ", " + currentDate + ")");
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_friend) VALUES (" + toUser + ", " + fromUser + ", " + currentDate + ")");
 			accepted = true;
 			
 		} catch (SQLException e) {

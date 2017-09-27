@@ -34,8 +34,6 @@ public class MainAPI extends HttpServlet {
 	
 	private static FriendRequestService friendRequestService = new FriendRequestService();
 	
-	private UserProfileDao userProfileDao = new UserProfileDaoImpl();
-	
     public MainAPI() {
         super();
     }
@@ -45,7 +43,11 @@ public class MainAPI extends HttpServlet {
 		if (action.equals("login")){
 			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"));
 			if (successful){
-				request.getRequestDispatcher("home.jsp").forward(request, response);
+				if (((UserProfile)request.getSession().getAttribute("loggedInUser")).getUserType().equals("ADMIN")) {
+					request.getRequestDispatcher("adminHome.jsp").forward(request, response);
+				}else{
+					request.getRequestDispatcher("home.jsp").forward(request, response);
+				}
 			}else{
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
@@ -81,7 +83,7 @@ public class MainAPI extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}else if (action.equals("sendFriendRequest")){
 			boolean sent = friendRequestService.sendFriendRequest(request, Long.parseLong(request.getParameter("userId")));
-			UserProfile user = userProfileDao.findById(Long.parseLong(request.getParameter("userId")));
+			UserProfile user = userProfileService.findById(Long.parseLong(request.getParameter("userId")));
 			request.setAttribute("user", user);
 			if (sent){
 				request.getRequestDispatcher("userpage.jsp").forward(request, response);

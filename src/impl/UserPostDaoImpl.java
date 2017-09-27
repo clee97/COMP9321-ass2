@@ -124,6 +124,26 @@ public class UserPostDaoImpl extends UNSWDaoImpl implements UserPostDao {
 		return post;
 	}
 
+	@Override
+	public List<UserPost> findAll() {
+		initConnection();
+		String sql = "SELECT * FROM user_post";
+		List<UserPost> allPosts = new ArrayList<UserPost>();
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			
+			if (results.next()){
+				allPosts.add(toUserPost(results.getLong("id"), results.getLong("user_id"), results.getString("post"), results.getString("date"), results.getString("imgpath")));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return allPosts;
+	}
+
 	
 	
 	

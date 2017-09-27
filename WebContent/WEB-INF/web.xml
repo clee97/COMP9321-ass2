@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>AdminAPI</display-name>
+    <servlet-name>AdminAPI</servlet-name>
+    <servlet-class>servlets.AdminAPI</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminAPI</servlet-name>
+    <url-pattern>/AdminAPI</url-pattern>
+  </servlet-mapping>
 </web-app>

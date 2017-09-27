@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="models.UserProfile"%>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -11,9 +12,15 @@
 </head>
 <body>
 <%
+	//if session active then log us in automatically
 	if (session.getAttribute("loggedInUser") != null){
 		System.out.println("Logged in as: " + session.getAttribute("loggedInUser").toString() + ". Redirecting to home");
-		response.sendRedirect("home.jsp"); //if session active then log us in automatically
+		UserProfile loggedInUser = (UserProfile)session.getAttribute("loggedInUser");
+		if (loggedInUser.getUserType().equals("ADMIN")){
+			response.sendRedirect("adminHome.jsp");
+		}else{
+			response.sendRedirect("home.jsp");
+		}
 
 	} else {
 		System.out.println("Not logged in - display login page");
