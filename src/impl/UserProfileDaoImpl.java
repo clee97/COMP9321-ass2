@@ -42,6 +42,30 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 		return profile;
 	}
 	
+	/**
+	 * Retrieves an admin user based on their username and password
+	 */
+	@Override
+	public UserProfile findByAdminUserAndPass(String user, String pass) {
+		initConnection();
+		UserProfile profile = null;
+		String sql = "SELECT * FROM user_profile WHERE usertype = 'ADMIN' and username = '" + user + "' AND password = '" + pass + "'";
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			
+			while(results.next()){
+				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
+						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return profile;
+	}
 	
 
 	@Override

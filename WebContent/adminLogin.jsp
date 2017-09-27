@@ -26,9 +26,9 @@
 <%
 	//=============LM=================
  		String prevPage = "admin login page";
-	    request.setAttribute("prevPage", prevPage);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("API");
-	    dispatcher.forward(request, response);
+	    //request.setAttribute("prevPage", prevPage);
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("API");
+	   // dispatcher.forward(request, response);
 	    
  %>
 
@@ -36,7 +36,7 @@
 	<div class="row main">
 		<div class="panel-heading">
               <div class="panel-title text-center">
-              		<h1 class="title">Admin Login</h1>
+              		<h1 class="title">Admin Login Portal</h1>
               		<hr />
               	</div>
            </div> 
@@ -49,6 +49,7 @@
 			<%} %>
 			<form class="form-horizontal" method="post" action="API" id="login-form">
 				<input type="hidden" name="action" value="login">
+				<input type="hidden" name="isAdminLoginPage" value="true">
 				<div class="form-group">
 					<label for="username" class="cols-sm-2 control-label">Username</label>
 					<div class="cols-sm-10">

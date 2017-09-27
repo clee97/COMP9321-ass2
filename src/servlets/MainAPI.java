@@ -41,15 +41,20 @@ public class MainAPI extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String isAdminLoginPage = request.getParameter("isAdminLoginPage");
 		String action = request.getParameter("action");
 		if (action.equals("login")){
-			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"));
+			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"), isAdminLoginPage);
 			if (successful){
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}else{
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				if (isAdminLoginPage.equals("true")) {
+					request.getRequestDispatcher("adminLogin.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("login.jsp").forward(request, response);
+				}
 			}
-		}else if (action.equals("register")){
+		} else if (action.equals("register")){
 			UserProfile newUser = new UserProfile();
 			newUser.setUserType("USER");
 			newUser.setUser(request.getParameter("username"));

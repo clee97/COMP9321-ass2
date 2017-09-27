@@ -99,10 +99,15 @@ public class UserProfileService extends UNSWBookService{
 	 * @param pass
 	 * @return
 	 */
-	public boolean login(HttpServletRequest request, String user, String pass){
+	public boolean login(HttpServletRequest request, String user, String pass, String isAdminLoginPage){
 		boolean correctCredentials = false;
+		UserProfile existingUser;
+		if (isAdminLoginPage != null && isAdminLoginPage.equals("true")) {
+			existingUser = userDao.findByAdminUserAndPass(user, pass);
+		} else {
+			existingUser = userDao.findByUserAndPass(user, pass);
+		}
 		
-		UserProfile existingUser = userDao.findByUserAndPass(user, pass);
 		if (existingUser == null){
 			request.setAttribute("loginError", "Wrong username or password, please try again");
 			return correctCredentials; //if no user is found with given user and pass then fail to log in
@@ -111,6 +116,7 @@ public class UserProfileService extends UNSWBookService{
 			request.setAttribute("loginError", "Your account has been created but not activated yet");
 			return correctCredentials;
 		}
+		
 		correctCredentials = true;
 		request.getSession().setAttribute("loggedInUser", existingUser);
 		return correctCredentials;
