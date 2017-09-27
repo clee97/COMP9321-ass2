@@ -56,7 +56,7 @@
 				</div>
 				
 				<div class="form-group ">
-					<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Login">
+					<input type="submit" value="Login">
 				</div>
 				<div class="login-register">
 		            <a href="register.jsp">Register</a>

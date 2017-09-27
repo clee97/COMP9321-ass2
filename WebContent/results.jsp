@@ -140,7 +140,10 @@
                              </div>
                          </div>
                      </li>
-					<%for (UserProfile p : profiles){ %>
+					<%for (UserProfile p : profiles){ 
+						request.getSession().setAttribute("selectedUser", p);
+						long userID = p.getId();
+					%>					
                      <li class="list-group-item">
                          <div class='row'>
                              <div class='col-md-12'>
@@ -156,6 +159,32 @@
                                          <label for='someSwitchOptionPrimary' class='label-primary'></label>
                                      </div>
                                  </div>
+                                 <%
+									if (request.getSession().getAttribute("isAdmin").equals("true")){ %>
+									<form method="post" class="navbar-form navbar-left" action="API">
+      									<input type="hidden" name="action" value="userReport">							
+										<div id='User Activity'>
+	                                     	<%=p.getFirstname()%> <%=p.getLastname()%>
+	                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="userReport">
+		                                     <div id='center' class='material-switch pull-right'>
+		                                         <input id='someSwitchOptionPrimary' name='someSwitchOption001i' type='checkbox' checked="true"/>
+		                                         <label for='someSwitchOptionPrimary' class='label-primary'></label>
+		                                     </div>
+	                                	 </div>
+                                	 </form>
+	                               	 <form method="post" class="navbar-form navbar-left" action="API">
+	    								<input type="hidden" name="action" value="ban">		
+		                                 <div id='User Activity'>
+		                                     <%=p.getFirstname()%> <%=p.getLastname()%>
+		                                     <input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Ban">
+		                                     <div id='center' class='material-switch pull-right'>
+		                                         <input id='someSwitchOptionPrimary' name='someSwitchOption001i' type='checkbox' checked="true"/>
+		                                         <label for='someSwitchOptionPrimary' class='label-primary'></label>
+		                                     </div>
+		                                 </div>
+									</form>
+								 <%	}%>
+
                              </div>
                          </div>
                      </li>

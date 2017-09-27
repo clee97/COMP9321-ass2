@@ -150,6 +150,14 @@ public class MainAPI extends HttpServlet {
 			userPost.setId(Long.parseLong(request.getParameter("postId")));
 			userPostService.UnlikePost(request, userPost);
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);
+		} else if (action.equals("userReport")){			
+			request.getRequestDispatcher("adminResults.jsp").forward(request, response);
+		} else if (action.equals("ban")){
+			//NO NEED TO FORWARD, just ban it
+			/*
+			userAdminService.Ban(request, userPost);
+			request.getRequestDispatcher("userpage.jsp").forward(request, response);
+			*/
 		}
 
 	}
