@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS user_profile (
 	dob			VARCHAR(45) DEFAULT NULL,
 	status		VARCHAR(45) DEFAULT NULL,
 	imgpath		VARCHAR(45) DEFAULT NULL,
+	date_joined	DATE DEFAULT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -27,6 +28,7 @@ VALUES (4, 'USER', 'testuser3', 'testuser3', 'test3', 'user3', null, 'MALE', '19
 CREATE TABLE IF NOT EXISTS user_friend (
 	userid1 	INT(11) NOT NULL,
 	userid2 	INT(11) NOT NULL,
+	date_added_friend	VARCHAR(45),
 	FOREIGN KEY (userid1) REFERENCES user_profile(id),
 	FOREIGN KEY (userid2) REFERENCES user_profile(id)
 

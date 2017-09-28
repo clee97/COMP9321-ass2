@@ -99,7 +99,7 @@ public class UserProfileService extends UNSWBookService{
 	 * @param pass
 	 * @return
 	 */
-	public boolean login(HttpServletRequest request, String user, String pass, String isAdminLoginPage){
+	public boolean login(HttpServletRequest request, String user, String pass, String isAdminLoginPage, String isBanned){
 		boolean correctCredentials = false;
 		UserProfile existingUser;
 		if (isAdminLoginPage != null && isAdminLoginPage.equals("true")) {
@@ -116,6 +116,12 @@ public class UserProfileService extends UNSWBookService{
 		if (existingUser.getStatus().equals("PENDING")){
 			request.getSession().setAttribute("isAdmin", "false");
 			request.setAttribute("loginError", "Your account has been created but not activated yet");
+			return correctCredentials;
+		}
+		
+		if (existingUser.getStatus().equals("BANNED")){ //LM
+			request.getSession().setAttribute("isAdmin", "false");
+			request.setAttribute("loginError", "Your account has been banned");
 			return correctCredentials;
 		}
 		
@@ -207,12 +213,74 @@ public class UserProfileService extends UNSWBookService{
               ex.printStackTrace();
             }          
          
-        }else{
+        }
+		else{
             request.setAttribute("updateError", "Sorry this form only handles file upload request");
         }
     
      
     }
+	
+	//===================================================== LM ===================================================
+	/**
+	 * Admin clicks View User Report to show report activity for chosen user
+	 * 
+	 */
+	public void adminViewUserProfile(HttpServletRequest request, String firstName, String lastName, String email, String gender, String dob, String password){
+		initConnection();
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		String sql = "UPDATE user_profile SET password = '" + password + "', firstname = '" + firstName + "', lastname = '" + lastName + "', email = '" + email + "', gender = '" + gender + "', dob = '" + dob + "' WHERE id = " + loggedInUser.getId();
+		System.out.println(sql);
+		try {
+			statement.executeUpdate(sql);
+			
+			UserProfile updatedUser = userDao.findById(loggedInUser.getId());
+			
+			if (updatedUser.getPass().equals(password) && updatedUser.getFirstname().equals(firstName) 
+					&& updatedUser.getLastname().equals(lastName) && updatedUser.getEmail().equals(email) && updatedUser.getGender().equals(gender) && updatedUser.getDob().equals(dob)){
+				request.setAttribute("updateSuccess", "Changes saved successfully!");
+				request.getSession().setAttribute("loggedInUser", updatedUser);
+			}else{
+				request.setAttribute("updateError", "Something went wrong in updating your profile");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+	}
+	
+	/**
+	 * Admin bans user
+	 * @param request
+	 */
+	public void banUser(HttpServletRequest request, String firstName, String lastName, String email, String gender, String dob, String password){
+		initConnection();
+		UserProfile loggedInUser = (UserProfile)request.getSession().getAttribute("loggedInUser");
+		String sql = "UPDATE user_profile SET password = '" + password + "', firstname = '" + firstName + "', lastname = '" + lastName + "', email = '" + email + "', gender = '" + gender + "', dob = '" + dob + "' WHERE id = " + loggedInUser.getId();
+		System.out.println(sql);
+		try {
+			statement.executeUpdate(sql);
+			
+			UserProfile updatedUser = userDao.findById(loggedInUser.getId());
+			
+			if (updatedUser.getPass().equals(password) && updatedUser.getFirstname().equals(firstName) 
+					&& updatedUser.getLastname().equals(lastName) && updatedUser.getEmail().equals(email) && updatedUser.getGender().equals(gender) && updatedUser.getDob().equals(dob)){
+				request.setAttribute("updateSuccess", "Changes saved successfully!");
+				request.getSession().setAttribute("loggedInUser", updatedUser);
+			}else{
+				request.setAttribute("updateError", "Something went wrong in updating your profile");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+	}
+	//===================================================== LM ===================================================
+	
 	/**
 	 * Logs a user out
 	 * @param request

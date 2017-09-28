@@ -1,41 +1,28 @@
-<%@page import="java.util.stream.Collectors"%>
-<%@page import="impl.UserFriendDaoImpl"%>
-<%@page import="dao.UserFriendDao"%>
-<%@page import="java.util.List"%>
-<%@page import="dao.UserPostDao"%>
-<%@page import="impl.UserPostDaoImpl"%>
-<%@page import="models.UserPost"%>
-<%@page import="dao.FriendRequestDao"%>
-<%@page import="impl.FriendRequestDaoImpl"%>
-<%@page import="impl.UserProfileDaoImpl"%>
-<%@page import="models.UserProfile"%>
 <%@page import="models.FriendRequest"%>
+<%@page import="java.util.List"%>
+<%@page import="impl.FriendRequestDaoImpl"%>
+<%@page import="dao.FriendRequestDao"%>
+<%@page import="impl.UserProfileDaoImpl"%>
 <%@page import="dao.UserProfileDao"%>
+<%@page import="models.UserProfile"%>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/home.css">
-  <link rel="stylesheet" href="css/userpage.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="js/home.js"></script>
 </head>
 <body>
-<% 
+<%
 	if (session.getAttribute("loggedInUser") == null){
 		response.sendRedirect("denied.jsp");
 	}
-	UserProfileDao userDao = new UserProfileDaoImpl();
-	UserFriendDao userFriendDao = new UserFriendDaoImpl();
+	UserProfile userLoggedIn = (UserProfile)session.getAttribute("loggedInUser");
+	UserProfileDao userProfileDao = new UserProfileDaoImpl();
 	FriendRequestDao friendRequestDao = new FriendRequestDaoImpl();
-	UserPostDao userPostDao = new UserPostDaoImpl();
-	
-	UserProfile profile = (UserProfile)request.getAttribute("user");
-	UserProfile loggedInUser = (UserProfile)session.getAttribute("loggedInUser");
-	List<UserPost> userPosts = userPostDao.findPostsByUser(profile.getId());
-
-	List<FriendRequest> acceptedNotifs = friendRequestDao.findByAccepted(loggedInUser.getId());
+	List<FriendRequest> acceptedNotifs = friendRequestDao.findByAccepted(userLoggedIn.getId());
 %>
 <!-- Header -->
 <nav class="navbar navbar-default">
@@ -75,7 +62,7 @@
             <!-- end notify title -->
             <!-- notify content -->
             <%for (FriendRequest fr : acceptedNotifs){ 
-            UserProfile friend = userDao.findById(fr.getToUser());
+            UserProfile friend = userProfileDao.findById(fr.getToUser());
             %>
             <div class="drop-content">
             	<li>
@@ -93,7 +80,7 @@
             </div>
           </ul>
         </li>
-        <li><a href="API?action=logout">Log Out (<%=loggedInUser.getUser()%>)<span class="sr-only">(current)</span></a></li>
+        <li><a href="API?action=logout">Log Out (<%=userLoggedIn.getUser()%>)<span class="sr-only">(current)</span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -116,93 +103,40 @@
           <h5>Settings <i class="glyphicon glyphicon-chevron-down"></i></h5>
           </a>
             <ul class="list-unstyled collapse in" id="userMenu">
-                <li> <a href="home.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+                <li class="active"> <a href="home.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
                 <li><a href="profile.jsp"><i class="glyphicon glyphicon-user"></i> Profile <span class="badge badge-info">4</span></a></li>
                 <li><a href="friendslist.jsp"><i class="glyphicon glyphicon-user"></i> Friends</a></li>
                 <li><a href="advancedSearch.jsp"><i class="glyphicon glyphicon-search"></i> Advanced Search</a></li>
             </ul>
         </li>
-      </ul>
   	</div><!-- /col-3 -->
     <div class="col-md-9">
       	
       <!-- column 2 -->	
-      <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i><%=profile.getFirstname() + " " + profile.getLastname()%>'s Wall</strong></a>  
+      <a href="#"><strong><i class="glyphicon glyphicon-search"></i> Advanced Search</strong></a>  
       	<hr>
-      	<div class="row" style="background:transparent center">
-	      	<div class="col-md-10">
-				<div class="profile-userpic">
-					<img src="dps/<%=profile.getImgPath() %>" class="img-responsive" alt="">
+		<div class="row">
+			<form method="GET" action="API">
+				<input type="hidden" name="action" value="advancedSearch">
+				<div class="form-group">
+				  <label for="usr">Name:</label>
+				  <input name="name" type="text" class="form-control" id="usr">
 				</div>
-				<!-- END SIDEBAR USERPIC -->
-				<!-- SIDEBAR USER TITLE -->
-				<div class="profile-usertitle">
-					<div class="profile-usertitle-name">
-						<%=profile.getFirstname() + " " + profile.getLastname()%>
-					</div>
-					<div class="profile-usertitle-job">
-						Developer
-					</div>
+				<div class="form-group">
+				  <label for="gender">Gender:</label>
+				  <select name="gender" class="form-control" name="gender" id="gender">
+					<option value="MALE">MALE</option>
+					<option value="FEMALE">FEMALE</option>
+				  </select>
 				</div>
-				<form action="API">
-					<input type="hidden" name="action" value="sendFriendRequest">
-					<input type="hidden" name="userId" value="<%=profile.getId()%>">
-					<div class="profile-userbuttons">
-						<%
-						FriendRequest fr = friendRequestDao.findByFromTo(loggedInUser.getId(), profile.getId());
-						if (fr == null){ %>
-						<input type="submit" class="btn btn-success btn-sm" value="Send friend request">
-						<%}else if (fr.getStatus().equals("PENDING")){ %>
-						<button type="button" class="btn btn-success btn-sm">Pending friend request</button>
-						<%}else{%>
-						<button type="button" class="btn btn-success btn-sm">You are friends</button>
-						<%} %>
-					</div>
-				</form>
-			</div>
-		</div>
-      	<%
-      	List<Long> friendIds = userFriendDao.findUserFriendsIds(loggedInUser.getId());
-      	if (friendIds.contains(profile.getId())) {%>
-			<% for (UserPost wp : userPosts) {
-				List<Long> likers = userPostDao.findLikersOfPost(wp.getId());	
-			%>
-			
-				<div class="panel panel-default">
-					<div class="panel-body">
-					 
-					<h4 class="media-heading"><img src="dps/<%=profile.getImgPath()%>" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> You posted</h4>
-					<%=wp.getContent() %>
-					
-					<hr />
-					<i class="glyphicon glyphicon-calendar"></i> <%=wp.getDate() %><br>
-					<i class="glyphicon glyphicon-thumbs-up"></i> <%=likers.size()%> likes
-					<%if (!likers.contains(loggedInUser.getId())){ %>
-					 <a href="API?action=likePost&postId=<%=wp.getId()%>&userId=<%=profile.getId()%>" class="btn btn-primary a-btn-slide-text">
-			           <span><strong>Like</strong></span>
-			   		 </a>
-			   		 <%}else{ %>
-			   		<a>You like this post</a>
-			   		<a href="API?action=unLikePost&postId=<%=wp.getId()%>&userId=<%=profile.getId()%>" class="btn btn-primary a-btn-slide-text">
-			           <span><strong>UnLike</strong></span>
-			   		 </a>
-			   		<%} %>
-					</div>
+				<div class="form-group">
+				  <label for="dob">DOB:</label>
+				  <input name="dob" type="date" class="form-control" id="dob">
 				</div>
-			
-			<%} %>
-		<%} else {%>
-			<div class="jumbotron">
-		      <div class="container">
-		      <br>
-		        <h2>You are not Friends<small> with this user</small></h2>
-		        <p>You do not have access to view this user's posts</p>
-		      </div>
-		    </div>
-	    <%} %>
-			
-			
-      </div><!--/row-->
+				<input class="btn btn-primary" type="submit" value="Search">
+			</form>
+	 	 </div>
+     </div><!--/row-->
       
   	</div><!--/col-span-9-->
 </div>

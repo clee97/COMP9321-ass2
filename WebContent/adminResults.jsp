@@ -30,5 +30,58 @@
 	System.out.println("userLoggedIn: "+userLoggedIn.getFirstname());
 	System.out.println("userSelected: "+userSelected.getFirstname());
 	%>
+	<!-- ===================================== LM ======================================== -->
+				        <form class="form-horizontal" role="form" action="API">
+			        	<input type="hidden" name="action" value="adminViewUserResult">
+			          <div class="form-group">
+			            <div class="col-lg-8">
+			              First Name: <%=userSelected.getFirstname()%>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="col-lg-3 control-label">Last name:</label>
+			            <div class="col-lg-8">
+			              <input name="lastname" class="form-control" type="text" value="<%=userSelected.getLastname()%>"required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="col-lg-3 control-label">Email:</label>
+			            <div class="col-lg-8">
+			              <input name="email"  class="form-control" type="text" value="<%=userSelected.getEmail()%>" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="col-lg-3 control-label">Gender:</label>
+			            <div class="col-lg-8">
+			              <div class="ui-select">
+			                <select name="gender"  id="gender" class="form-control" required>
+			                  <option value="MALE" <%if (userSelected.getGender().equals("MALE")){ %>selected="selected"<%}%>>MALE</option>
+			                  <option value="FEMALE"<%if (userSelected.getGender().equals("FEMALE")){ %>selected="selected"<%}%>>FEMALE</option>
+			                </select>
+			              </div>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="col-md-3 control-label">DOB:</label>
+			            <div class="col-md-8">
+			              <input name="dob" class="form-control" type="date" value="<%=userSelected.getDob()%>" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="col-md-3 control-label">Password:</label>
+			            <div class="col-md-8">
+			              <input name="password" class="form-control" type="password" value="<%=userSelected.getPass()%>" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			            <label class="col-md-3 control-label"></label>
+			            <div class="col-md-8">
+			              <input type="submit" class="btn btn-primary" value="Save Changes">
+			              <span></span>
+			              <input type="reset" class="btn btn-default" value="Cancel">
+			            </div>
+			          </div>
+			        </form>
+	<!-- ===================================== LM ======================================== -->
 </body>
 </html>

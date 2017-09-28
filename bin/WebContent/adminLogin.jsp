@@ -10,24 +10,38 @@
   <script src="js/login.js"></script>
 </head>
 <body>
+
+<%@ page import = "javax.servlet.RequestDispatcher" %>
+<%@ page import =  "javax.servlet.ServletException" %>
+<%@ page import = "javax.servlet.http.HttpServlet" %>
+<%@ page import = "javax.servlet.http.HttpServletRequest" %>
+<%@ page import = "javax.servlet.http.HttpServletResponse" %>
+
 <%
 	if (session.getAttribute("loggedInUser") != null){
-		System.out.println("Logged in as: " + session.getAttribute("loggedInUser").toString() + ". Redirecting to home");
 		response.sendRedirect("home.jsp"); //if session active then log us in automatically
-
-	} else {
-		System.out.println("Not logged in - display login page");
 	}
-%> 
+%>
+
+<%
+	//=============LM=================
+ 		String prevPage = "admin login page";
+	    //request.setAttribute("prevPage", prevPage);
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("API");
+	   // dispatcher.forward(request, response);
+	    
+ %>
+
 <div class="container">
 	<div class="row main">
 		<div class="panel-heading">
               <div class="panel-title text-center">
-              		<h1 class="title">UNSW Book</h1>
+              		<h1 class="title">Admin Login Portal</h1>
               		<hr />
               	</div>
            </div> 
 		<div class="main-login main-center">
+		<% System.out.println("TESTING"); %>
 			<%if (request.getAttribute("loginError") != null){ %>
 			<div class="alert alert-danger">
 				<strong>Login Failed</strong> <%=(String)request.getAttribute("loginError") %>
@@ -35,6 +49,7 @@
 			<%} %>
 			<form class="form-horizontal" method="post" action="API" id="login-form">
 				<input type="hidden" name="action" value="login">
+				<input type="hidden" name="isAdminLoginPage" value="true">
 				<div class="form-group">
 					<label for="username" class="cols-sm-2 control-label">Username</label>
 					<div class="cols-sm-10">

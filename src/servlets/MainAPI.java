@@ -16,6 +16,7 @@ import dao.UserProfileDao;
 import impl.UserProfileDaoImpl;
 import models.UserPost;
 import models.UserProfile;
+import services.AdminService;
 import services.FriendRequestService;
 import services.UserPostService;
 import services.UserProfileService;
@@ -34,6 +35,8 @@ public class MainAPI extends HttpServlet {
 	
 	private static FriendRequestService friendRequestService = new FriendRequestService();
 	
+	private static AdminService adminService = new AdminService();
+	
 	private UserProfileDao userProfileDao = new UserProfileDaoImpl();
 	
     public MainAPI() {
@@ -43,12 +46,13 @@ public class MainAPI extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String isAdminLoginPage = request.getParameter("isAdminLoginPage");
 		String action = request.getParameter("action");
+		String isBanned = request.getParameter("isBanned"); //LM
 		if (action.equals("login")){
-			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"), isAdminLoginPage);
+			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"), isAdminLoginPage, isBanned);
 			if (successful){
 				request.getRequestDispatcher("home.jsp").forward(request, response);
 			}else{
-				if (isAdminLoginPage.equals("true")) {
+				if (isAdminLoginPage != null && isAdminLoginPage.equals("true")) {
 					request.getRequestDispatcher("adminLogin.jsp").forward(request, response);
 				} else {
 					request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -153,12 +157,26 @@ public class MainAPI extends HttpServlet {
 		} else if (action.equals("userReport")){			
 			request.getRequestDispatcher("adminResults.jsp").forward(request, response);
 		} else if (action.equals("ban")){
-			//NO NEED TO FORWARD, just ban it
-			/*
-			userAdminService.Ban(request, userPost);
-			request.getRequestDispatcher("userpage.jsp").forward(request, response);
-			*/
+			UserProfile selectedUser = (UserProfile)request.getSession().getAttribute("selectedUser");
+			System.out.println("USER to ban is: " + selectedUser.getFirstname());
+			adminService.banUser(request, selectedUser);
+			request.getRequestDispatcher("advancedSearch.jsp").forward(request, response);
+			
+		}else if (action.equals("unban")){
+			UserProfile selectedUser = (UserProfile)request.getSession().getAttribute("selectedUser");
+			System.out.println("USER to unban is: " + selectedUser.getFirstname());
+			adminService.banUser(request, selectedUser);
+			request.getRequestDispatcher("results.jsp").forward(request, response);
+
+		//===================================================== LM ===================================================
+		}else if (action.equals("adminViewUserResult")){
+			userProfileService.adminViewUserProfile(request, request.getParameter("firstname"), request.getParameter("lastname"),
+					request.getParameter("email"), request.getParameter("gender"), request.getParameter("dob"), request.getParameter("password"));
+			
+			request.getRequestDispatcher("adminResults.jsp").forward(request, response);
 		}
+
+		//===================================================== LM ===================================================
 
 	}
 	
