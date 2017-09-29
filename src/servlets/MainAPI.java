@@ -1,7 +1,10 @@
 package servlets;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -59,6 +62,18 @@ public class MainAPI extends HttpServlet {
 				}
 			}
 		} else if (action.equals("register")){
+			//getting current date for admin reporting
+			System.out.println("Testing API register");
+			java.util.Date utilDate = new java.util.Date();
+		    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		    
+/*		    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		    LocalDateTime now = LocalDateTime.now();
+		    Date currentDate = (Date)now;
+		    java.sql.Date sqlDate = new java.sql.Date(dtf.format(now));
+		    
+		    System.out.println(dtf.format(now)); //2016/11/16 12:08:43
+*/
 			UserProfile newUser = new UserProfile();
 			newUser.setUserType("USER");
 			newUser.setUser(request.getParameter("username"));
@@ -70,6 +85,9 @@ public class MainAPI extends HttpServlet {
 			newUser.setDob(request.getParameter("dob"));
 			newUser.setStatus("PENDING");
 			newUser.setImgPath(request.getParameter("default.jpg"));
+			newUser.setDateJoined(sqlDate);
+			System.out.println("TESTING date joined");
+			System.out.println("Date joined: " + newUser.getDateJoined());
 			boolean registered = userProfileService.registerUser(request, newUser); 
 			if (registered){
 				request.getRequestDispatcher("activation.jsp").forward(request, response);

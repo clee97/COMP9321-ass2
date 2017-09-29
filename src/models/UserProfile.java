@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Date;
+
 public class UserProfile {
 
 	private Long id;
@@ -23,6 +25,8 @@ public class UserProfile {
 	private String status;
 	
 	private String imgPath;
+	
+	private Date dateJoined;
 
 	public UserProfile(){}
 	
@@ -125,6 +129,15 @@ public class UserProfile {
 	public void setImgPath(String imgPath) {
 		
 		this.imgPath = imgPath;
+	}
+	
+	public Date getDateJoined() {
+		return dateJoined;
+	}
+
+	public void setDateJoined(Date dateJoined) {
+		
+		this.dateJoined = dateJoined;
 	}
 	
 	
