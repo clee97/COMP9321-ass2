@@ -213,5 +213,30 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 		}
 		return null;
 	}
+	
+	
+	
+	/**
+	 * Retrieves a user's report activity
+	 */
+	public List<String> userActivityReport(Long userID) {
+		initConnection();
+		List<String> activity = new ArrayList<String>();
+		String sql = "SELECT  id, date_joined, \"User joined unswbook\" as Activity FROM user_profile WHERE userID="+userID;
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			
+			while(results.next()){
+				
+				System.out.println("THIS IS RESULT: "+ results.getString("Activity"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return activity;
+	}
 
 }

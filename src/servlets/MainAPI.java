@@ -42,6 +42,7 @@ public class MainAPI extends HttpServlet {
 	
 	private UserProfileDao userProfileDao = new UserProfileDaoImpl();
 	
+	
     public MainAPI() {
         super();
     }
@@ -183,7 +184,11 @@ public class MainAPI extends HttpServlet {
 			userPost.setId(Long.parseLong(request.getParameter("postId")));
 			userPostService.UnlikePost(request, userPost);
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);
-		} else if (action.equals("userReport")){			
+		} else if (action.equals("userReport")){ //admin's user activity report page
+			System.out.println("Action: API userReport called");
+			UserProfile selectedUser = (UserProfile)request.getSession().getAttribute("selectedUser");
+			System.out.println("Selected User: " + selectedUser.getFirstname());
+			adminService.userActivityReport(request, selectedUser.getId());
 			request.getRequestDispatcher("adminResults.jsp").forward(request, response);
 		} else if (action.equals("ban")
 				&& (request.getAttribute("isBanned") == null || !request.getAttribute("isBanned").equals("done"))){

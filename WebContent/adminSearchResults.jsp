@@ -102,7 +102,7 @@
                                  <%
 									if (request.getSession().getAttribute("isAdmin").equals("true")){ %>
 									<form method="post" class="navbar-form navbar-left" action="API">
-      									<input type="hidden" name="action" value="userReport">							
+      									<input type="hidden" name="action" value="userReport">		
 										<div id='User Activity'>
 	                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="userReport">
 	                                	 </div>

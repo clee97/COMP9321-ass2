@@ -1,6 +1,10 @@
 package services;
 
+import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -62,6 +66,32 @@ public class AdminService extends UNSWBookService{
 			close(statement);
 		}
 		System.out.println("UNbanSuccess where isBan= " + request.getSession().getAttribute("isBanned"));
+	}
+	
+	/**
+	 * Retrieves a user's report activity
+	 */
+	public List<String> userActivityReport(HttpServletRequest request, Long userID) {
+		System.out.println("Entered AdminService userActivityReport method");
+		initConnection();
+		List<String> report = new ArrayList<String>();
+		String sql = "SELECT  id, date_joined, \"User joined unswbook\" as Activity FROM user_profile WHERE id=" + "'" + userID+ "'";
+		System.out.println("SQL statement: "+ sql);
+		try {
+			ResultSet results = statement.executeQuery(sql);
+			
+
+			while(results.next()){
+				System.out.println("sql result DATE: "+ results.getDate("date_joined"));
+				System.out.println("sql result ACTIVITY: "+ results.getString("Activity"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(statement);
+		}
+		return report;
 	}
 }
 	
