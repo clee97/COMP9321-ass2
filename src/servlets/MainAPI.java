@@ -53,7 +53,12 @@ public class MainAPI extends HttpServlet {
 		if (action.equals("login")){
 			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"), isAdminLoginPage, isBanned);
 			if (successful){
-				request.getRequestDispatcher("home.jsp").forward(request, response);
+				if (isAdminLoginPage != null && isAdminLoginPage.equals("true")) {
+					request.getRequestDispatcher("adminHome.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("home.jsp").forward(request, response);
+				}
+				//request.getRequestDispatcher("home.jsp").forward(request, response);
 			}else{
 				if (isAdminLoginPage != null && isAdminLoginPage.equals("true")) {
 					request.getRequestDispatcher("adminLogin.jsp").forward(request, response);
@@ -63,6 +68,10 @@ public class MainAPI extends HttpServlet {
 			}
 		} else if (action.equals("register")){
 			//getting current date for admin reporting
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			System.out.println(dateFormat.format(date));
+			
 			System.out.println("Testing API register");
 			java.util.Date utilDate = new java.util.Date();
 		    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -179,6 +188,10 @@ public class MainAPI extends HttpServlet {
 			System.out.println("USER to ban is: " + selectedUser.getFirstname());
 			adminService.banUser(request, selectedUser);
 			request.getRequestDispatcher("advancedSearch.jsp").forward(request, response);
+			//After banning I want to stay on the same page (adminSearchResult page) but if i uncomment code below there's null pointer exception
+/*			List<UserProfile> results = userProfileService.advancedSearch(request, request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
+			request.setAttribute("results", results);
+			request.getRequestDispatcher("adminSearchResult.jsp").forward(request, response);*/
 			
 		}else if (action.equals("unban")){
 			UserProfile selectedUser = (UserProfile)request.getSession().getAttribute("selectedUser");
@@ -192,6 +205,11 @@ public class MainAPI extends HttpServlet {
 					request.getParameter("email"), request.getParameter("gender"), request.getParameter("dob"), request.getParameter("password"));
 			
 			request.getRequestDispatcher("adminResults.jsp").forward(request, response);
+		}
+		else if (action.equals("adminSearchResult")){
+			List<UserProfile> results = userProfileService.advancedSearch(request, request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
+			request.setAttribute("results", results);
+			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 		}
 
 		//===================================================== LM ===================================================
