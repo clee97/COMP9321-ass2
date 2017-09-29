@@ -35,12 +35,13 @@ public class AdminService extends UNSWBookService{
 		try {
 			statement.executeUpdate(sql);
 			request.getSession().setAttribute("isBanned", "true");
-			System.out.println("banSuccess " + selectedUser.getStatus());
+			//System.out.println("banSuccess " + selectedUser.getStatus());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(statement);
 		}
+		System.out.println("banSuccess where isBan= " + request.getSession().getAttribute("isBanned"));
 	}
 	
 	public void unbanUser(HttpServletRequest request, UserProfile selectedUser){
@@ -52,13 +53,15 @@ public class AdminService extends UNSWBookService{
 
 		try {
 			statement.executeUpdate(sql);
-			request.setAttribute("isBanned", "false");
-			System.out.println("unban Success");
+			//request.setAttribute("isBanned", "false");
+			request.getSession().setAttribute("isBanned", "false");
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(statement);
 		}
+		System.out.println("UNbanSuccess where isBan= " + request.getSession().getAttribute("isBanned"));
 	}
 }
 	

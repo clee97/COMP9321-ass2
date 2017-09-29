@@ -50,6 +50,8 @@ public class MainAPI extends HttpServlet {
 		String isAdminLoginPage = request.getParameter("isAdminLoginPage");
 		String action = request.getParameter("action");
 		String isBanned = request.getParameter("isBanned"); //LM
+		int isAdminSearchResult = 0;
+		String[] adminSearchResultParams = new String[3];
 		if (action.equals("login")){
 			boolean successful = userProfileService.login(request, request.getParameter("username"), request.getParameter("password"), isAdminLoginPage, isBanned);
 			if (successful){
@@ -183,21 +185,42 @@ public class MainAPI extends HttpServlet {
 			request.getRequestDispatcher("userpage.jsp").forward(request, response);
 		} else if (action.equals("userReport")){			
 			request.getRequestDispatcher("adminResults.jsp").forward(request, response);
-		} else if (action.equals("ban")){
+		} else if (action.equals("ban")
+				&& (request.getAttribute("isBanned") == null || !request.getAttribute("isBanned").equals("done"))){
 			UserProfile selectedUser = (UserProfile)request.getSession().getAttribute("selectedUser");
-			System.out.println("USER to ban is: " + selectedUser.getFirstname());
 			adminService.banUser(request, selectedUser);
-			request.getRequestDispatcher("advancedSearch.jsp").forward(request, response);
-			//After banning I want to stay on the same page (adminSearchResult page) but if i uncomment code below there's null pointer exception
-/*			List<UserProfile> results = userProfileService.advancedSearch(request, request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
-			request.setAttribute("results", results);
-			request.getRequestDispatcher("adminSearchResult.jsp").forward(request, response);*/
+
+			//request.setAttribute("isBanned", "true");
+			//request.getSession().setAttribute("isBanned", "true");
 			
-		}else if (action.equals("unban")){
+			String goToAction = "adminSearchResult"; //request.getParameter("action");
+			
+			isAdminSearchResult = 1;
+			adminSearchResultParams[0] = selectedUser.getFirstname();
+			adminSearchResultParams[1] = selectedUser.getGender();
+			adminSearchResultParams[2] = selectedUser.getDob();
+
+			System.out.println(" name ||| MAINAPI USER to ban is: " + selectedUser.getFirstname());
+			//request.getRequestDispatcher("API?action="+goToAction+"&name="+name+"&gender="+gender+"&dob="+dob).forward(request, response);
+			
+		}else if (action.equals("unban")
+				&& (request.getAttribute("isBanned") == null || !request.getAttribute("isBanned").equals("done"))){ //only process when unban btn is clicked
 			UserProfile selectedUser = (UserProfile)request.getSession().getAttribute("selectedUser");
-			System.out.println("USER to unban is: " + selectedUser.getFirstname());
-			adminService.banUser(request, selectedUser);
-			request.getRequestDispatcher("results.jsp").forward(request, response);
+			adminService.unbanUser(request, selectedUser);
+			
+			//request.getSession().setAttribute("isBanned", "false");
+			//boolean isBanned = request.getSession().getAttribute("isBanned");
+			
+			String goToAction = "adminSearchResult"; //request.getParameter("action");
+
+			System.out.println("MAINAPI USER to unban is: " + selectedUser.getFirstname());
+			isAdminSearchResult = 1;
+			adminSearchResultParams[0] = selectedUser.getFirstname();
+			adminSearchResultParams[1] = selectedUser.getGender();
+			adminSearchResultParams[2] = selectedUser.getDob();
+			//request.getRequestDispatcher("API?action="+goToAction+"&name="+name+"&gender="+gender+"&dob="+dob).forward(request, response);
+			
+
 
 		//===================================================== LM ===================================================
 		}else if (action.equals("adminViewUserResult")){
@@ -206,8 +229,14 @@ public class MainAPI extends HttpServlet {
 			
 			request.getRequestDispatcher("adminResults.jsp").forward(request, response);
 		}
-		else if (action.equals("adminSearchResult")){
+		
+		if (action.equals("adminSearchResult") || isAdminSearchResult == 1){
 			List<UserProfile> results = userProfileService.advancedSearch(request, request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
+			
+			if (isAdminSearchResult == 1) {
+				isAdminSearchResult = 0;
+				results = userProfileService.advancedSearch(request, adminSearchResultParams[0], adminSearchResultParams[1], adminSearchResultParams[2]);
+			} 
 			request.setAttribute("results", results);
 			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 		}

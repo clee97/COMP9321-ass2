@@ -198,17 +198,17 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	private String buildAdvancedQuery(String name, String gender, String dob){
 		List<String> query = new ArrayList<String>();
 		
-		if (!name.isEmpty() && name != null){
+		if (name != null && !name.isEmpty() ){
 			query.add("CONCAT(LCASE(firstname), ' ', LCASE(lastname)) LIKE '%" + name.toLowerCase() + "%'");
 		}
 
-		if (!gender.isEmpty() && gender != null){
+		if (gender != null && !gender.isEmpty()){
 			query.add("gender = '" + gender + "'");
 		}
-		if (!dob.isEmpty() && dob != null){
+		if (dob != null && !dob.isEmpty()){
 			query.add("dob = '" + dob + "'");
 		}
-		if (!query.isEmpty()){
+		if (query != null && !query.isEmpty()){
 			return String.join(" AND ", query);
 		}
 		return null;

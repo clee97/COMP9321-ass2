@@ -109,16 +109,22 @@
                                 	 </form>
 	                               	 <form method="post" class="navbar-form navbar-left" action="API">	
 		                                 <div id='User Activity'>
-		                                     <%-- <%=p.getFirstname()%> <%=p.getLastname()%> --%>
-		                                     <input type="hidden" name="action" value="ban">	
-		                                     <input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Ban">
-<%-- 		                                     <%if(p.getStatus().equals("BANNED")) { %>
+<!-- 		                                     <input type="hidden" name="action" value="ban">	
+		                                     <input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Ban"> -->
+		                                     <%
+		                                     if(p.getStatus().equals("BANNED")) { %>
+		                                     	<% System.out.println("In adminSearchResults page user is now BANNED, show unban"); %>
+		                                     	<!-- if user has been banned set the button back to ban -->
                                    	    		<input type="hidden" name="action" value="unban">	
 		                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Unban">
 		                                     <%	} else {%>
+		                                    	 <% System.out.println("In adminSearchResults page user is now NOT banned, show ban"); %>
+<%-- 		                                    	 <%if(!request.getSession().getAttribute("isBanned").equals(null)){ %>
+		                                    	<% Boolean isThisPersonBanned = request.getSession().getAttribute("isBanned").equals("true");%>
+		                                     	<% System.out.println("isThisPersonBanned: " + isThisPersonBanned); }%> --%>
 		                                    	<input type="hidden" name="action" value="ban">	
-		                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Ban">
-		                                      <%}%> --%>
+		                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Ban">		                                   
+		                                      <%}%>
 		                                 </div>
 									</form>
 								 <%	}%>
