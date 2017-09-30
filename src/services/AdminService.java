@@ -29,12 +29,10 @@ public class AdminService extends UNSWBookService{
 	 * @param toUser
 	 * @return
 	 */
-	public void banUser(HttpServletRequest request, UserProfile selectedUser){
-		initConnection();
-		
-		selectedUser.setStatus("BANNED");
+	public void banUser(HttpServletRequest request, String userID){
+		initConnection();		
 		// create the java mysql update preparedstatement
-	      String sql = "UPDATE user_profile SET status = 'BANNED' WHERE id = " + selectedUser.getId();
+	      String sql = "UPDATE user_profile SET status = 'BANNED' WHERE id = '" + userID + "'";
 
 		try {
 			statement.executeUpdate(sql);
@@ -48,12 +46,12 @@ public class AdminService extends UNSWBookService{
 		System.out.println("banSuccess where isBan= " + request.getSession().getAttribute("isBanned"));
 	}
 	
-	public void unbanUser(HttpServletRequest request, UserProfile selectedUser){
+	public void unbanUser(HttpServletRequest request, String userID){
 		initConnection();
 		
 		//selectedUser.setStatus("BANNED");
 		// create the java mysql update preparedstatement
-	      String sql = "UPDATE user_profile SET status = 'CREATED' WHERE id = " + selectedUser.getId();
+	      String sql = "UPDATE user_profile SET status = 'CREATED' WHERE id = '" + userID + "'";
 
 		try {
 			statement.executeUpdate(sql);
@@ -75,16 +73,21 @@ public class AdminService extends UNSWBookService{
 		System.out.println("Entered AdminService userActivityReport method");
 		initConnection();
 		List<String> report = new ArrayList<String>();
-		String sql = "SELECT  id, date_joined, \"User joined unswbook\" as Activity FROM user_profile WHERE id=" + "'" + userID+ "'";
+		String sql = ""
+				+ "SELECT id, date_joined, \"User joined unswbook\" as Activity FROM user_profile where id='" + userID+ "' "
+				+ "UNION SELECT userid1, date_added_friend, concat(\"User added \", (select concat(firstname, \" \",lastname) from user_profile where id =  userid2), \" as friend\") as Activity  FROM user_friend where userid1='" + userID+ "' " 
+				+ "UNION SELECT user_id, date_liked, \"User liked post\" as Activity FROM user_like where user_id='" + userID+ "' "
+				+ "UNION SELECT id, date, \"User posted\" as Activity FROM user_post where id='" + userID+ "' "
+				+ "ORDER BY date_joined desc";
 		System.out.println("SQL statement: "+ sql);
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			
 
-			while(results.next()){
-				System.out.println("sql result DATE: "+ results.getDate("date_joined"));
-				System.out.println("sql result ACTIVITY: "+ results.getString("Activity"));
-				
+			while(results.next()){				
+				String[] parts = results.getString("date_joined").split(":");
+				report.add(parts[0]+":"+parts[1]);
+				report.add(results.getString("Activity"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -39,9 +39,9 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-      	<li><a href="#"><b>UNSW Book</b> <span class="sr-only">(current)</span></a></li>
-      </ul>
+      <!-- ul class="nav navbar-nav">
+      	<li><a href="adminHome.jsp"><b>Admin Homepage</b> <span class="sr-only">(current)</span></a></li>
+      </ul-->
 <!--       <form class="navbar-form navbar-left" action="API">
       	<input type="hidden" name="action" value="search">
         <div class="form-group">

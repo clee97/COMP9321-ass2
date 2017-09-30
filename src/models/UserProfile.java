@@ -1,6 +1,7 @@
 package models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class UserProfile {
 
@@ -26,7 +27,7 @@ public class UserProfile {
 	
 	private String imgPath;
 	
-	private Date dateJoined;
+	private Timestamp dateJoined;
 
 	public UserProfile(){}
 	
@@ -131,11 +132,11 @@ public class UserProfile {
 		this.imgPath = imgPath;
 	}
 	
-	public Date getDateJoined() {
+	public Timestamp getDateJoined() {
 		return dateJoined;
 	}
 
-	public void setDateJoined(Date dateJoined) {
+	public void setDateJoined(Timestamp dateJoined) {
 		
 		this.dateJoined = dateJoined;
 	}

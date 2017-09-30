@@ -37,10 +37,14 @@ public class UserProfileService extends UNSWBookService{
 			request.setAttribute("registerError", "That username has been taken already, pick another one");
 			return created;
 		}
-		String sql = "INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, dob, status, imgpath) "
+		//getting current date for admin reporting
+		java.util.Date date = new java.util.Date();
+        java.sql.Timestamp sqlTimeStamp = new java.sql.Timestamp(date.getTime());
+		
+		String sql = "INSERT INTO user_profile (id, usertype, username, password, firstname, lastname, email, gender, dob, status, date_joined, imgpath) "
 				+ "VALUES (null, '" + newProfile.getUserType() + "', '" + newProfile.getUser() + "', '" + newProfile.getPass() 
 				+ "', '" + newProfile.getFirstname() + "', '" +  newProfile.getLastname() + "', '" + newProfile.getEmail() 
-				+ "', '" + newProfile.getGender() + "', '" + newProfile.getDob() + "', '" + newProfile.getStatus() + "', '" + newProfile.getImgPath() + "')";
+				+ "', '" + newProfile.getGender() + "', '" + newProfile.getDob() + "', '" + newProfile.getStatus() + "', '" + sqlTimeStamp + "', '" + newProfile.getImgPath() + "')";
 		try {
 			statement.executeUpdate(sql);
 			

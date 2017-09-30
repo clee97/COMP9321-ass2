@@ -9,6 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.sql.Date;
+
 /**
  * Servlet implementation class Admin
  * Is linked from WelcomePage servlet. 
@@ -28,6 +36,45 @@ public class AdminSearch extends HttpServlet {
      */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+		//java.util.Date utilDate = new java.util.Date();
+	    //java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+	    
+	   // sqlDate = new java.sql.Date(row.getCell(23).getDateCellValue().getTime());
+	    //Get current time:
+	    /*Timestamp stamp = new Timestamp(System.currentTimeMillis());
+        Date date = new Date(stamp.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");   //dd/MM/yyyy 
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+10"));
+        String currDate = sdf.format(date);
+        java.sql.Date curDate = java.sql.Date.valueOf(currDate);*/
+	    
+	   /* long timeInMillis = System.currentTimeMillis();
+	    Calendar cal1 = Calendar.getInstance();
+	    cal1.setTimeInMillis(timeInMillis);
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+10"));
+	    String a = dateFormat.format(cal1.getTime());
+	    //java.sql.Timestamp curDate = java.sql.Timestamp.valueOf(a);
+	        
+	    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    OffsetDateTime curDate = OffsetDateTime.parse(a, fmt);*/
+	    
+	    //java.sql.Date curDate = new java.sql.Date(System.currentTimeMillis());
+		
+		
+		java.util.Date date = new java.util.Date();
+        java.sql.Timestamp sqlTimeStamp = new java.sql.Timestamp(date.getTime());
+        System.out.println("util-date:" + date);
+        System.out.println("sql-timestamp:" + sqlTimeStamp );
+
+        //System.out.println(curDate);
+	    
+/*		    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	    LocalDateTime now = LocalDateTime.now();
+	    Date currentDate = (Date)now;
+	    java.sql.Date sqlDate = new java.sql.Date(dtf.format(now)); */
+		
+		
 		resp.setContentType("text/html");
 
 		PrintWriter out = resp.getWriter();

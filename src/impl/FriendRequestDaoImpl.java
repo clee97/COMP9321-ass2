@@ -19,7 +19,7 @@ public class FriendRequestDaoImpl extends UNSWDaoImpl implements FriendRequestDa
 	public FriendRequest findByFromTo(Long fromUser, Long toUser) {
 		initConnection();
 		FriendRequest request = null;
-		String sql = "SELECT * FROM user_friend_request WHERE from_user = " + fromUser + " AND to_user = " + toUser;
+		String sql = "SELECT * FROM user_friend_request WHERE from_user = '" + fromUser + "' AND to_user = '" + toUser + "'";
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			
@@ -53,7 +53,7 @@ public class FriendRequestDaoImpl extends UNSWDaoImpl implements FriendRequestDa
 	public List<FriendRequest> findByAccepted(Long fromUser) {
 		initConnection();
 		List<FriendRequest> requests = new ArrayList<FriendRequest>();
-		String sql = "SELECT * FROM user_friend_request WHERE from_user = " + fromUser + " AND status = 'ACCEPTED'";
+		String sql = "SELECT * FROM user_friend_request WHERE from_user = '" + fromUser + "' AND status = 'ACCEPTED'";
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			

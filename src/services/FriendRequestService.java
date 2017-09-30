@@ -35,7 +35,12 @@ public class FriendRequestService extends UNSWBookService{
 			request.setAttribute("frError", "A friend request already exists between those two users");
 			return sent;
 		}
-		String sql = "INSERT INTO user_friend_request(from_user, to_user, status) VALUES (" + fromUser + ", " + toUser + ", 'PENDING')";
+
+		//getting current date for admin reporting
+		java.util.Date date = new java.util.Date();
+        java.sql.Timestamp sqlTimeStamp = new java.sql.Timestamp(date.getTime());
+		String sql = "INSERT INTO user_friend_request(from_user, to_user, status, date_added)"
+				+ " VALUES ('" + fromUser + "', '" + toUser + "', 'PENDING', '"+ sqlTimeStamp + "')";
 		try {
 			statement.executeUpdate(sql);
 			
@@ -63,10 +68,9 @@ public class FriendRequestService extends UNSWBookService{
 	 * @param toUser
 	 * @return
 	 */
-	public boolean acceptFriendRequest(HttpServletRequest request, Long toUser){
+	public boolean acceptFriendRequest(HttpServletRequest request, Long toUser, Long fromUser){
 		initConnection();
 		boolean accepted = false;
-		Long fromUser = ((UserProfile)request.getSession().getAttribute("loggedInUser")).getId();
 		
 		FriendRequest exists = friendRequestDao.findByFromTo(fromUser, toUser);
 		if (exists == null){
@@ -77,7 +81,7 @@ public class FriendRequestService extends UNSWBookService{
 			request.setAttribute("frError", "This friend request has already been accepted");
 			return accepted;
 		}
-		String sql = "UPDATE user_friend_request SET status = 'ACCEPTED' WHERE from_user = " + fromUser + " AND to_user = " + toUser;
+		String sql = "UPDATE user_friend_request SET status = 'ACCEPTED' WHERE from_user = '" + fromUser + "' AND to_user = '" + toUser + "'";
 		try {
 			statement.executeUpdate(sql);
 			
@@ -87,8 +91,12 @@ public class FriendRequestService extends UNSWBookService{
 				request.setAttribute("frError", "Something went wrong in accepting the friend request");
 				return accepted;
 			}
-			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2) VALUES (" + fromUser + ", " + toUser + ")");
-			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2) VALUES (" + toUser + ", " + fromUser + ")");
+			//getting current date for admin reporting
+			java.util.Date date = new java.util.Date();
+	        java.sql.Timestamp sqlTimeStamp = new java.sql.Timestamp(date.getTime());
+	        
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_added_friend) VALUES ('" + fromUser + "', '" + toUser + "', '" + sqlTimeStamp + "')");
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_added_friend) VALUES ('" + toUser + "', '" + fromUser + "', '" + sqlTimeStamp + "')");
 			accepted = true;
 			
 		} catch (SQLException e) {

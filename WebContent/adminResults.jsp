@@ -25,7 +25,7 @@
 	}
 	UserProfileDao userDao = new UserProfileDaoImpl();
 	UserProfile loggedInUser = (UserProfile)session.getAttribute("loggedInUser");
-	List<UserProfile> adminResults = (List<UserProfile>)request.getAttribute("adminResults");
+	List<String> activities = (List<String>)request.getAttribute("activities");
 %>
 <!-- Header -->
 <nav class="navbar navbar-default">
@@ -43,7 +43,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-      	<li><a href="#"><b>UNSW Book</b> <span class="sr-only">(current)</span></a></li>
+      	<li><a href="adminHome.jsp"><b>Admin Homepage</b> <span class="sr-only">(current)</span></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="API?action=logout">Log Out (<%=loggedInUser.getUser()%>)<span class="sr-only">(current)</span></a></li>
@@ -61,19 +61,7 @@
 <!-- Main -->
 <div class="container">
 	<div class="row">
-	    <div class="col-md-2">
-	      <!-- Left column -->
-	      <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Navigation	</strong></a>  
-	      <ul class="list-unstyled">
-	        <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">
-	          <h5>Settings <i class="glyphicon glyphicon-chevron-down"></i></h5>
-	          </a>
-	            <ul class="list-unstyled collapse in" id="userMenu">
-	                <li class="active"> <a href="adminHome.jsp"><i class="glyphicon glyphicon-home"></i>Admin Home</a></li>
-	             </ul>
-	        </li>
-	       </ul>
-	  	</div><!-- /col-3 -->
+	    
 	    <div class="col-md-9">
 			<!-- column 2 -->	
 			<strong><i class="glyphicon glyphicon-dashboard"></i>User Activity Report</strong>
@@ -103,10 +91,23 @@
 		                <thead>
 		                    <tr>
 		                        <th>Date</th>
+		                        <th>Time</th>
 		                        <th>Activity</th>
 		                    </tr>
 		                </thead>
-
+		                <%for (int i = 0; i< activities.size(); i+=2){ 
+		                	String date = activities.get(i);
+		    				String[] parts = date.split(" ");
+		    				date= parts[0];
+		    				String myTime = parts[1];
+		                	String activity = activities.get(i+1);
+						%>
+						<tr>	
+		               	 	<td><%=date%></td>
+		                	<td><%=myTime%></td>
+		                	<td><%=activity%></td>
+		                </tr>
+						<%}%>
 		            </table>
 		            <hr>
 		        </div>

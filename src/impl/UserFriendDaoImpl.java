@@ -18,7 +18,7 @@ public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{
 						+ "("
 							+ "SELECT userid2 "
 							+ "FROM user_friend "
-							+ "WHERE userid1 = " + userId 
+							+ "WHERE userid1 = '" + userId + "'"
 						+ ")";
 		
 		List<UserProfile> friends = new ArrayList<UserProfile>();

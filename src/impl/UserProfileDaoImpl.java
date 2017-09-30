@@ -72,7 +72,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public UserProfile findById(Long id) {
 		initConnection();
 		UserProfile profile = null;
-		String sql = "SELECT * FROM user_profile WHERE id = " + id;
+		String sql = "SELECT * FROM user_profile WHERE id = '" + id + "'";
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			
@@ -94,15 +94,14 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public UserProfile findByUser(String user) {
 		initConnection();
 		UserProfile profile = null;
-		String sql = "SELECT * FROM user_profile WHERE user = '" + user + "'";
+		String sql = "SELECT * FROM user_profile WHERE username = '" + user + "'";
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			
 			while(results.next()){
 				profile = toUserProfile(results.getLong("id"), results.getString("usertype"), results.getString("username"), results.getString("password"), 
 						results.getString("firstname"), results.getString("lastname"), results.getString("email"), results.getString("gender"), 
-						results.getString("dob"), results.getString("status"), results.getString("imgpath"));
-				
+						results.getString("dob"), results.getString("status"), results.getString("imgpath"));				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -222,7 +221,7 @@ public class UserProfileDaoImpl extends UNSWDaoImpl implements UserProfileDao{
 	public List<String> userActivityReport(Long userID) {
 		initConnection();
 		List<String> activity = new ArrayList<String>();
-		String sql = "SELECT  id, date_joined, \"User joined unswbook\" as Activity FROM user_profile WHERE userID="+userID;
+		String sql = "SELECT  id, date_joined, \"User joined unswbook\" as Activity FROM user_profile WHERE userID= '"+userID + "'";
 		try {
 			ResultSet results = statement.executeQuery(sql);
 			

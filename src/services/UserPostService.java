@@ -36,7 +36,7 @@ public class UserPostService extends UNSWBookService {
 		
 		String sql = "INSERT INTO user_post (id, user_id, post, date, imgpath) "
 				+ "VALUES (null, '" + uid + "', '" + newPost.getContent() + "', '" + newPost.getDate() 
-				+ "', '" + newPost.getImgPath() + "')";
+				+ "', '" + newPost.getImgPath() + "')"; //", '" + sqlTimeStamp + 
 		
 		try {
 			statement.executeUpdate(sql);
@@ -62,9 +62,12 @@ public class UserPostService extends UNSWBookService {
 		
 		Long uid = loggedInUser.getId();
 		Long postId = postToLike.getId();
+		//getting current date for admin reporting
+		java.util.Date date = new java.util.Date();
+        java.sql.Timestamp sqlTimeStamp = new java.sql.Timestamp(date.getTime());
 		
-		String sql = "INSERT INTO user_like (user_id, like_post) "
-				+ "VALUES (" + uid + ", '" + postId + "')";
+		String sql = "INSERT INTO user_like (user_id, like_post, date_liked) "
+				+ "VALUES (" + uid + ", '" + postId + ", '" + sqlTimeStamp + "')";
 		try {
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -143,6 +146,7 @@ public class UserPostService extends UNSWBookService {
                     if(!item.isFormField()){
                     	if (!item.getString().isEmpty()){
 	                    	String location = UPLOAD_DIRECTORY + imgId + ".jpg";
+	                    	System.out.println("location: "+location);
 	                    	newPost.setImgPath(imgId + ".jpg");
 	                        item.write( new File(location));
                     	}else{

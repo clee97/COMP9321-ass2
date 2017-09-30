@@ -91,7 +91,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-calendar"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="date" class="form-control" name="dob" id="dob">
+							<input type="date" placeholder="YYYY-MM-DD" class="form-control" name="dob" id="dob">
 						</div>
 					</div>
 				</div>

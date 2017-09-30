@@ -48,7 +48,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-      	<li><a href="#"><b>UNSW Book</b> <span class="sr-only">(current)</span></a></li>
+      	<li><a href="adminHome.jsp"><b>Admin Homepage</b> <span class="sr-only">(current)</span></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="API?action=logout">Log Out (<%=userLoggedIn.getUser()%>)<span class="sr-only">(current)</span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -97,28 +100,38 @@
                                      </a>
                                  </div>
                                  <div id='center'>
-                                     <%=p.getFirstname()%> <%=p.getLastname()%>
-                                 </div>
+                                     <a href='API?action=viewUser&userId=<%=p.getId()%>'>
+                                     	<%=p.getFirstname()%> <%=p.getLastname()%>
+                                      </a>
+                                
                                  <%
-									if (request.getSession().getAttribute("isAdmin").equals("true")){ %>
+									if (request.getSession().getAttribute("isAdmin").equals("true")){ 
+										String name = request.getParameter("name");										
+										String gender= request.getParameter("gender");
+										String dob= request.getParameter("dob");
+									%>
 									<form method="post" class="navbar-form navbar-left" action="API">
       									<input type="hidden" name="action" value="userReport">		
 										<div id='User Activity'>
-	                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="userReport">
+	                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="View user report">
 	                                	 </div>
                                 	 </form>
 	                               	 <form method="post" class="navbar-form navbar-left" action="API">	
 		                                 <div id='User Activity'>
+                                   	    		<input type="hidden" name="name" value="<%=name%>">	
+                                   	    		<input type="hidden" name="gender" value="<%=gender%>">
+                                   	    		<input type="hidden" name="dob" value="<%=dob%>">	
+                                   	    		<input type="hidden" name="userID" value="<%=userID%>">	
 <!-- 		                                     <input type="hidden" name="action" value="ban">	
 		                                     <input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Ban"> -->
 		                                     <%
 		                                     if(p.getStatus().equals("BANNED")) { %>
-		                                     	<% System.out.println("In adminSearchResults page user is now BANNED, show unban"); %>
+		                                     	<% //System.out.println("In adminSearchResults page user is now BANNED, show unban"); %>
 		                                     	<!-- if user has been banned set the button back to ban -->
                                    	    		<input type="hidden" name="action" value="unban">	
 		                                     	<input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Unban">
 		                                     <%	} else {%>
-		                                    	 <% System.out.println("In adminSearchResults page user is now NOT banned, show ban"); %>
+		                                    	 <% //System.out.println("In adminSearchResults page user is now NOT banned, show ban"); %>
 <%-- 		                                    	 <%if(!request.getSession().getAttribute("isBanned").equals(null)){ %>
 		                                    	<% Boolean isThisPersonBanned = request.getSession().getAttribute("isBanned").equals("true");%>
 		                                     	<% System.out.println("isThisPersonBanned: " + isThisPersonBanned); }%> --%>
@@ -128,7 +141,7 @@
 		                                 </div>
 									</form>
 								 <%	}%>
-
+ 								</div>
                              </div>
                          </div>
                      </li>
