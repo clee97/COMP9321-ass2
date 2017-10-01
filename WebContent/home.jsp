@@ -30,6 +30,7 @@
 	UserProfileDao userProfileDao = new UserProfileDaoImpl();
 	FriendRequestDao friendRequestDao = new FriendRequestDaoImpl();
 	List<FriendRequest> acceptedNotifs = friendRequestDao.findByAccepted(loggedInUser.getId());
+	
 %>
 <!-- Header -->
 <nav class="navbar navbar-default">
