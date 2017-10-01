@@ -88,6 +88,10 @@ public class AdminService extends UNSWBookService{
 		return userDao.searchByName(name);
 	}
 	
+	public List<UserProfile> adminSearch(String name, String gender, String dob){
+		return userDao.advancedSearch(name, gender, dob);
+	}
+	
 	public void logout(HttpServletRequest request) {
 		request.getSession().invalidate();
 	}

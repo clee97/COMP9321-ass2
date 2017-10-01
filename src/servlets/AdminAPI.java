@@ -31,7 +31,7 @@ public class AdminAPI extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String adminAction = request.getParameter("adminAction");
 		if (adminAction.equals("adminSearch")) {
-			List<UserProfile> adminResults = adminService.searchByName(request.getParameter("searchString"));
+			List<UserProfile> adminResults = adminService.adminSearch(request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
 			request.setAttribute("adminResults", adminResults);
 			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 		}else if(adminAction.equals("adminBan")) {

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import dao.UserFriendDao;
 import models.UserFriend;
-import models.UserPost;
 import models.UserProfile;
 
 public class UserFriendDaoImpl extends UNSWDaoImpl implements UserFriendDao{

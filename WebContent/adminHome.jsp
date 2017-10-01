@@ -77,20 +77,32 @@
 	       </ul>
 	  	</div><!-- /col-3 -->
 	    <div class="col-md-9">
-			<!-- column 2 -->	
-			<a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> Search UNSW Book users</strong></a>
-			<br><br><br>
-			<div class="row">
-		      	<form class="navbar-form navbar-left" action="APIAdmin">
-			      	<input type="hidden" name="adminAction" value="adminSearch">
-			        <div class="form-group">
-			          <input type="text" class="form-control" placeholder="Search" name="searchString">
-			        </div>
-			        <button type="submit" class="btn btn-default">Submit</button>
-		      	</form>
-		    </div>
-		    
-	    </div><!--/row-->
+      	
+      <!-- column 2 -->	
+      <a href="#"><strong><i class="glyphicon glyphicon-search"></i> Search UNSW Book users</strong></a>  
+      	<hr>
+		<div class="row">
+			<form method="GET" action="APIAdmin">
+				<input type="hidden" name="adminAction" value="adminSearch">
+				<div class="form-group">
+				  <label for="usr">Name:</label>
+				  <input name="name" type="text" class="form-control" id="usr">
+				</div>
+				<div class="form-group">
+				  <label for="gender">Gender:</label>
+				  <select name="gender" class="form-control" name="gender" id="gender">
+					<option value="MALE">MALE</option>
+					<option value="FEMALE">FEMALE</option>
+				  </select>
+				</div>
+				<div class="form-group">
+				  <label for="dob">DOB:</label>
+				  <input name="dob" type="date" class="form-control" id="dob">
+				</div>
+				<input class="btn btn-primary" type="submit" value="Search">
+			</form>
+	 	 </div>
+     </div><!--/row-->
       
  	</div><!--/col-span-9-->
 </div>
