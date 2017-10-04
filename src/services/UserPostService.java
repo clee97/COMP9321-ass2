@@ -110,6 +110,7 @@ public class UserPostService extends UNSWBookService {
 		file.delete();
 		try {
 			statement.executeUpdate(sql);
+			statement.execute("DELETE FROM user_like WHERE like_post = " + postId );
 			request.setAttribute("postSuccess", "Your post has been deleted!");
 			
 		} catch (SQLException e) {

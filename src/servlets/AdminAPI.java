@@ -36,12 +36,12 @@ public class AdminAPI extends HttpServlet {
 			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 		}else if(adminAction.equals("adminBan")) {
 			adminService.banUser(request, Long.parseLong(request.getParameter("userId")));
-			List<UserProfile> adminResults = adminService.searchByName(request.getParameter("searchString"));
+			List<UserProfile> adminResults = adminService.adminSearch(request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
 			request.setAttribute("adminResults", adminResults);
 			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 		}else if(adminAction.equals("adminUnban")) {
 			adminService.unBanUser(request, Long.parseLong(request.getParameter("userId")));
-			List<UserProfile> adminResults = adminService.searchByName(request.getParameter("searchString"));
+			List<UserProfile> adminResults = adminService.adminSearch(request.getParameter("name"), request.getParameter("gender"), request.getParameter("dob"));
 			request.setAttribute("adminResults", adminResults);
 			request.getRequestDispatcher("adminSearchResults.jsp").forward(request, response);
 		}else if(adminAction.equals("userReport")){

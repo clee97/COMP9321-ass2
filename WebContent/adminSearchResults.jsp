@@ -116,7 +116,9 @@
 		                    <tr>
 		                    	<form action="APIAdmin" method="GET">
 		                    		<input type="hidden" name="userId" value="<%=profile.getId() %>">
-		                    		<input type="hidden" name="searchString" value="<%=request.getParameter("searchString") %>">
+		                    		<input type="hidden" name="name" value="<%=request.getParameter("name") %>">
+		                    		<input type="hidden" name="gender" value="<%=request.getParameter("gender") %>">
+		                    		<input type="hidden" name="dob" value="<%=request.getParameter("dob") %>">
 			                        <td><%=profile.getId() %></td>
 			                        <td><%=profile.getUser() %></td>
 			                        <td><%=profile.getFirstname() %></td>
