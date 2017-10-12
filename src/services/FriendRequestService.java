@@ -91,8 +91,8 @@ public class FriendRequestService extends UNSWBookService{
 				request.setAttribute("frError", "Something went wrong in accepting the friend request");
 				return accepted;
 			}
-			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_friend) VALUES (" + fromUser + ", " + toUser + ", " + currentDate + ")");
-			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_friend) VALUES (" + toUser + ", " + fromUser + ", " + currentDate + ")");
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_friend) VALUES (" + fromUser + ", " + toUser + ", '" + currentDate + "')");
+			statement.executeUpdate("INSERT INTO user_friend(userid1, userid2, date_friend) VALUES (" + toUser + ", " + fromUser + ", '" + currentDate + "')");
 			accepted = true;
 			
 		} catch (SQLException e) {
