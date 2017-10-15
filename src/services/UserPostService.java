@@ -1,8 +1,10 @@
 package services;
 
 import java.io.File;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -25,21 +27,46 @@ public class UserPostService extends UNSWBookService {
 	
 	private static UserProfileDao userProfileDao = new UserProfileDaoImpl();
 	
+	private static ExtractorService extractorService;
+	
 	private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir").replace("\\", "/") + "/WebContent/pps/";
 	
 	public UserPostService(){}
 	
+	public static void main(String[] args) {
+		UserPostService s = new UserPostService();
+		System.out.println(s.checkForBully("Callow, Campus, Capitulate, Captious, Case, Cautious, Challenge, Charges, Cheat, Childhood, Churlish, Coaches"));
+	}
 	public boolean postToWall(HttpServletRequest request, UserPost newPost) {
 		initConnection();
 		UserProfile loggedInUser = (UserProfile) request.getSession().getAttribute("loggedInUser");
 		Long uid = loggedInUser.getId();
 		
+		List<String> bullyWords = checkForBully(newPost.getContent());
+		String bullySql = null;
+		Long autoId = null;
+		try {
+			ResultSet results = statement.executeQuery("SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'webappdb' AND TABLE_NAME = 'user_post'");
+			results.next();
+			autoId = results.getLong("AUTO_INCREMENT");
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		if (!bullyWords.isEmpty()){
+			bullySql = "INSERT INTO user_bully_report (user_id, post_id, bully_words) "
+					+ "VALUES ('" + uid + "', '" + autoId + "', '" + bullyWords + "')";
+			
+			EmailService.sendBullyWarning(loggedInUser, bullyWords);
+		}
 		String sql = "INSERT INTO user_post (id, user_id, post, date, imgpath) "
 				+ "VALUES (null, '" + uid + "', '" + newPost.getContent() + "', '" + newPost.getDate() 
 				+ "', '" + newPost.getImgPath() + "')";
 		
 		try {
 			statement.executeUpdate(sql);
+			if (bullySql != null){
+				statement.executeUpdate(bullySql);
+			}
 			request.setAttribute("postSuccess", "Your message has been posted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -49,6 +76,21 @@ public class UserPostService extends UNSWBookService {
 		return true;
 	}
 	
+	private List<String> checkForBully(String content){
+		List<String> caught = new ArrayList<String>();
+		try {
+			List<String> bullyWords = extractorService.bullyWordsDictionary();
+			List<String> keyWords = extractorService.extractKeywords(content);
+			for (String b : bullyWords){
+				if (keyWords.contains(b.trim())){
+					caught.add(b);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return caught;
+	}
 	
 	public List<Long> GetLikers(HttpServletRequest request, UserPost post) {
 	

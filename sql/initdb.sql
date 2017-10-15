@@ -59,4 +59,11 @@ CREATE TABLE IF NOT EXISTS user_like (
 	FOREIGN KEY (user_id) REFERENCES user_profile(id)
 );
 
+CREATE TABLE IF NOT EXISTS user_bully_report (
+	user_id 	INT(11) NOT NULL,
+	post_id 	INT(11) NOT NULL,
+	bully_words	VARCHAR(1000) NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES user_profile(id)
+);
+
 

@@ -1,5 +1,6 @@
 package services;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -56,6 +57,26 @@ public class EmailService {
 			message.setSubject("Account Activation");
 			message.setText("Hi there! You have a friend request from " + fromUser.getFirstname() + " " + fromUser.getLastname() 
 			+ "\n Accept their friend request by clicking this link!\n localhost:8080/COMP9321-ass2/API?action=acceptFriendRequest&fromUser=" + fromUser.getId() + "&toUser=" + toUser.getId());
+
+			Transport.send(message);
+
+			System.out.println("Done");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static void sendBullyWarning(UserProfile user, List<String> bullyWords){
+		init();
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("unswbook@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(user.getEmail()));
+			message.setSubject("Bullying");
+			message.setText("Hi there! Reports claim that you have used inappropriate bullying language. Please refrain from using them in future\nClaimed uses of language: " + bullyWords);
+	
 
 			Transport.send(message);
 
