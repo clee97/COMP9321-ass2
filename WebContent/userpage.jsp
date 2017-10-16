@@ -187,7 +187,7 @@
 					<div class="panel-body">
 					 
 					<h4 class="media-heading"><img src="dps/<%=profile.getImgPath()%>" class="img-thumbnail" alt="Cinque Terre" width="7%" height="7%"> <%=profile.getFirstname()%> posted</h4>
-					<%=wp.getContent() %>
+					<p><%=wp.getContent() %></p>
 					<%if (!wp.getImgPath().isEmpty()) {%>
 					<img src="pps/<%=wp.getImgPath()%>" class="img-thumbnail" width="30%" height="30%">
 					<%} %>
