@@ -8,7 +8,7 @@ public class UserBullyRecord {
 	
 	private Long postId;
 	
-	private List<String> bullyWordsUsed;
+	private String bullyWordsUsed;
 
 	public UserBullyRecord(){}
 	
@@ -28,11 +28,11 @@ public class UserBullyRecord {
 		this.postId = postId;
 	}
 
-	public List<String> getBullyWordsUsed() {
+	public String getBullyWordsUsed() {
 		return bullyWordsUsed;
 	}
 
-	public void setBullyWordsUsed(List<String> bullyWordsUsed) {
+	public void setBullyWordsUsed(String bullyWordsUsed) {
 		this.bullyWordsUsed = bullyWordsUsed;
 	}
 }

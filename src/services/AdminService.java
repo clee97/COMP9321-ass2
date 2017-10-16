@@ -5,12 +5,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import dao.UserBullyReportDao;
 import dao.UserFriendDao;
 import dao.UserPostDao;
 import dao.UserProfileDao;
+import impl.UserBullyReportDaoImpl;
 import impl.UserFriendDaoImpl;
 import impl.UserPostDaoImpl;
 import impl.UserProfileDaoImpl;
+import models.UserBullyRecord;
 import models.UserFriend;
 import models.UserLike;
 import models.UserPost;
@@ -23,6 +26,8 @@ public class AdminService extends UNSWBookService{
 	private static UserPostDao userPostDao = new UserPostDaoImpl();
 	
 	private static UserFriendDao userFriendDao = new UserFriendDaoImpl();
+	
+	private static UserBullyReportDao userBullyReportDao = new UserBullyReportDaoImpl();
 	
 	public AdminService(){}
 	
@@ -110,6 +115,10 @@ public class AdminService extends UNSWBookService{
 	
 	public List<UserLike> getUserLikes(Long userId){
 		return userPostDao.findUserLikes(userId);
+	}
+	
+	public List<UserBullyRecord> getUserBullyReport(Long userId){
+		return userBullyReportDao.findUserBullyReports(userId);
 	}
 	
 	

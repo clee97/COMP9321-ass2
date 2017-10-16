@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.UserBullyRecord;
 import models.UserFriend;
 import models.UserLike;
 import models.UserPost;
@@ -48,11 +49,13 @@ public class AdminAPI extends HttpServlet {
 			List<UserPost> userPosts = adminService.getAllUserPosts(Long.parseLong(request.getParameter("userId")));
 			List<UserLike> userLikes = adminService.getUserLikes(Long.parseLong(request.getParameter("userId")));
 			List<UserFriend> userFriends = adminService.getAllUserFriends(Long.parseLong(request.getParameter("userId")));
+			List<UserBullyRecord> userBullyReport = adminService.getUserBullyReport(Long.parseLong(request.getParameter("userId")));
 			UserProfile user = adminService.getUserById(Long.parseLong(request.getParameter("userId")));
 			request.setAttribute("user", user);
 			request.setAttribute("userLikes", userLikes);
 			request.setAttribute("userPosts", userPosts);
 			request.setAttribute("userFriends", userFriends);
+			request.setAttribute("userBullyReport", userBullyReport);
 			request.getRequestDispatcher("userReport.jsp").forward(request, response);
 		}else if(adminAction.equals("logout")) {
 			adminService.logout(request);

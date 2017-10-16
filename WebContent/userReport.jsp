@@ -30,6 +30,7 @@
 	List<UserPost> userPosts = (List<UserPost>)request.getAttribute("userPosts");
 	List<UserLike> userLikes = (List<UserLike>)request.getAttribute("userLikes");
 	List<UserFriend> userFriends = (List<UserFriend>)request.getAttribute("userFriends");
+	List<UserBullyRecord> userBullyReport = (List<UserBullyRecord>)request.getAttribute("userBullyReport");
 	
 %>
 <!-- Header -->
@@ -204,6 +205,37 @@
 		                    <tr>
 		                    	<td>Made friends with <%=userDao.findById(uf.getUserId2()).getFirstname() %></td>
 		                        <td><%=uf.getDate() %></td>
+		                    </tr>
+	                    <%} %>
+		                </tbody>
+		            </table>
+		            <hr>
+		        </div>
+		    </div>
+		    
+    		<div class="row">
+		        <div class="col-lg-15">
+		            <h3>Bully Report</h3>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-lg-15">
+		            <table class="table" id="table">
+		                <thead>
+		                    <tr>
+		                        <th>Post ID</th>
+		                        <th>Bully words used</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                <%if (userBullyReport.isEmpty()) {%>
+		                <strong><i class="glyphicon glyphicon-dashboard"></i>This account is clean</strong>
+		                <%} %>
+		                <%for (UserBullyRecord ubr : userBullyReport){ %>
+		                    <tr>
+		                    	<td><%=ubr.getPostId() %></td>
+		                        <td><%=ubr.getBullyWordsUsed()%></td>
+		                        <td>
 		                    </tr>
 	                    <%} %>
 		                </tbody>
