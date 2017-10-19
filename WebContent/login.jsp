@@ -67,7 +67,10 @@
 				</div>
 				<div class="login-register">
 		            <a href="register.jsp">Register</a>
-		         </div>
+		        </div>
+		        <div class="login-register">
+		            <a href="table.jsp">Graph Store & Visualisation</a>
+		        </div>
 			</form>
 		</div>
 	</div>

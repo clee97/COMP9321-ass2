@@ -32,8 +32,8 @@ public class UNSWBookService {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			//connection = DriverManager.getConnection("jdbc:mysql://sql12.freemysqlhosting.net/sql12193600", "sql12193600", "1HIwhLqCuh");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/webappdb", "root", "password");
+			connection = DriverManager.getConnection("jdbc:mysql://sql12.freemysqlhosting.net/sql12193600", "sql12193600", "1HIwhLqCuh");
+			//connection = DriverManager.getConnection("jdbc:mysql://localhost/webappdb", "root", "password");
 			statement = connection.createStatement();
 		}
 		catch(ClassNotFoundException ex) {
